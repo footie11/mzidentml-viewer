@@ -330,7 +330,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
             for (int i = 0; i < rowCount; i++) {
                 if (db_ref.equals((String) dBSequenceTable.getValueAt(i, 0))) {
 
-                     dBSequenceTable.setRowSelectionInterval(i, i);
+                    dBSequenceTable.setRowSelectionInterval(i, i);
                 }
 
             }
@@ -925,80 +925,160 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int row = spectrumIdentificationItemTable.getSelectedRow();
         if (row != -1) {
-            SpectrumIdentificationItem spectrumIdentificationItem = spectrumIdentificationItemListForSpecificResult.get(row);
-            while (((DefaultTableModel) fragmentationTable.getModel()).getRowCount() > 0) {
-                ((DefaultTableModel) fragmentationTable.getModel()).removeRow(0);
-            }
-            for (int k = 0; k < filterListIon.size(); k++) {
-                String nameIon = filterListIon.get(k);
-                boolean isSelectedIon = filterCheckBoxIon[k].isSelected();
-                for (int z = 0; z < filterListCharge.size(); z++) {
-                    String nameCharge = filterListCharge.get(z);
-                    boolean isSelectedCharge = filterCheckBoxCharge[z].isSelected();
+            try {
+                SpectrumIdentificationItem spectrumIdentificationItem = spectrumIdentificationItemListForSpecificResult.get(row);
+                while (((DefaultTableModel) fragmentationTable.getModel()).getRowCount() > 0) {
+                    ((DefaultTableModel) fragmentationTable.getModel()).removeRow(0);
+                }
+                for (int k = 0; k < filterListIon.size(); k++) {
+                    String nameIon = filterListIon.get(k);
+                    boolean isSelectedIon = filterCheckBoxIon[k].isSelected();
+                    for (int z = 0; z < filterListCharge.size(); z++) {
+                        String nameCharge = filterListCharge.get(z);
+                        boolean isSelectedCharge = filterCheckBoxCharge[z].isSelected();
 
-                    for (int i = 0; i < ionTypeList.size(); i++) {
-                        IonType ionType = ionTypeList.get(i);
-                        CvParam cvParam = ionType.getCvParam();
-                        if ((nameIon.equals(cvParam.getName()) && isSelectedIon) && (nameCharge.equals(String.valueOf(ionType.getCharge())) && isSelectedCharge)) {
-                            List m_mz, m_intensity, m_error;
-                            m_mz = ionType.getFragmentArray().get(0).getValues();
-                            m_intensity = ionType.getFragmentArray().get(1).getValues();
-                            m_error = ionType.getFragmentArray().get(2).getValues();
-                            if (m_mz != null && !m_mz.isEmpty()) {
-                                for (int j = 0; j < m_mz.size(); j++) {
-                                    String type = cvParam.getName();
-                                    ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
-                                                Double.valueOf(m_mz.get(j).toString()),
-                                                Double.valueOf(m_intensity.get(j).toString()),
-                                                Double.valueOf(m_error.get(j).toString()),
-                                                type,
-                                                Integer.valueOf(ionType.getCharge())
-                                            });
+                        for (int i = 0; i < ionTypeList.size(); i++) {
+                            IonType ionType = ionTypeList.get(i);
+                            CvParam cvParam = ionType.getCvParam();
+                            if ((nameIon.equals(cvParam.getName()) && isSelectedIon) && (nameCharge.equals(String.valueOf(ionType.getCharge())) && isSelectedCharge)) {
+                                List m_mz, m_intensity, m_error;
+                                m_mz = ionType.getFragmentArray().get(0).getValues();
+                                m_intensity = ionType.getFragmentArray().get(1).getValues();
+                                m_error = ionType.getFragmentArray().get(2).getValues();
+                                if (m_mz != null && !m_mz.isEmpty()) {
+                                    for (int j = 0; j < m_mz.size(); j++) {
+                                        String type = cvParam.getName();
+                                        ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
+                                                    Double.valueOf(m_mz.get(j).toString()),
+                                                    Double.valueOf(m_intensity.get(j).toString()),
+                                                    Double.valueOf(m_error.get(j).toString()),
+                                                    type,
+                                                    Integer.valueOf(ionType.getCharge())
+                                                });
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
-            peakAnnotation.clear();
-            double[] mzValuesAsDouble = new double[fragmentationTable.getModel().getRowCount()];
-            double[] intensityValuesAsDouble = new double[fragmentationTable.getModel().getRowCount()];
-            double[] m_errorValuesAsDouble = new double[fragmentationTable.getModel().getRowCount()];
-            peakAnnotation.clear();
-            for (int k = 0; k < fragmentationTable.getModel().getRowCount(); k++) {
-                mzValuesAsDouble[k] = (Double) (fragmentationTable.getModel().getValueAt(k, 0));
-                intensityValuesAsDouble[k] = (Double) (fragmentationTable.getModel().getValueAt(k, 1));
-                m_errorValuesAsDouble[k] = (Double) (fragmentationTable.getModel().getValueAt(k, 2));
-                String type = (String) fragmentationTable.getModel().getValueAt(k, 3);
-                type = type.replaceFirst("frag:", "");
-                type = type.replaceFirst("ion", "");
-                type = type.replaceFirst("internal", "");
-                peakAnnotation.add(
-                        new DefaultSpectrumAnnotation(
-                        mzValuesAsDouble[k],
-                        m_errorValuesAsDouble[k],
-                        Color.blue,
-                        type));                                    // the annotation label
-            }
-            if (fragmentationTable.getModel().getRowCount() > 0) {
-                spectrumPanel = new SpectrumPanel(
-                        mzValuesAsDouble,
-                        intensityValuesAsDouble,
-                        spectrumIdentificationItem.getExperimentalMassToCharge(),
-                        String.valueOf(spectrumIdentificationItem.getChargeState()),
-                        spectrumIdentificationItem.getName());
-                spectrumPanel.setAnnotations(peakAnnotation);
-                while (jGraph.getComponents().length > 0) {
-                    jGraph.remove(0);
+                // Start of theortical values
+                Peptide peptide = mzIdentMLUnmarshaller.unmarshal(Peptide.class, spectrumIdentificationItem.getPeptideRef());
+                String find = peptide.getPeptideSequence();
+
+                TheoreticalFragmentation tf = new TheoreticalFragmentation(find);
+
+                List<Double> tmp = new ArrayList();
+                if (bCheckBox.isSelected() && oneCheckBox.isSelected()) {
+                    tmp.clear();
+                    tmp = tf.getBIons(find, "1");
+                    for (int j = 0; j < tmp.size(); j++) {
+
+                        ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
+                                    Double.valueOf(tmp.get(j).toString()),
+                                    Double.valueOf("100"),
+                                    Double.valueOf("0.0"),
+                                    "theortical b+",
+                                    +1
+                                });
+                    }
+
+
                 }
-                jGraph.setLayout(new java.awt.BorderLayout());
-                jGraph.setLayout(new javax.swing.BoxLayout(jGraph, javax.swing.BoxLayout.LINE_AXIS));
-                jGraph.add(spectrumPanel);
-                jGraph.validate();
-                jGraph.repaint();
-                this.repaint();
+                if (bCheckBox.isSelected() && twoCheckBox.isSelected()) {
+
+                    tmp.clear();
+                    tmp = tf.getBIons(find, "2");
+                    for (int j = 0; j < tmp.size(); j++) {
+
+                        ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
+                                    Double.valueOf(tmp.get(j).toString()),
+                                    Double.valueOf("100"),
+                                    Double.valueOf("0.0"),
+                                    "theortical b+",
+                                    +1
+                                });
+                    }
+                }
+                if (yCheckBox.isSelected() && oneCheckBox.isSelected()) {
+
+
+                    tmp.clear();
+                    tmp = tf.getYIons(find, "1");
+                    for (int j = 0; j < tmp.size(); j++) {
+
+                        ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
+                                    Double.valueOf(tmp.get(j).toString()),
+                                    Double.valueOf("100"),
+                                    Double.valueOf("0.0"),
+                                    "theortical b+",
+                                    +1
+                                });
+                    }
+                }
+                if (yCheckBox.isSelected() && twoCheckBox.isSelected()) {
+
+
+                    tmp.clear();
+                    tmp = tf.getYIons(find, "2");
+                    for (int j = 0; j < tmp.size(); j++) {
+
+                        ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
+                                    Double.valueOf(tmp.get(j).toString()),
+                                    Double.valueOf("100"),
+                                    Double.valueOf("0.0"),
+                                    "theortical b+",
+                                    +1
+                                });
+                    }
+                }
+
+
+
+                // End of theortical values
+
+
+                peakAnnotation.clear();
+                double[] mzValuesAsDouble = new double[fragmentationTable.getModel().getRowCount()];
+                double[] intensityValuesAsDouble = new double[fragmentationTable.getModel().getRowCount()];
+                double[] m_errorValuesAsDouble = new double[fragmentationTable.getModel().getRowCount()];
+                peakAnnotation.clear();
+                for (int k = 0; k < fragmentationTable.getModel().getRowCount(); k++) {
+                    mzValuesAsDouble[k] = (Double) (fragmentationTable.getModel().getValueAt(k, 0));
+                    intensityValuesAsDouble[k] = (Double) (fragmentationTable.getModel().getValueAt(k, 1));
+                    m_errorValuesAsDouble[k] = (Double) (fragmentationTable.getModel().getValueAt(k, 2));
+                    String type = (String) fragmentationTable.getModel().getValueAt(k, 3);
+                    type = type.replaceFirst("frag:", "");
+                    type = type.replaceFirst("ion", "");
+                    type = type.replaceFirst("internal", "");
+                    peakAnnotation.add(
+                            new DefaultSpectrumAnnotation(
+                            mzValuesAsDouble[k],
+                            m_errorValuesAsDouble[k],
+                            Color.blue,
+                            type));                                    // the annotation label
+                }
+                if (fragmentationTable.getModel().getRowCount() > 0) {
+                    spectrumPanel = new SpectrumPanel(
+                            mzValuesAsDouble,
+                            intensityValuesAsDouble,
+                            spectrumIdentificationItem.getExperimentalMassToCharge(),
+                            String.valueOf(spectrumIdentificationItem.getChargeState()),
+                            spectrumIdentificationItem.getName());
+                    spectrumPanel.setAnnotations(peakAnnotation);
+                    while (jGraph.getComponents().length > 0) {
+                        jGraph.remove(0);
+                    }
+                    jGraph.setLayout(new java.awt.BorderLayout());
+                    jGraph.setLayout(new javax.swing.BoxLayout(jGraph, javax.swing.BoxLayout.LINE_AXIS));
+                    jGraph.add(spectrumPanel);
+                    jGraph.validate();
+                    jGraph.repaint();
+                    this.repaint();
+                }
+                setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+            } catch (JAXBException ex) {
+                Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
             }
-            setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         }
     }
 
@@ -2918,20 +2998,21 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_exportFragmentationMenuItemActionPerformed
 
     private void bCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCheckBoxActionPerformed
-        displayTheoreticalValues();
+          updateGraph();
 
     }//GEN-LAST:event_bCheckBoxActionPerformed
 
     private void yCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yCheckBoxActionPerformed
-        displayTheoreticalValues();
+        updateGraph();
     }//GEN-LAST:event_yCheckBoxActionPerformed
 
     private void oneCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oneCheckBoxActionPerformed
-        displayTheoreticalValues();
+           updateGraph();
     }//GEN-LAST:event_oneCheckBoxActionPerformed
 
     private void twoCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_twoCheckBoxActionPerformed
-        displayTheoreticalValues();
+        
+           updateGraph();
     }//GEN-LAST:event_twoCheckBoxActionPerformed
 
     private void fdrPlotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fdrPlotActionPerformed
@@ -3358,59 +3439,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         return chart;
     }
 
-    private void displayTheoreticalValues() {
-//
-//        int row = spectrumIdentificationItemTable.getSelectedRow();
-//        if (row != -1) {
-//            try {
-//                SpectrumIdentificationItem spectrumIdentificationItem = spectrumIdentificationItemListForSpecificResult.get(row);
-//                Peptide peptide = mzIdentMLUnmarshaller.unmarshal(Peptide.class, spectrumIdentificationItem.getPeptideRef());
-//
-//                String find = peptide.getPeptideSequence();
-//                ArrayList<Double> values = new ArrayList();
-//                TheoreticalFragmentation tf = new TheoreticalFragmentation(find);
-//
-//
-//                if (bCheckBox.isSelected() && oneCheckBox.isSelected()) {
-//                    values.addAll(tf.getBIons(find, "1"));
-//                }
-//                if (bCheckBox.isSelected() && twoCheckBox.isSelected()) {
-//                    values.addAll(tf.getBIons(find, "2"));
-//                }
-//                if (yCheckBox.isSelected() && oneCheckBox.isSelected()) {
-//                    values.addAll(tf.getYIons(find, "1"));
-//                }
-//                if (yCheckBox.isSelected() && twoCheckBox.isSelected()) {
-//                    values.addAll(tf.getYIons(find, "2"));
-//                }
-//
-//                double[] d = new double[values.size()];
-//                for (int i = 0; i < values.size(); i++) {
-//                    d[i] = values.get(i).doubleValue();
-//
-//
-//                }
-//                double[] y = new double[1];
-//                y[0] = 100.00;
-//                if (d.length > 0) {
-//                    spectrumPanel.addAdditionalDataset(d, y, Color.green, Color.orange);
-//
-//                    while (jGraph.getComponents().length > 0) {
-//                        jGraph.remove(0);
-//                    }
-//                    jGraph.setLayout(new java.awt.BorderLayout());
-//                    jGraph.setLayout(new javax.swing.BoxLayout(jGraph, javax.swing.BoxLayout.LINE_AXIS));
-//                    jGraph.add(spectrumPanel);
-//                    jGraph.validate();
-//                    jGraph.repaint();
-//                    this.repaint();
-//
-//                }
-//            } catch (JAXBException ex) {
-//                Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-    }
+   
 
     private void export(JXTable table, String boxTitle) {
         JFileChooser chooser = new JFileChooser();
