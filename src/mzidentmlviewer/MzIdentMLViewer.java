@@ -977,7 +977,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                     Double.valueOf(tmp.get(j).toString()),
                                     Double.valueOf("100"),
                                     Double.valueOf("0.0"),
-                                    "theortical b+",
+                                    "T b+",
                                     +1
                                 });
                     }
@@ -994,7 +994,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                     Double.valueOf(tmp.get(j).toString()),
                                     Double.valueOf("100"),
                                     Double.valueOf("0.0"),
-                                    "theortical b+",
+                                    "T b++",
                                     +1
                                 });
                     }
@@ -1010,7 +1010,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                     Double.valueOf(tmp.get(j).toString()),
                                     Double.valueOf("100"),
                                     Double.valueOf("0.0"),
-                                    "theortical b+",
+                                    "T y+",
                                     +1
                                 });
                     }
@@ -1026,7 +1026,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                     Double.valueOf(tmp.get(j).toString()),
                                     Double.valueOf("100"),
                                     Double.valueOf("0.0"),
-                                    "theortical b+",
+                                    "T y++",
                                     +1
                                 });
                     }
@@ -1051,6 +1051,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                     type = type.replaceFirst("ion", "");
                     type = type.replaceFirst("internal", "");
                     peakAnnotation.add(
+                            
                             new DefaultSpectrumAnnotation(
                             mzValuesAsDouble[k],
                             m_errorValuesAsDouble[k],
