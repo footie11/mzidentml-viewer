@@ -335,6 +335,10 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
             }
         }
+         if (!thirdTab) {
+            loadDBSequenceTable();
+            thirdTab = true;
+        }
         mainTabbedPane.setSelectedIndex(2);
     }
 
@@ -426,14 +430,14 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
             }
         }
 
-        String[] spectrumIdentificationResultTableHeaders = new String[spectrumIdentificationResultCvParamLengs + 3];
+        String[] spectrumIdentificationResultTableHeaders = new String[spectrumIdentificationResultCvParamLengs + 2];
         spectrumIdentificationResultTableHeaders[0] = "ID";
         spectrumIdentificationResultTableHeaders[1] = "Spectrum ID";
-        spectrumIdentificationResultTableHeaders[2] = "Spectra Data REF";
+        
         if (sir != null) {
             for (int i = 0; i < sir.length; i++) {
                 String string = sir[i];
-                spectrumIdentificationResultTableHeaders[3 + i] = string;
+                spectrumIdentificationResultTableHeaders[2 + i] = string;
 
             }
         }
@@ -555,8 +559,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
             SpectrumIdentificationResult spectrumIdentificationResult = iterSpectrumIdentificationResult.next();
             ((DefaultTableModel) spectrumIdentificationResultTable.getModel()).addRow(new String[]{
                         spectrumIdentificationResult.getId(),
-                        spectrumIdentificationResult.getSpectrumID(),
-                        spectrumIdentificationResult.getSpectraDataRef()
+                        spectrumIdentificationResult.getSpectrumID()
                     });
             List<CvParam> cvParamListspectrumIdentificationResult = spectrumIdentificationResult.getCvParam();
 
@@ -1120,6 +1123,10 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         }
 
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        if (!secondTab) {
+            loadSpectrumIdentificationResultTable();
+            secondTab = true;
+        }
         mainTabbedPane.setSelectedIndex(1);
     }
 
@@ -1183,7 +1190,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         totalPDHsLabel = new javax.swing.JLabel();
         totalPDHsaboveThresholdLabel = new javax.swing.JLabel();
         totalPDHsaboveThresholdLabelValue = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
         isDecoySii = new javax.swing.JLabel();
         isDecoySiiValue = new javax.swing.JLabel();
         isDecoySiiFalse = new javax.swing.JLabel();
@@ -1207,11 +1213,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         tpProteinsValue = new javax.swing.JLabel();
         fdrProteinsValue = new javax.swing.JLabel();
         manualCalculate = new javax.swing.JButton();
-        jSeparator2 = new javax.swing.JSeparator();
         fdrPanel = new javax.swing.JPanel();
-        thresholdLabel = new javax.swing.JLabel();
-        thresholdValue = new javax.swing.JTextField();
-        thresholdButton = new javax.swing.JButton();
         tpEvaluePanel = new javax.swing.JPanel();
         tpQvaluePanel = new javax.swing.JPanel();
         jSeparator4 = new javax.swing.JSeparator();
@@ -1219,6 +1221,19 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         siiListLabel = new javax.swing.JLabel();
         protocolPanel = new javax.swing.JPanel();
         protocolSummaryPanel = new javax.swing.JPanel();
+        spectrumViewPanel1 = new javax.swing.JPanel();
+        jSpectrumIdentificationResultPanel1 = new javax.swing.JPanel();
+        jSpectrumIdentificationItemPanel1 = new javax.swing.JPanel();
+        jPeptideEvidencePanel1 = new javax.swing.JPanel();
+        jSpectrumPanel1 = new javax.swing.JPanel();
+        jFragmentationPanel1 = new javax.swing.JPanel();
+        jGraph1 = new javax.swing.JPanel();
+        jExperimentalFilterPanel1 = new javax.swing.JPanel();
+        jTheoreticalFilterPanel1 = new javax.swing.JPanel();
+        bCheckBox1 = new javax.swing.JCheckBox();
+        yCheckBox1 = new javax.swing.JCheckBox();
+        oneCheckBox1 = new javax.swing.JCheckBox();
+        twoCheckBox1 = new javax.swing.JCheckBox();
         jMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -1274,11 +1289,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jProteinAmbiguityGroupPanel.setLayout(jProteinAmbiguityGroupPanelLayout);
         jProteinAmbiguityGroupPanelLayout.setHorizontalGroup(
             jProteinAmbiguityGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 358, Short.MAX_VALUE)
+            .addGap(0, 345, Short.MAX_VALUE)
         );
         jProteinAmbiguityGroupPanelLayout.setVerticalGroup(
             jProteinAmbiguityGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 213, Short.MAX_VALUE)
+            .addGap(0, 212, Short.MAX_VALUE)
         );
 
         jProteinDetectionHypothesisPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Protein"));
@@ -1289,7 +1304,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jProteinDetectionHypothesisPanel.setLayout(jProteinDetectionHypothesisPanelLayout);
         jProteinDetectionHypothesisPanelLayout.setHorizontalGroup(
             jProteinDetectionHypothesisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 351, Short.MAX_VALUE)
+            .addGap(0, 345, Short.MAX_VALUE)
         );
         jProteinDetectionHypothesisPanelLayout.setVerticalGroup(
             jProteinDetectionHypothesisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1308,7 +1323,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jProteinSequencePanel.setLayout(jProteinSequencePanelLayout);
         jProteinSequencePanelLayout.setHorizontalGroup(
             jProteinSequencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jProteinSequenceScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+            .addComponent(jProteinSequenceScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
         );
         jProteinSequencePanelLayout.setVerticalGroup(
             jProteinSequencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1323,11 +1338,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jSpectrumIdentificationItemProteinPanel.setLayout(jSpectrumIdentificationItemProteinPanelLayout);
         jSpectrumIdentificationItemProteinPanelLayout.setHorizontalGroup(
             jSpectrumIdentificationItemProteinPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 464, Short.MAX_VALUE)
+            .addGap(0, 465, Short.MAX_VALUE)
         );
         jSpectrumIdentificationItemProteinPanelLayout.setVerticalGroup(
             jSpectrumIdentificationItemProteinPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 514, Short.MAX_VALUE)
+            .addGap(0, 510, Short.MAX_VALUE)
         );
 
         jScientificNameLabel.setText("Scientific name:");
@@ -1341,7 +1356,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jProteinDescriptionPanel.setLayout(jProteinDescriptionPanelLayout);
         jProteinDescriptionPanelLayout.setHorizontalGroup(
             jProteinDescriptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jProteinDescriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+            .addComponent(jProteinDescriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
         );
         jProteinDescriptionPanelLayout.setVerticalGroup(
             jProteinDescriptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1357,10 +1372,10 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 .addComponent(jScientificNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScientificNameValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(231, Short.MAX_VALUE))
+                .addContainerGap(229, Short.MAX_VALUE))
             .addComponent(jProteinDescriptionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jProteinSequencePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSpectrumIdentificationItemProteinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+            .addComponent(jSpectrumIdentificationItemProteinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
         );
         jProteinInfoPanelLayout.setVerticalGroup(
             jProteinInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1374,7 +1389,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jProteinSequencePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jSpectrumIdentificationItemProteinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE))
+                .addComponent(jSpectrumIdentificationItemProteinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE))
         );
 
         jSpectrumIdentificationItemProteinPanel.getAccessibleContext().setAccessibleDescription("Spectrum Identification Item");
@@ -1386,8 +1401,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
             .addGroup(proteinViewPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(proteinViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jProteinDetectionHypothesisPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
-                    .addComponent(jProteinAmbiguityGroupPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE))
+                    .addComponent(jProteinDetectionHypothesisPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+                    .addComponent(jProteinAmbiguityGroupPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jProteinInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -1420,7 +1435,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jSpectrumIdentificationResultPanel.setLayout(jSpectrumIdentificationResultPanelLayout);
         jSpectrumIdentificationResultPanelLayout.setHorizontalGroup(
             jSpectrumIdentificationResultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 443, Short.MAX_VALUE)
+            .addGap(0, 442, Short.MAX_VALUE)
         );
         jSpectrumIdentificationResultPanelLayout.setVerticalGroup(
             jSpectrumIdentificationResultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1435,11 +1450,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jSpectrumIdentificationItemPanel.setLayout(jSpectrumIdentificationItemPanelLayout);
         jSpectrumIdentificationItemPanelLayout.setHorizontalGroup(
             jSpectrumIdentificationItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 444, Short.MAX_VALUE)
+            .addGap(0, 442, Short.MAX_VALUE)
         );
         jSpectrumIdentificationItemPanelLayout.setVerticalGroup(
             jSpectrumIdentificationItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 418, Short.MAX_VALUE)
+            .addGap(0, 417, Short.MAX_VALUE)
         );
 
         jPeptideEvidencePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Peptide Evidence"));
@@ -1450,11 +1465,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jPeptideEvidencePanel.setLayout(jPeptideEvidencePanelLayout);
         jPeptideEvidencePanelLayout.setHorizontalGroup(
             jPeptideEvidencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 443, Short.MAX_VALUE)
+            .addGap(0, 442, Short.MAX_VALUE)
         );
         jPeptideEvidencePanelLayout.setVerticalGroup(
             jPeptideEvidencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 177, Short.MAX_VALUE)
+            .addGap(0, 176, Short.MAX_VALUE)
         );
 
         jSpectrumPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Spectrum"));
@@ -1470,11 +1485,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jFragmentationPanel.setLayout(jFragmentationPanelLayout);
         jFragmentationPanelLayout.setHorizontalGroup(
             jFragmentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 379, Short.MAX_VALUE)
+            .addGap(0, 368, Short.MAX_VALUE)
         );
         jFragmentationPanelLayout.setVerticalGroup(
             jFragmentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 218, Short.MAX_VALUE)
+            .addGap(0, 162, Short.MAX_VALUE)
         );
 
         jGraph.setBorder(javax.swing.BorderFactory.createTitledBorder("Graph"));
@@ -1483,11 +1498,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jGraph.setLayout(jGraphLayout);
         jGraphLayout.setHorizontalGroup(
             jGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 379, Short.MAX_VALUE)
+            .addGap(0, 368, Short.MAX_VALUE)
         );
         jGraphLayout.setVerticalGroup(
             jGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 411, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jExperimentalFilterPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Experimental Filtering"));
@@ -1496,11 +1511,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jExperimentalFilterPanel.setLayout(jExperimentalFilterPanelLayout);
         jExperimentalFilterPanelLayout.setHorizontalGroup(
             jExperimentalFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 379, Short.MAX_VALUE)
+            .addGap(0, 368, Short.MAX_VALUE)
         );
         jExperimentalFilterPanelLayout.setVerticalGroup(
             jExperimentalFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
+            .addGap(0, 17, Short.MAX_VALUE)
         );
 
         jTheoreticalFilterPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Theoretical Filtering"));
@@ -1546,7 +1561,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 .addComponent(oneCheckBox)
                 .addGap(56, 56, 56)
                 .addComponent(twoCheckBox)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         jTheoreticalFilterPanelLayout.setVerticalGroup(
             jTheoreticalFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1566,19 +1581,19 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
             .addComponent(jGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jExperimentalFilterPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jTheoreticalFilterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jFragmentationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+            .addComponent(jFragmentationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
         );
         jSpectrumPanelLayout.setVerticalGroup(
             jSpectrumPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jSpectrumPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jExperimentalFilterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jTheoreticalFilterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jFragmentationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jFragmentationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout spectrumViewPanelLayout = new javax.swing.GroupLayout(spectrumViewPanel);
@@ -1592,7 +1607,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                     .addComponent(jSpectrumIdentificationResultPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPeptideEvidencePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSpectrumPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+                .addComponent(jSpectrumPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
                 .addContainerGap())
         );
         spectrumViewPanelLayout.setVerticalGroup(
@@ -1625,11 +1640,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         dBSequencePanel.setLayout(dBSequencePanelLayout);
         dBSequencePanelLayout.setHorizontalGroup(
             dBSequencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 852, Short.MAX_VALUE)
+            .addGap(0, 848, Short.MAX_VALUE)
         );
         dBSequencePanelLayout.setVerticalGroup(
             dBSequencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 866, Short.MAX_VALUE)
+            .addGap(0, 865, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout proteinDBViewPanelLayout = new javax.swing.GroupLayout(proteinDBViewPanel);
@@ -1756,19 +1771,12 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         fdrPanel.setLayout(fdrPanelLayout);
         fdrPanelLayout.setHorizontalGroup(
             fdrPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 265, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         fdrPanelLayout.setVerticalGroup(
             fdrPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 389, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
-
-        thresholdLabel.setText("Threshold");
-
-        thresholdValue.setEnabled(false);
-
-        thresholdButton.setText("Change");
-        thresholdButton.setEnabled(false);
 
         tpEvaluePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("TP vs FP vs E-value"));
         tpEvaluePanel.setPreferredSize(new java.awt.Dimension(257, 255));
@@ -1777,11 +1785,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         tpEvaluePanel.setLayout(tpEvaluePanelLayout);
         tpEvaluePanelLayout.setHorizontalGroup(
             tpEvaluePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 261, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         tpEvaluePanelLayout.setVerticalGroup(
             tpEvaluePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 397, Short.MAX_VALUE)
+            .addGap(0, 588, Short.MAX_VALUE)
         );
 
         tpQvaluePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("TP vs Q-value"));
@@ -1791,11 +1799,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         tpQvaluePanel.setLayout(tpQvaluePanelLayout);
         tpQvaluePanelLayout.setHorizontalGroup(
             tpQvaluePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 250, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         tpQvaluePanelLayout.setVerticalGroup(
             tpQvaluePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 389, Short.MAX_VALUE)
+            .addGap(0, 588, Short.MAX_VALUE)
         );
 
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -1812,59 +1820,29 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         summaryPanel.setLayout(summaryPanelLayout);
         summaryPanelLayout.setHorizontalGroup(
             summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 852, Short.MAX_VALUE)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 852, Short.MAX_VALUE)
             .addGroup(summaryPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(summaryPanelLayout.createSequentialGroup()
-                        .addComponent(fdrPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                        .addComponent(fdrPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tpEvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                        .addComponent(tpEvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tpQvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE))
+                        .addComponent(tpQvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(summaryPanelLayout.createSequentialGroup()
+                        .addComponent(manualDecoy)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(manualDecoyLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(manualDecoyPrefix)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(manualDecoyPrefixValue, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(manualDecoyRatio, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                        .addGap(559, 559, 559))
                     .addGroup(summaryPanelLayout.createSequentialGroup()
                         .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(summaryPanelLayout.createSequentialGroup()
-                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(isDecoySii)
-                                    .addComponent(isDecoySiiFalse)
-                                    .addComponent(fpSiiLabel)
-                                    .addComponent(tpSiiLabel)
-                                    .addComponent(fdrSiiLabel)
-                                    .addGroup(summaryPanelLayout.createSequentialGroup()
-                                        .addComponent(manualDecoy)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(manualDecoyLabel))
-                                    .addComponent(fpProteinsLabel)
-                                    .addComponent(tpProteinsLabel)
-                                    .addComponent(fdrProteinsLabel)
-                                    .addComponent(thresholdLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(fdrProteinsValue)
-                                    .addComponent(tpProteinsValue)
-                                    .addComponent(fpProteinsValue)
-                                    .addGroup(summaryPanelLayout.createSequentialGroup()
-                                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(isDecoySiiValue)
-                                            .addComponent(isDecoySiiFalseValue)
-                                            .addComponent(manualDecoyPrefix)
-                                            .addComponent(fpSiiValue)
-                                            .addComponent(fdrSiiValue)
-                                            .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(tpSiiValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(manualDecoyRatio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                        .addGap(212, 212, 212)
-                                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(manualDecoyRatioValue, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                                            .addComponent(manualDecoyPrefixValue))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(manualCalculate))
-                                    .addGroup(summaryPanelLayout.createSequentialGroup()
-                                        .addComponent(thresholdValue, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(thresholdButton))))
                             .addGroup(summaryPanelLayout.createSequentialGroup()
                                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(totalSIRLabel)
@@ -1872,50 +1850,80 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                     .addComponent(siiListLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(summaryPanelLayout.createSequentialGroup()
-                                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(totalSIRLabelValue)
-                                            .addComponent(totalSIIbelowThresholdLabel)
-                                            .addComponent(totalSIIaboveThresholdLabel)
-                                            .addComponent(totalSIIaboveThresholdRankOneLabel)
-                                            .addComponent(percentIdentifiedSpectraLabel)
-                                            .addComponent(totalPeptidesaboveThresholdLabel))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(totalPeptidesaboveThresholdLabelValue)
-                                            .addComponent(percentIdentifiedSpectraLabelValue)
-                                            .addComponent(totalSIIaboveThresholdRankOneLabelValue)
-                                            .addComponent(totalSIIaboveThresholdLabelValue)
-                                            .addComponent(totalSIIbelowThresholdLabelValue)))
-                                    .addComponent(siiComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(25, 25, 25)
-                                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
+                                    .addComponent(siiComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(manualDecoyRatioValue, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(summaryPanelLayout.createSequentialGroup()
+                                            .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(totalSIRLabelValue)
+                                                .addComponent(totalSIIbelowThresholdLabel)
+                                                .addComponent(totalSIIaboveThresholdLabel)
+                                                .addComponent(totalSIIaboveThresholdRankOneLabel))
+                                            .addGap(22, 22, 22)
+                                            .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(totalSIIaboveThresholdRankOneLabelValue)
+                                                .addComponent(totalSIIaboveThresholdLabelValue)
+                                                .addComponent(totalSIIbelowThresholdLabelValue)
+                                                .addComponent(totalPAGsLabelValue)
+                                                .addComponent(totalPeptidesaboveThresholdLabelValue)
+                                                .addComponent(percentIdentifiedSpectraLabelValue)
+                                                .addComponent(totalPDHsaboveThresholdLabelValue, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addComponent(percentIdentifiedSpectraLabel)
+                            .addComponent(totalPeptidesaboveThresholdLabel)
+                            .addGroup(summaryPanelLayout.createSequentialGroup()
                                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(totalPAGsLabel)
                                     .addComponent(totalPDHsLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(totalPDHsaboveThresholdLabel)))
+                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(summaryPanelLayout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(manualCalculate)
+                                .addContainerGap())
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, summaryPanelLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
                                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(totalPAGsLabelValue)
                                     .addGroup(summaryPanelLayout.createSequentialGroup()
-                                        .addComponent(totalPDHsaboveThresholdLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(totalPDHsaboveThresholdLabelValue)))))
-                        .addGap(0, 258, Short.MAX_VALUE)))
-                .addContainerGap())
+                                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(isDecoySii)
+                                            .addComponent(isDecoySiiFalse))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(isDecoySiiValue)
+                                            .addComponent(isDecoySiiFalseValue)))
+                                    .addGroup(summaryPanelLayout.createSequentialGroup()
+                                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(fpSiiLabel)
+                                            .addComponent(tpSiiLabel)
+                                            .addComponent(fdrSiiLabel)
+                                            .addComponent(fpProteinsLabel)
+                                            .addComponent(tpProteinsLabel)
+                                            .addComponent(fdrProteinsLabel))
+                                        .addGap(40, 40, 40)
+                                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(fdrProteinsValue)
+                                            .addComponent(tpProteinsValue)
+                                            .addComponent(fpProteinsValue)
+                                            .addComponent(fpSiiValue)
+                                            .addComponent(fdrSiiValue)
+                                            .addComponent(tpSiiValue, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(267, 267, 267))))))
         );
         summaryPanelLayout.setVerticalGroup(
             summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(summaryPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(summaryPanelLayout.createSequentialGroup()
-                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(siiComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(siiListLabel))
-                        .addGap(8, 8, 8)
-                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addContainerGap()
+                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(summaryPanelLayout.createSequentialGroup()
+                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(siiComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(siiListLabel))
+                                .addGap(8, 8, 8)
                                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(totalSIRLabel)
                                     .addComponent(totalSIRLabelValue))
@@ -1923,91 +1931,84 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(totalSIILabel)
                                     .addComponent(totalSIIbelowThresholdLabel)
-                                    .addComponent(totalSIIbelowThresholdLabelValue)))
-                            .addGroup(summaryPanelLayout.createSequentialGroup()
-                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(totalPAGsLabel)
-                                    .addComponent(totalPAGsLabelValue))
+                                    .addComponent(totalSIIbelowThresholdLabelValue))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(totalPDHsLabel)
-                                    .addComponent(totalPDHsaboveThresholdLabel)
-                                    .addComponent(totalPDHsaboveThresholdLabelValue))))
+                                    .addComponent(totalSIIaboveThresholdLabel)
+                                    .addComponent(totalSIIaboveThresholdLabelValue))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(totalSIIaboveThresholdRankOneLabel)
+                                    .addComponent(totalSIIaboveThresholdRankOneLabelValue))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(summaryPanelLayout.createSequentialGroup()
+                                        .addComponent(totalPAGsLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(totalPDHsLabel)
+                                            .addComponent(totalPDHsaboveThresholdLabel)))
+                                    .addGroup(summaryPanelLayout.createSequentialGroup()
+                                        .addComponent(totalPAGsLabelValue)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(totalPDHsaboveThresholdLabelValue)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(percentIdentifiedSpectraLabelValue)
+                                    .addComponent(percentIdentifiedSpectraLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(totalPeptidesaboveThresholdLabel)
+                                    .addComponent(totalPeptidesaboveThresholdLabelValue)))
+                            .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(manualDecoyPrefix)
+                                .addComponent(manualDecoyPrefixValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(manualDecoyLabel)
+                                .addComponent(manualDecoyRatio)
+                                .addComponent(manualDecoyRatioValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(manualCalculate))
+                            .addComponent(manualDecoy)))
+                    .addGroup(summaryPanelLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(isDecoySii)
+                            .addComponent(isDecoySiiValue))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(totalSIIaboveThresholdLabel)
-                            .addComponent(totalSIIaboveThresholdLabelValue))
+                            .addComponent(isDecoySiiFalse)
+                            .addComponent(isDecoySiiFalseValue))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(totalSIIaboveThresholdRankOneLabel)
-                            .addComponent(totalSIIaboveThresholdRankOneLabelValue))
+                            .addComponent(fpSiiLabel)
+                            .addComponent(fpSiiValue))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(percentIdentifiedSpectraLabelValue)
-                            .addComponent(percentIdentifiedSpectraLabel))
+                            .addComponent(tpSiiLabel)
+                            .addComponent(tpSiiValue))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(totalPeptidesaboveThresholdLabel)
-                            .addComponent(totalPeptidesaboveThresholdLabelValue)))
-                    .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(thresholdLabel)
-                    .addComponent(thresholdValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(thresholdButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(isDecoySii)
-                    .addComponent(isDecoySiiValue))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(isDecoySiiFalse)
-                    .addComponent(isDecoySiiFalseValue))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(fdrSiiLabel)
+                            .addComponent(fdrSiiValue))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fpProteinsLabel)
+                            .addComponent(fpProteinsValue))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tpProteinsLabel)
+                            .addComponent(tpProteinsValue))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fdrProteinsLabel)
+                            .addComponent(fdrProteinsValue))))
+                .addGap(11, 11, 11)
                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(manualDecoyPrefix)
-                        .addComponent(manualDecoyPrefixValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(manualDecoyLabel))
-                    .addComponent(manualDecoy))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(manualDecoyRatio)
-                    .addComponent(manualDecoyRatioValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(manualCalculate))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fpSiiLabel)
-                    .addComponent(fpSiiValue))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tpSiiLabel)
-                    .addComponent(tpSiiValue))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fdrSiiLabel)
-                    .addComponent(fdrSiiValue))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fpProteinsLabel)
-                    .addComponent(fpProteinsValue))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tpProteinsLabel)
-                    .addComponent(tpProteinsValue))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fdrProteinsLabel)
-                    .addComponent(fdrProteinsValue))
-                .addGap(10, 10, 10)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(tpEvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
-                    .addComponent(fdrPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
-                    .addComponent(tpQvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE))
+                    .addComponent(tpEvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
+                    .addComponent(tpQvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
+                    .addComponent(fdrPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -2041,11 +2042,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         protocolSummaryPanel.setLayout(protocolSummaryPanelLayout);
         protocolSummaryPanelLayout.setHorizontalGroup(
             protocolSummaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 852, Short.MAX_VALUE)
+            .addGap(0, 848, Short.MAX_VALUE)
         );
         protocolSummaryPanelLayout.setVerticalGroup(
             protocolSummaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 866, Short.MAX_VALUE)
+            .addGap(0, 865, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout protocolPanelLayout = new javax.swing.GroupLayout(protocolPanel);
@@ -2067,6 +2068,208 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
         mainTabbedPane.addTab("Protocols", protocolPanel);
         protocolPanel.getAccessibleContext().setAccessibleParent(mainTabbedPane);
+
+        spectrumViewPanel1.setToolTipText("Spectrum View");
+        spectrumViewPanel1.setPreferredSize(new java.awt.Dimension(889, 939));
+
+        jSpectrumIdentificationResultPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Spectrum List"));
+        jSpectrumIdentificationResultPanel1.setToolTipText("Protein Ambiguity Group");
+        jSpectrumIdentificationResultPanel1.setMinimumSize(new java.awt.Dimension(404, 569));
+
+        javax.swing.GroupLayout jSpectrumIdentificationResultPanel1Layout = new javax.swing.GroupLayout(jSpectrumIdentificationResultPanel1);
+        jSpectrumIdentificationResultPanel1.setLayout(jSpectrumIdentificationResultPanel1Layout);
+        jSpectrumIdentificationResultPanel1Layout.setHorizontalGroup(
+            jSpectrumIdentificationResultPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 442, Short.MAX_VALUE)
+        );
+        jSpectrumIdentificationResultPanel1Layout.setVerticalGroup(
+            jSpectrumIdentificationResultPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jSpectrumIdentificationItemPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Peptide-Spectrum matches"));
+        jSpectrumIdentificationItemPanel1.setToolTipText("Spectrum Identification Item");
+        jSpectrumIdentificationItemPanel1.setAutoscrolls(true);
+
+        javax.swing.GroupLayout jSpectrumIdentificationItemPanel1Layout = new javax.swing.GroupLayout(jSpectrumIdentificationItemPanel1);
+        jSpectrumIdentificationItemPanel1.setLayout(jSpectrumIdentificationItemPanel1Layout);
+        jSpectrumIdentificationItemPanel1Layout.setHorizontalGroup(
+            jSpectrumIdentificationItemPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 442, Short.MAX_VALUE)
+        );
+        jSpectrumIdentificationItemPanel1Layout.setVerticalGroup(
+            jSpectrumIdentificationItemPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 417, Short.MAX_VALUE)
+        );
+
+        jPeptideEvidencePanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Peptide Evidence"));
+        jPeptideEvidencePanel1.setToolTipText("Peptide Evidence");
+        jPeptideEvidencePanel1.setAutoscrolls(true);
+
+        javax.swing.GroupLayout jPeptideEvidencePanel1Layout = new javax.swing.GroupLayout(jPeptideEvidencePanel1);
+        jPeptideEvidencePanel1.setLayout(jPeptideEvidencePanel1Layout);
+        jPeptideEvidencePanel1Layout.setHorizontalGroup(
+            jPeptideEvidencePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 442, Short.MAX_VALUE)
+        );
+        jPeptideEvidencePanel1Layout.setVerticalGroup(
+            jPeptideEvidencePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 176, Short.MAX_VALUE)
+        );
+
+        jSpectrumPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Spectrum"));
+        jSpectrumPanel1.setAutoscrolls(true);
+        jSpectrumPanel1.setPreferredSize(new java.awt.Dimension(362, 569));
+
+        jFragmentationPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Fragmentation"));
+        jFragmentationPanel1.setAutoscrolls(true);
+        jFragmentationPanel1.setPreferredSize(new java.awt.Dimension(383, 447));
+
+        javax.swing.GroupLayout jFragmentationPanel1Layout = new javax.swing.GroupLayout(jFragmentationPanel1);
+        jFragmentationPanel1.setLayout(jFragmentationPanel1Layout);
+        jFragmentationPanel1Layout.setHorizontalGroup(
+            jFragmentationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 368, Short.MAX_VALUE)
+        );
+        jFragmentationPanel1Layout.setVerticalGroup(
+            jFragmentationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 162, Short.MAX_VALUE)
+        );
+
+        jGraph1.setBorder(javax.swing.BorderFactory.createTitledBorder("Graph"));
+
+        javax.swing.GroupLayout jGraph1Layout = new javax.swing.GroupLayout(jGraph1);
+        jGraph1.setLayout(jGraph1Layout);
+        jGraph1Layout.setHorizontalGroup(
+            jGraph1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 368, Short.MAX_VALUE)
+        );
+        jGraph1Layout.setVerticalGroup(
+            jGraph1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jExperimentalFilterPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Experimental Filtering"));
+
+        javax.swing.GroupLayout jExperimentalFilterPanel1Layout = new javax.swing.GroupLayout(jExperimentalFilterPanel1);
+        jExperimentalFilterPanel1.setLayout(jExperimentalFilterPanel1Layout);
+        jExperimentalFilterPanel1Layout.setHorizontalGroup(
+            jExperimentalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 368, Short.MAX_VALUE)
+        );
+        jExperimentalFilterPanel1Layout.setVerticalGroup(
+            jExperimentalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 17, Short.MAX_VALUE)
+        );
+
+        jTheoreticalFilterPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Theoretical Filtering"));
+
+        bCheckBox1.setText("b");
+        bCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCheckBox1ActionPerformed(evt);
+            }
+        });
+
+        yCheckBox1.setText("y");
+        yCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yCheckBox1ActionPerformed(evt);
+            }
+        });
+
+        oneCheckBox1.setText("1");
+        oneCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                oneCheckBox1ActionPerformed(evt);
+            }
+        });
+
+        twoCheckBox1.setText("2");
+        twoCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                twoCheckBox1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jTheoreticalFilterPanel1Layout = new javax.swing.GroupLayout(jTheoreticalFilterPanel1);
+        jTheoreticalFilterPanel1.setLayout(jTheoreticalFilterPanel1Layout);
+        jTheoreticalFilterPanel1Layout.setHorizontalGroup(
+            jTheoreticalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jTheoreticalFilterPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(bCheckBox1)
+                .addGap(64, 64, 64)
+                .addComponent(yCheckBox1)
+                .addGap(61, 61, 61)
+                .addComponent(oneCheckBox1)
+                .addGap(56, 56, 56)
+                .addComponent(twoCheckBox1)
+                .addContainerGap(57, Short.MAX_VALUE))
+        );
+        jTheoreticalFilterPanel1Layout.setVerticalGroup(
+            jTheoreticalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jTheoreticalFilterPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jTheoreticalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bCheckBox1)
+                    .addComponent(yCheckBox1)
+                    .addComponent(oneCheckBox1)
+                    .addComponent(twoCheckBox1)))
+        );
+
+        javax.swing.GroupLayout jSpectrumPanel1Layout = new javax.swing.GroupLayout(jSpectrumPanel1);
+        jSpectrumPanel1.setLayout(jSpectrumPanel1Layout);
+        jSpectrumPanel1Layout.setHorizontalGroup(
+            jSpectrumPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jGraph1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jExperimentalFilterPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jTheoreticalFilterPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jFragmentationPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
+        );
+        jSpectrumPanel1Layout.setVerticalGroup(
+            jSpectrumPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jSpectrumPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jGraph1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jExperimentalFilterPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTheoreticalFilterPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jFragmentationPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout spectrumViewPanel1Layout = new javax.swing.GroupLayout(spectrumViewPanel1);
+        spectrumViewPanel1.setLayout(spectrumViewPanel1Layout);
+        spectrumViewPanel1Layout.setHorizontalGroup(
+            spectrumViewPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(spectrumViewPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(spectrumViewPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSpectrumIdentificationItemPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSpectrumIdentificationResultPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPeptideEvidencePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSpectrumPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        spectrumViewPanel1Layout.setVerticalGroup(
+            spectrumViewPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(spectrumViewPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(spectrumViewPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(spectrumViewPanel1Layout.createSequentialGroup()
+                        .addComponent(jSpectrumIdentificationResultPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSpectrumIdentificationItemPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPeptideEvidencePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jSpectrumPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 889, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        mainTabbedPane.addTab("Spectrum Summary", null, spectrumViewPanel1, "Spectrum Summary");
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -2421,15 +2624,17 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         }
 
                     }
+                    Font font = new Font("Courier New", Font.PLAIN, 12);
+                    jProteinSequenceTextPane.setFont(font);
                     jProteinSequenceTextPane.setText(sb_new.toString());
 
                 }
 
 
-                SimpleAttributeSet sa = new SimpleAttributeSet();
-                StyleConstants.setAlignment(sa, StyleConstants.ALIGN_JUSTIFIED);
-
-                jProteinSequenceTextPane.getStyledDocument().setParagraphAttributes(0, 60, sa, false);
+//                SimpleAttributeSet sa = new SimpleAttributeSet();
+//                StyleConstants.setAlignment(sa, StyleConstants.ALIGN_JUSTIFIED);
+//
+//                jProteinSequenceTextPane.getStyledDocument().setParagraphAttributes(0, 60, sa, false);
             } catch (JAXBException ex) {
                 Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -3377,6 +3582,22 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_mainTabbedPaneMouseClicked
+
+    private void bCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCheckBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bCheckBox1ActionPerformed
+
+    private void yCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yCheckBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_yCheckBox1ActionPerformed
+
+    private void oneCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oneCheckBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_oneCheckBox1ActionPerformed
+
+    private void twoCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_twoCheckBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_twoCheckBox1ActionPerformed
     private void changeFontSize(int i) {
         proteinAmbiguityGroupTable.setFont(new Font("Serif", Font.PLAIN, i));
         proteinDetectionHypothesisTable.setFont(new Font("Serif", Font.PLAIN, i));
@@ -3642,6 +3863,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JCheckBox bCheckBox;
+    private javax.swing.JCheckBox bCheckBox1;
     private javax.swing.JPanel dBSequencePanel;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenuItem exportFDR;
@@ -3675,10 +3897,14 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private javax.swing.JLabel isDecoySiiFalseValue;
     private javax.swing.JLabel isDecoySiiValue;
     private javax.swing.JPanel jExperimentalFilterPanel;
+    private javax.swing.JPanel jExperimentalFilterPanel1;
     private javax.swing.JPanel jFragmentationPanel;
+    private javax.swing.JPanel jFragmentationPanel1;
     private javax.swing.JPanel jGraph;
+    private javax.swing.JPanel jGraph1;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JPanel jPeptideEvidencePanel;
+    private javax.swing.JPanel jPeptideEvidencePanel1;
     private javax.swing.JPanel jProteinAmbiguityGroupPanel;
     private javax.swing.JEditorPane jProteinDescriptionEditorPane;
     private javax.swing.JPanel jProteinDescriptionPanel;
@@ -3690,15 +3916,17 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private javax.swing.JTextPane jProteinSequenceTextPane;
     private javax.swing.JLabel jScientificNameLabel;
     private javax.swing.JLabel jScientificNameValueLabel;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JPanel jSpectrumIdentificationItemPanel;
+    private javax.swing.JPanel jSpectrumIdentificationItemPanel1;
     private javax.swing.JPanel jSpectrumIdentificationItemProteinPanel;
     private javax.swing.JPanel jSpectrumIdentificationResultPanel;
+    private javax.swing.JPanel jSpectrumIdentificationResultPanel1;
     private javax.swing.JPanel jSpectrumPanel;
+    private javax.swing.JPanel jSpectrumPanel1;
     private javax.swing.JPanel jTheoreticalFilterPanel;
+    private javax.swing.JPanel jTheoreticalFilterPanel1;
     private javax.swing.JRadioButtonMenuItem lookAndFeeMotifMenuItem;
     private javax.swing.JRadioButtonMenuItem lookAndFeelDefaultMenuItem;
     private javax.swing.JMenu lookAndFeelMenu;
@@ -3713,6 +3941,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private javax.swing.JLabel manualDecoyRatio;
     private javax.swing.JTextField manualDecoyRatioValue;
     private javax.swing.JCheckBox oneCheckBox;
+    private javax.swing.JCheckBox oneCheckBox1;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenu optionsMenu;
     private javax.swing.JLabel percentIdentifiedSpectraLabel;
@@ -3725,10 +3954,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private javax.swing.JComboBox siiComboBox;
     private javax.swing.JLabel siiListLabel;
     private javax.swing.JPanel spectrumViewPanel;
+    private javax.swing.JPanel spectrumViewPanel1;
     private javax.swing.JPanel summaryPanel;
-    private javax.swing.JButton thresholdButton;
-    private javax.swing.JLabel thresholdLabel;
-    private javax.swing.JTextField thresholdValue;
     private javax.swing.JLabel totalPAGsLabel;
     private javax.swing.JLabel totalPAGsLabelValue;
     private javax.swing.JLabel totalPDHsLabel;
@@ -3752,6 +3979,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private javax.swing.JLabel tpSiiLabel;
     private javax.swing.JLabel tpSiiValue;
     private javax.swing.JCheckBox twoCheckBox;
+    private javax.swing.JCheckBox twoCheckBox1;
     private javax.swing.JCheckBox yCheckBox;
+    private javax.swing.JCheckBox yCheckBox1;
     // End of variables declaration//GEN-END:variables
 }
