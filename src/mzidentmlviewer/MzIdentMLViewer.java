@@ -61,8 +61,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
+
 import javax.xml.bind.JAXBException;
 import mzidentml.FalseDiscoveryRate;
 import org.jfree.chart.ChartFactory;
@@ -140,7 +139,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private List<Peptide> peptideListNonReduntant = new ArrayList();
     private List<SpectrumIdentificationItem> sIIListIsDecoyFalse = new ArrayList();
     private List<SpectrumIdentificationItem> sIIListIsDecoyTrue = new ArrayList();
-    private boolean firstTab, secondTab, thirdTab, fourthTab, fifthTab;
+    private boolean firstTab, secondTab, thirdTab, fourthTab, fifthTab,  sixthTab;
 
     /**
      * Creates new form MzIdentMLViewer
@@ -149,7 +148,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         // Look and Feel
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        } catch (Exception  ex) {
         }
 
         // Swing init components
@@ -335,9 +334,9 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
             }
         }
-         if (!thirdTab) {
+         if (!fourthTab) {
             loadDBSequenceTable();
-            thirdTab = true;
+            fourthTab = true;
         }
         mainTabbedPane.setSelectedIndex(2);
     }
@@ -579,6 +578,38 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         spectrumIdentificationResultTable.setSortable(true);
 
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+    }
+    
+     private void loadPeptideTable() {
+           this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+//        Iterator<SpectrumIdentificationResult> iterSpectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshalCollectionFromXpath(MzIdentMLElement.SpectrumIdentificationResult);
+//        while (iterSpectrumIdentificationResult.hasNext()) {
+//
+//
+//            SpectrumIdentificationResult spectrumIdentificationResult = iterSpectrumIdentificationResult.next();
+//            ((DefaultTableModel) spectrumIdentificationResultTable.getModel()).addRow(new String[]{
+//                        spectrumIdentificationResult.getId(),
+//                        spectrumIdentificationResult.getSpectrumID()
+//                    });
+//            List<CvParam> cvParamListspectrumIdentificationResult = spectrumIdentificationResult.getCvParam();
+//
+//            for (int s = 0; s < cvParamListspectrumIdentificationResult.size(); s++) {
+//                CvParam cvParam = cvParamListspectrumIdentificationResult.get(s);
+//                String name = cvParam.getName();
+//                for (int j = 0; j < spectrumIdentificationResultTable.getModel().getColumnCount(); j++) {
+//                    if (spectrumIdentificationResultTable.getModel().getColumnName(j).equals(name)) {
+//                        ((DefaultTableModel) spectrumIdentificationResultTable.getModel()).setValueAt(cvParam.getValue(), ((DefaultTableModel) spectrumIdentificationResultTable.getModel()).getRowCount() - 1, j);
+//                    }
+//                }
+//
+//            }
+//
+//        }
+//
+//        spectrumIdentificationResultTable.setSortable(true);
+
+//        this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
     }
 
@@ -837,7 +868,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                     filterCheckBoxIon[k].setSelected(true);
                     filterCheckBoxIon[k].addItemListener(new ItemListener() {
 
-                        @Override
+                       
                         public void itemStateChanged(ItemEvent E) {
                             updateGraph();
                         }
@@ -857,7 +888,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                     filterCheckBoxCharge[k].setSelected(true);
                     filterCheckBoxCharge[k].addItemListener(new ItemListener() {
 
-                        @Override
+                       
                         public void itemStateChanged(ItemEvent E) {
                             updateGraph();
                         }
@@ -1168,6 +1199,19 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         yCheckBox = new javax.swing.JCheckBox();
         oneCheckBox = new javax.swing.JCheckBox();
         twoCheckBox = new javax.swing.JCheckBox();
+        peptideViewPanel = new javax.swing.JPanel();
+        jSpectrumIdentificationResultPanel1 = new javax.swing.JPanel();
+        jSpectrumIdentificationItemPanel1 = new javax.swing.JPanel();
+        jPeptideEvidencePanel1 = new javax.swing.JPanel();
+        jSpectrumPanel1 = new javax.swing.JPanel();
+        jFragmentationPanel1 = new javax.swing.JPanel();
+        jGraph1 = new javax.swing.JPanel();
+        jExperimentalFilterPanel1 = new javax.swing.JPanel();
+        jTheoreticalFilterPanel1 = new javax.swing.JPanel();
+        bCheckBox1 = new javax.swing.JCheckBox();
+        yCheckBox1 = new javax.swing.JCheckBox();
+        oneCheckBox1 = new javax.swing.JCheckBox();
+        twoCheckBox1 = new javax.swing.JCheckBox();
         proteinDBViewPanel = new javax.swing.JPanel();
         dBSequencePanel = new javax.swing.JPanel();
         globalStatisticsPanel = new javax.swing.JPanel();
@@ -1221,19 +1265,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         siiListLabel = new javax.swing.JLabel();
         protocolPanel = new javax.swing.JPanel();
         protocolSummaryPanel = new javax.swing.JPanel();
-        spectrumViewPanel1 = new javax.swing.JPanel();
-        jSpectrumIdentificationResultPanel1 = new javax.swing.JPanel();
-        jSpectrumIdentificationItemPanel1 = new javax.swing.JPanel();
-        jPeptideEvidencePanel1 = new javax.swing.JPanel();
-        jSpectrumPanel1 = new javax.swing.JPanel();
-        jFragmentationPanel1 = new javax.swing.JPanel();
-        jGraph1 = new javax.swing.JPanel();
-        jExperimentalFilterPanel1 = new javax.swing.JPanel();
-        jTheoreticalFilterPanel1 = new javax.swing.JPanel();
-        bCheckBox1 = new javax.swing.JCheckBox();
-        yCheckBox1 = new javax.swing.JCheckBox();
-        oneCheckBox1 = new javax.swing.JCheckBox();
-        twoCheckBox1 = new javax.swing.JCheckBox();
         jMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -1293,7 +1324,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         );
         jProteinAmbiguityGroupPanelLayout.setVerticalGroup(
             jProteinAmbiguityGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 212, Short.MAX_VALUE)
+            .addGap(0, 213, Short.MAX_VALUE)
         );
 
         jProteinDetectionHypothesisPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Protein"));
@@ -1304,7 +1335,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jProteinDetectionHypothesisPanel.setLayout(jProteinDetectionHypothesisPanelLayout);
         jProteinDetectionHypothesisPanelLayout.setHorizontalGroup(
             jProteinDetectionHypothesisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 345, Short.MAX_VALUE)
+            .addGap(0, 351, Short.MAX_VALUE)
         );
         jProteinDetectionHypothesisPanelLayout.setVerticalGroup(
             jProteinDetectionHypothesisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1342,7 +1373,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         );
         jSpectrumIdentificationItemProteinPanelLayout.setVerticalGroup(
             jSpectrumIdentificationItemProteinPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 510, Short.MAX_VALUE)
+            .addGap(0, 514, Short.MAX_VALUE)
         );
 
         jScientificNameLabel.setText("Scientific name:");
@@ -1372,10 +1403,10 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 .addComponent(jScientificNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScientificNameValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(229, Short.MAX_VALUE))
+                .addContainerGap(231, Short.MAX_VALUE))
             .addComponent(jProteinDescriptionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jProteinSequencePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSpectrumIdentificationItemProteinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+            .addComponent(jSpectrumIdentificationItemProteinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
         );
         jProteinInfoPanelLayout.setVerticalGroup(
             jProteinInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1389,7 +1420,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jProteinSequencePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jSpectrumIdentificationItemProteinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE))
+                .addComponent(jSpectrumIdentificationItemProteinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE))
         );
 
         jSpectrumIdentificationItemProteinPanel.getAccessibleContext().setAccessibleDescription("Spectrum Identification Item");
@@ -1401,8 +1432,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
             .addGroup(proteinViewPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(proteinViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jProteinDetectionHypothesisPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
-                    .addComponent(jProteinAmbiguityGroupPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE))
+                    .addComponent(jProteinDetectionHypothesisPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
+                    .addComponent(jProteinAmbiguityGroupPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jProteinInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -1450,7 +1481,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jSpectrumIdentificationItemPanel.setLayout(jSpectrumIdentificationItemPanelLayout);
         jSpectrumIdentificationItemPanelLayout.setHorizontalGroup(
             jSpectrumIdentificationItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 442, Short.MAX_VALUE)
+            .addGap(0, 444, Short.MAX_VALUE)
         );
         jSpectrumIdentificationItemPanelLayout.setVerticalGroup(
             jSpectrumIdentificationItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1469,7 +1500,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         );
         jPeptideEvidencePanelLayout.setVerticalGroup(
             jPeptideEvidencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 176, Short.MAX_VALUE)
+            .addGap(0, 178, Short.MAX_VALUE)
         );
 
         jSpectrumPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Spectrum"));
@@ -1489,7 +1520,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         );
         jFragmentationPanelLayout.setVerticalGroup(
             jFragmentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 162, Short.MAX_VALUE)
+            .addGap(0, 163, Short.MAX_VALUE)
         );
 
         jGraph.setBorder(javax.swing.BorderFactory.createTitledBorder("Graph"));
@@ -1561,7 +1592,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 .addComponent(oneCheckBox)
                 .addGap(56, 56, 56)
                 .addComponent(twoCheckBox)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         jTheoreticalFilterPanelLayout.setVerticalGroup(
             jTheoreticalFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1581,7 +1612,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
             .addComponent(jGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jExperimentalFilterPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jTheoreticalFilterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jFragmentationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
+            .addComponent(jFragmentationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
         );
         jSpectrumPanelLayout.setVerticalGroup(
             jSpectrumPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1607,7 +1638,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                     .addComponent(jSpectrumIdentificationResultPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPeptideEvidencePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSpectrumPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                .addComponent(jSpectrumPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
                 .addContainerGap())
         );
         spectrumViewPanelLayout.setVerticalGroup(
@@ -1632,6 +1663,208 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         spectrumViewPanel.getAccessibleContext().setAccessibleDescription("Spectrum Summary");
         spectrumViewPanel.getAccessibleContext().setAccessibleParent(mainTabbedPane);
 
+        peptideViewPanel.setToolTipText("Peptide View");
+        peptideViewPanel.setPreferredSize(new java.awt.Dimension(889, 939));
+
+        jSpectrumIdentificationResultPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Spectrum List"));
+        jSpectrumIdentificationResultPanel1.setToolTipText("Protein Ambiguity Group");
+        jSpectrumIdentificationResultPanel1.setMinimumSize(new java.awt.Dimension(404, 569));
+
+        javax.swing.GroupLayout jSpectrumIdentificationResultPanel1Layout = new javax.swing.GroupLayout(jSpectrumIdentificationResultPanel1);
+        jSpectrumIdentificationResultPanel1.setLayout(jSpectrumIdentificationResultPanel1Layout);
+        jSpectrumIdentificationResultPanel1Layout.setHorizontalGroup(
+            jSpectrumIdentificationResultPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 442, Short.MAX_VALUE)
+        );
+        jSpectrumIdentificationResultPanel1Layout.setVerticalGroup(
+            jSpectrumIdentificationResultPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jSpectrumIdentificationItemPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Peptide-Spectrum matches"));
+        jSpectrumIdentificationItemPanel1.setToolTipText("Spectrum Identification Item");
+        jSpectrumIdentificationItemPanel1.setAutoscrolls(true);
+
+        javax.swing.GroupLayout jSpectrumIdentificationItemPanel1Layout = new javax.swing.GroupLayout(jSpectrumIdentificationItemPanel1);
+        jSpectrumIdentificationItemPanel1.setLayout(jSpectrumIdentificationItemPanel1Layout);
+        jSpectrumIdentificationItemPanel1Layout.setHorizontalGroup(
+            jSpectrumIdentificationItemPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 444, Short.MAX_VALUE)
+        );
+        jSpectrumIdentificationItemPanel1Layout.setVerticalGroup(
+            jSpectrumIdentificationItemPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 417, Short.MAX_VALUE)
+        );
+
+        jPeptideEvidencePanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Peptide Evidence"));
+        jPeptideEvidencePanel1.setToolTipText("Peptide Evidence");
+        jPeptideEvidencePanel1.setAutoscrolls(true);
+
+        javax.swing.GroupLayout jPeptideEvidencePanel1Layout = new javax.swing.GroupLayout(jPeptideEvidencePanel1);
+        jPeptideEvidencePanel1.setLayout(jPeptideEvidencePanel1Layout);
+        jPeptideEvidencePanel1Layout.setHorizontalGroup(
+            jPeptideEvidencePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 442, Short.MAX_VALUE)
+        );
+        jPeptideEvidencePanel1Layout.setVerticalGroup(
+            jPeptideEvidencePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 178, Short.MAX_VALUE)
+        );
+
+        jSpectrumPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Spectrum"));
+        jSpectrumPanel1.setAutoscrolls(true);
+        jSpectrumPanel1.setPreferredSize(new java.awt.Dimension(362, 569));
+
+        jFragmentationPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Fragmentation"));
+        jFragmentationPanel1.setAutoscrolls(true);
+        jFragmentationPanel1.setPreferredSize(new java.awt.Dimension(383, 447));
+
+        javax.swing.GroupLayout jFragmentationPanel1Layout = new javax.swing.GroupLayout(jFragmentationPanel1);
+        jFragmentationPanel1.setLayout(jFragmentationPanel1Layout);
+        jFragmentationPanel1Layout.setHorizontalGroup(
+            jFragmentationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 368, Short.MAX_VALUE)
+        );
+        jFragmentationPanel1Layout.setVerticalGroup(
+            jFragmentationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 163, Short.MAX_VALUE)
+        );
+
+        jGraph1.setBorder(javax.swing.BorderFactory.createTitledBorder("Graph"));
+
+        javax.swing.GroupLayout jGraph1Layout = new javax.swing.GroupLayout(jGraph1);
+        jGraph1.setLayout(jGraph1Layout);
+        jGraph1Layout.setHorizontalGroup(
+            jGraph1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 368, Short.MAX_VALUE)
+        );
+        jGraph1Layout.setVerticalGroup(
+            jGraph1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jExperimentalFilterPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Experimental Filtering"));
+
+        javax.swing.GroupLayout jExperimentalFilterPanel1Layout = new javax.swing.GroupLayout(jExperimentalFilterPanel1);
+        jExperimentalFilterPanel1.setLayout(jExperimentalFilterPanel1Layout);
+        jExperimentalFilterPanel1Layout.setHorizontalGroup(
+            jExperimentalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 368, Short.MAX_VALUE)
+        );
+        jExperimentalFilterPanel1Layout.setVerticalGroup(
+            jExperimentalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 17, Short.MAX_VALUE)
+        );
+
+        jTheoreticalFilterPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Theoretical Filtering"));
+
+        bCheckBox1.setText("b");
+        bCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCheckBox1ActionPerformed(evt);
+            }
+        });
+
+        yCheckBox1.setText("y");
+        yCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yCheckBox1ActionPerformed(evt);
+            }
+        });
+
+        oneCheckBox1.setText("1");
+        oneCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                oneCheckBox1ActionPerformed(evt);
+            }
+        });
+
+        twoCheckBox1.setText("2");
+        twoCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                twoCheckBox1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jTheoreticalFilterPanel1Layout = new javax.swing.GroupLayout(jTheoreticalFilterPanel1);
+        jTheoreticalFilterPanel1.setLayout(jTheoreticalFilterPanel1Layout);
+        jTheoreticalFilterPanel1Layout.setHorizontalGroup(
+            jTheoreticalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jTheoreticalFilterPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(bCheckBox1)
+                .addGap(64, 64, 64)
+                .addComponent(yCheckBox1)
+                .addGap(61, 61, 61)
+                .addComponent(oneCheckBox1)
+                .addGap(56, 56, 56)
+                .addComponent(twoCheckBox1)
+                .addContainerGap(67, Short.MAX_VALUE))
+        );
+        jTheoreticalFilterPanel1Layout.setVerticalGroup(
+            jTheoreticalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jTheoreticalFilterPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jTheoreticalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bCheckBox1)
+                    .addComponent(yCheckBox1)
+                    .addComponent(oneCheckBox1)
+                    .addComponent(twoCheckBox1)))
+        );
+
+        javax.swing.GroupLayout jSpectrumPanel1Layout = new javax.swing.GroupLayout(jSpectrumPanel1);
+        jSpectrumPanel1.setLayout(jSpectrumPanel1Layout);
+        jSpectrumPanel1Layout.setHorizontalGroup(
+            jSpectrumPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jGraph1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jExperimentalFilterPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jTheoreticalFilterPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jFragmentationPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+        );
+        jSpectrumPanel1Layout.setVerticalGroup(
+            jSpectrumPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jSpectrumPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jGraph1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jExperimentalFilterPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTheoreticalFilterPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jFragmentationPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout peptideViewPanelLayout = new javax.swing.GroupLayout(peptideViewPanel);
+        peptideViewPanel.setLayout(peptideViewPanelLayout);
+        peptideViewPanelLayout.setHorizontalGroup(
+            peptideViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(peptideViewPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(peptideViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSpectrumIdentificationItemPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSpectrumIdentificationResultPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPeptideEvidencePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSpectrumPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        peptideViewPanelLayout.setVerticalGroup(
+            peptideViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(peptideViewPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(peptideViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(peptideViewPanelLayout.createSequentialGroup()
+                        .addComponent(jSpectrumIdentificationResultPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSpectrumIdentificationItemPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPeptideEvidencePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jSpectrumPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 889, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        mainTabbedPane.addTab("Peptide Summary", null, peptideViewPanel, "Peptide Summary");
+
         proteinDBViewPanel.setPreferredSize(new java.awt.Dimension(889, 939));
 
         dBSequencePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("DB Sequence"));
@@ -1640,11 +1873,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         dBSequencePanel.setLayout(dBSequencePanelLayout);
         dBSequencePanelLayout.setHorizontalGroup(
             dBSequencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 848, Short.MAX_VALUE)
+            .addGap(0, 852, Short.MAX_VALUE)
         );
         dBSequencePanelLayout.setVerticalGroup(
             dBSequencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 865, Short.MAX_VALUE)
+            .addGap(0, 866, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout proteinDBViewPanelLayout = new javax.swing.GroupLayout(proteinDBViewPanel);
@@ -1789,7 +2022,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         );
         tpEvaluePanelLayout.setVerticalGroup(
             tpEvaluePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 588, Short.MAX_VALUE)
+            .addGap(0, 590, Short.MAX_VALUE)
         );
 
         tpQvaluePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("TP vs Q-value"));
@@ -1824,11 +2057,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(summaryPanelLayout.createSequentialGroup()
-                        .addComponent(fdrPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                        .addComponent(fdrPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tpEvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                        .addComponent(tpEvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tpQvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                        .addComponent(tpQvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(summaryPanelLayout.createSequentialGroup()
                         .addComponent(manualDecoy)
@@ -1839,7 +2072,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(manualDecoyPrefixValue, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(manualDecoyRatio, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                        .addComponent(manualDecoyRatio, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
                         .addGap(559, 559, 559))
                     .addGroup(summaryPanelLayout.createSequentialGroup()
                         .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2006,9 +2239,9 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                             .addComponent(fdrProteinsValue))))
                 .addGap(11, 11, 11)
                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(tpEvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
-                    .addComponent(tpQvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
-                    .addComponent(fdrPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE))
+                    .addComponent(tpEvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
+                    .addComponent(tpQvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
+                    .addComponent(fdrPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -2042,11 +2275,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         protocolSummaryPanel.setLayout(protocolSummaryPanelLayout);
         protocolSummaryPanelLayout.setHorizontalGroup(
             protocolSummaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 848, Short.MAX_VALUE)
+            .addGap(0, 852, Short.MAX_VALUE)
         );
         protocolSummaryPanelLayout.setVerticalGroup(
             protocolSummaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 865, Short.MAX_VALUE)
+            .addGap(0, 866, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout protocolPanelLayout = new javax.swing.GroupLayout(protocolPanel);
@@ -2068,208 +2301,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
         mainTabbedPane.addTab("Protocols", protocolPanel);
         protocolPanel.getAccessibleContext().setAccessibleParent(mainTabbedPane);
-
-        spectrumViewPanel1.setToolTipText("Spectrum View");
-        spectrumViewPanel1.setPreferredSize(new java.awt.Dimension(889, 939));
-
-        jSpectrumIdentificationResultPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Spectrum List"));
-        jSpectrumIdentificationResultPanel1.setToolTipText("Protein Ambiguity Group");
-        jSpectrumIdentificationResultPanel1.setMinimumSize(new java.awt.Dimension(404, 569));
-
-        javax.swing.GroupLayout jSpectrumIdentificationResultPanel1Layout = new javax.swing.GroupLayout(jSpectrumIdentificationResultPanel1);
-        jSpectrumIdentificationResultPanel1.setLayout(jSpectrumIdentificationResultPanel1Layout);
-        jSpectrumIdentificationResultPanel1Layout.setHorizontalGroup(
-            jSpectrumIdentificationResultPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 442, Short.MAX_VALUE)
-        );
-        jSpectrumIdentificationResultPanel1Layout.setVerticalGroup(
-            jSpectrumIdentificationResultPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jSpectrumIdentificationItemPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Peptide-Spectrum matches"));
-        jSpectrumIdentificationItemPanel1.setToolTipText("Spectrum Identification Item");
-        jSpectrumIdentificationItemPanel1.setAutoscrolls(true);
-
-        javax.swing.GroupLayout jSpectrumIdentificationItemPanel1Layout = new javax.swing.GroupLayout(jSpectrumIdentificationItemPanel1);
-        jSpectrumIdentificationItemPanel1.setLayout(jSpectrumIdentificationItemPanel1Layout);
-        jSpectrumIdentificationItemPanel1Layout.setHorizontalGroup(
-            jSpectrumIdentificationItemPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 442, Short.MAX_VALUE)
-        );
-        jSpectrumIdentificationItemPanel1Layout.setVerticalGroup(
-            jSpectrumIdentificationItemPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 417, Short.MAX_VALUE)
-        );
-
-        jPeptideEvidencePanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Peptide Evidence"));
-        jPeptideEvidencePanel1.setToolTipText("Peptide Evidence");
-        jPeptideEvidencePanel1.setAutoscrolls(true);
-
-        javax.swing.GroupLayout jPeptideEvidencePanel1Layout = new javax.swing.GroupLayout(jPeptideEvidencePanel1);
-        jPeptideEvidencePanel1.setLayout(jPeptideEvidencePanel1Layout);
-        jPeptideEvidencePanel1Layout.setHorizontalGroup(
-            jPeptideEvidencePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 442, Short.MAX_VALUE)
-        );
-        jPeptideEvidencePanel1Layout.setVerticalGroup(
-            jPeptideEvidencePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 176, Short.MAX_VALUE)
-        );
-
-        jSpectrumPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Spectrum"));
-        jSpectrumPanel1.setAutoscrolls(true);
-        jSpectrumPanel1.setPreferredSize(new java.awt.Dimension(362, 569));
-
-        jFragmentationPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Fragmentation"));
-        jFragmentationPanel1.setAutoscrolls(true);
-        jFragmentationPanel1.setPreferredSize(new java.awt.Dimension(383, 447));
-
-        javax.swing.GroupLayout jFragmentationPanel1Layout = new javax.swing.GroupLayout(jFragmentationPanel1);
-        jFragmentationPanel1.setLayout(jFragmentationPanel1Layout);
-        jFragmentationPanel1Layout.setHorizontalGroup(
-            jFragmentationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 368, Short.MAX_VALUE)
-        );
-        jFragmentationPanel1Layout.setVerticalGroup(
-            jFragmentationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 162, Short.MAX_VALUE)
-        );
-
-        jGraph1.setBorder(javax.swing.BorderFactory.createTitledBorder("Graph"));
-
-        javax.swing.GroupLayout jGraph1Layout = new javax.swing.GroupLayout(jGraph1);
-        jGraph1.setLayout(jGraph1Layout);
-        jGraph1Layout.setHorizontalGroup(
-            jGraph1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 368, Short.MAX_VALUE)
-        );
-        jGraph1Layout.setVerticalGroup(
-            jGraph1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jExperimentalFilterPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Experimental Filtering"));
-
-        javax.swing.GroupLayout jExperimentalFilterPanel1Layout = new javax.swing.GroupLayout(jExperimentalFilterPanel1);
-        jExperimentalFilterPanel1.setLayout(jExperimentalFilterPanel1Layout);
-        jExperimentalFilterPanel1Layout.setHorizontalGroup(
-            jExperimentalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 368, Short.MAX_VALUE)
-        );
-        jExperimentalFilterPanel1Layout.setVerticalGroup(
-            jExperimentalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 17, Short.MAX_VALUE)
-        );
-
-        jTheoreticalFilterPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Theoretical Filtering"));
-
-        bCheckBox1.setText("b");
-        bCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bCheckBox1ActionPerformed(evt);
-            }
-        });
-
-        yCheckBox1.setText("y");
-        yCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                yCheckBox1ActionPerformed(evt);
-            }
-        });
-
-        oneCheckBox1.setText("1");
-        oneCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                oneCheckBox1ActionPerformed(evt);
-            }
-        });
-
-        twoCheckBox1.setText("2");
-        twoCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                twoCheckBox1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jTheoreticalFilterPanel1Layout = new javax.swing.GroupLayout(jTheoreticalFilterPanel1);
-        jTheoreticalFilterPanel1.setLayout(jTheoreticalFilterPanel1Layout);
-        jTheoreticalFilterPanel1Layout.setHorizontalGroup(
-            jTheoreticalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jTheoreticalFilterPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(bCheckBox1)
-                .addGap(64, 64, 64)
-                .addComponent(yCheckBox1)
-                .addGap(61, 61, 61)
-                .addComponent(oneCheckBox1)
-                .addGap(56, 56, 56)
-                .addComponent(twoCheckBox1)
-                .addContainerGap(57, Short.MAX_VALUE))
-        );
-        jTheoreticalFilterPanel1Layout.setVerticalGroup(
-            jTheoreticalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jTheoreticalFilterPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jTheoreticalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bCheckBox1)
-                    .addComponent(yCheckBox1)
-                    .addComponent(oneCheckBox1)
-                    .addComponent(twoCheckBox1)))
-        );
-
-        javax.swing.GroupLayout jSpectrumPanel1Layout = new javax.swing.GroupLayout(jSpectrumPanel1);
-        jSpectrumPanel1.setLayout(jSpectrumPanel1Layout);
-        jSpectrumPanel1Layout.setHorizontalGroup(
-            jSpectrumPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jGraph1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jExperimentalFilterPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTheoreticalFilterPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jFragmentationPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
-        );
-        jSpectrumPanel1Layout.setVerticalGroup(
-            jSpectrumPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jSpectrumPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jGraph1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jExperimentalFilterPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jTheoreticalFilterPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jFragmentationPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        javax.swing.GroupLayout spectrumViewPanel1Layout = new javax.swing.GroupLayout(spectrumViewPanel1);
-        spectrumViewPanel1.setLayout(spectrumViewPanel1Layout);
-        spectrumViewPanel1Layout.setHorizontalGroup(
-            spectrumViewPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(spectrumViewPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(spectrumViewPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSpectrumIdentificationItemPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSpectrumIdentificationResultPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPeptideEvidencePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSpectrumPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        spectrumViewPanel1Layout.setVerticalGroup(
-            spectrumViewPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(spectrumViewPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(spectrumViewPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(spectrumViewPanel1Layout.createSequentialGroup()
-                        .addComponent(jSpectrumIdentificationResultPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpectrumIdentificationItemPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPeptideEvidencePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jSpectrumPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 889, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        mainTabbedPane.addTab("Spectrum Summary", null, spectrumViewPanel1, "Spectrum Summary");
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -2760,9 +2791,10 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 public void run() {
                     try {
                         if (mzid_file.getPath().endsWith(".gz")) {
-                            File outFile;
-                            FileOutputStream fos;
-                            try (GZIPInputStream gin = new GZIPInputStream(new FileInputStream(mzid_file))) {
+                            File outFile=null;
+                            FileOutputStream fos=null;
+                        
+                                GZIPInputStream gin = new GZIPInputStream(new FileInputStream(mzid_file));
                                 outFile = new File(mzid_file.getParent(), mzid_file.getName().replaceAll("\\.gz$", ""));
                                 fos = new FileOutputStream(outFile);
                                 byte[] buf = new byte[100000];
@@ -2770,8 +2802,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                 while ((len = gin.read(buf)) > 0) {
                                     fos.write(buf, 0, len);
                                 }
-                            }
-                            fos.close();
+                                fos.close();
+                            
 
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
                         } else {
@@ -2795,6 +2827,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         thirdTab = false;
                         fourthTab = false;
                         fifthTab = false;
+                        sixthTab=false;
                         loadProteinAmbiguityGroupTable();
 
 
@@ -3228,7 +3261,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private void lookAndFeelDefaultMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lookAndFeelDefaultMenuItemActionPerformed
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        } catch (Exception ex) {
 //           
         }
 
@@ -3242,7 +3275,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private void lookAndFeelMetalMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lookAndFeelMetalMenuItemActionPerformed
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        } catch (Exception ex) {
         }
         lookAndFeelDefaultMenuItem.setSelected(false);
         lookAndFeelMetalMenuItem.setSelected(true);
@@ -3254,7 +3287,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        } catch (Exception ex) {
         }
         lookAndFeelDefaultMenuItem.setSelected(false);
         lookAndFeelMetalMenuItem.setSelected(false);
@@ -3529,10 +3562,13 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 }
 
                 selectedFile.createNewFile();
-                try (FileWriter f = new FileWriter(selectedFile)) {
+                try  {
+                    FileWriter f = new FileWriter(selectedFile);
                     if (falseDiscoveryRate != null) {
                         falseDiscoveryRate.writeToMzIdentMLFile(selectedFile.getPath());
                     }
+                }catch (Exception e){
+                    
                 }
 
 
@@ -3565,20 +3601,25 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
             loadSpectrumIdentificationResultTable();
             secondTab = true;
         }
-
+        
         if (mainTabbedPane.getSelectedIndex() == 2 && !thirdTab && mzIdentMLUnmarshaller != null) {
-            loadDBSequenceTable();
+            loadPeptideTable();
             thirdTab = true;
         }
 
         if (mainTabbedPane.getSelectedIndex() == 3 && !fourthTab && mzIdentMLUnmarshaller != null) {
-            loadSummaryStats();
+            loadDBSequenceTable();
             fourthTab = true;
         }
 
         if (mainTabbedPane.getSelectedIndex() == 4 && !fifthTab && mzIdentMLUnmarshaller != null) {
-            loadProtocolData();
+            loadSummaryStats();
             fifthTab = true;
+        }
+
+        if (mainTabbedPane.getSelectedIndex() == 5 && !sixthTab && mzIdentMLUnmarshaller != null) {
+            loadProtocolData();
+            sixthTab = true;
         }
 
     }//GEN-LAST:event_mainTabbedPaneMouseClicked
@@ -3726,7 +3767,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 }
 
                 selectedFile.createNewFile();
-                try (FileWriter f = new FileWriter(selectedFile)) {
+                try  {
+                    FileWriter f = new FileWriter(selectedFile);
                     for (int j = 0; j < table.getColumnCount() - 1; j++) {
                         f.write(table.getColumnName(j) + ",");
                     }
@@ -3741,6 +3783,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
                         f.write(table.getValueAt(i, table.getColumnCount() - 1) + "\r\n");
                     }
+                }catch (Exception e){
+                    
                 }
 
 
@@ -3818,7 +3862,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 }
 
                 selectedFile.createNewFile();
-                try (FileWriter f = new FileWriter(selectedFile)) {
+                    FileWriter f = new FileWriter(selectedFile);
                     String outStrHead = "sorted_spectrumResult.get(i)\tsorted_peptideNames.get(i) \t sorted_decoyOrNot.get(i) \t  sorted_evalues.get(i).toString() \t + sorted_scores.get(i).toString() \t estimated_simpleFDR.get(i) \t estimated_qvalue.get(i) \t estimated_fdrscore.get(i) \n";
                     f.write(outStrHead);
                     for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
@@ -3832,7 +3876,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
                         f.write(outStr);
                     }
-                }
+                
 
 
 
@@ -3944,6 +3988,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private javax.swing.JCheckBox oneCheckBox1;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenu optionsMenu;
+    private javax.swing.JPanel peptideViewPanel;
     private javax.swing.JLabel percentIdentifiedSpectraLabel;
     private javax.swing.JLabel percentIdentifiedSpectraLabelValue;
     private javax.swing.JPanel proteinDBViewPanel;
@@ -3954,7 +3999,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private javax.swing.JComboBox siiComboBox;
     private javax.swing.JLabel siiListLabel;
     private javax.swing.JPanel spectrumViewPanel;
-    private javax.swing.JPanel spectrumViewPanel1;
     private javax.swing.JPanel summaryPanel;
     private javax.swing.JLabel totalPAGsLabel;
     private javax.swing.JLabel totalPAGsLabelValue;
@@ -3983,4 +4027,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private javax.swing.JCheckBox yCheckBox;
     private javax.swing.JCheckBox yCheckBox1;
     // End of variables declaration//GEN-END:variables
+
+   
 }
