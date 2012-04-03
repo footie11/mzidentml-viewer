@@ -310,8 +310,8 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jProteinDetectionHypothesisPanel" pref="360" max="32767" attributes="1"/>
-                              <Component id="jProteinAmbiguityGroupPanel" alignment="0" pref="360" max="32767" attributes="1"/>
+                              <Component id="jProteinDetectionHypothesisPanel" pref="362" max="32767" attributes="1"/>
+                              <Component id="jProteinAmbiguityGroupPanel" alignment="0" pref="362" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jProteinInfoPanel" max="32767" attributes="0"/>
@@ -358,7 +358,7 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="212" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="213" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -379,7 +379,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="344" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="350" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -407,11 +407,11 @@
                               <Component id="jScientificNameLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jScientificNameValueLabel" min="-2" pref="157" max="-2" attributes="0"/>
-                              <EmptySpace pref="230" max="32767" attributes="0"/>
+                              <EmptySpace pref="232" max="32767" attributes="0"/>
                           </Group>
                           <Component id="jProteinDescriptionPanel" alignment="0" max="32767" attributes="1"/>
                           <Component id="jProteinSequencePanel" alignment="0" max="32767" attributes="1"/>
-                          <Component id="jSpectrumIdentificationItemProteinPanel" alignment="0" pref="482" max="32767" attributes="1"/>
+                          <Component id="jSpectrumIdentificationItemProteinPanel" alignment="0" pref="484" max="32767" attributes="1"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -427,7 +427,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jProteinSequencePanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jSpectrumIdentificationItemProteinPanel" pref="534" max="32767" attributes="0"/>
+                              <Component id="jSpectrumIdentificationItemProteinPanel" pref="537" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -498,7 +498,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="510" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="514" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -586,7 +586,7 @@
                               <Component id="jPeptideEvidencePanel" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jSpectrumPanel" pref="399" max="32767" attributes="0"/>
+                          <Component id="jSpectrumPanel" pref="401" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -654,7 +654,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="443" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="445" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -683,7 +683,7 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="177" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="179" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -707,7 +707,7 @@
                           <Component id="jGraph" alignment="0" max="32767" attributes="0"/>
                           <Component id="jExperimentalFilterPanel" alignment="1" max="32767" attributes="0"/>
                           <Component id="jTheoreticalFilterPanel" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jFragmentationPanel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jFragmentationPanel" alignment="0" pref="389" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -750,7 +750,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="162" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="163" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -820,7 +820,7 @@
                                   <Component id="oneCheckBox" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                                   <Component id="twoCheckBox" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="56" max="32767" attributes="0"/>
+                                  <EmptySpace pref="66" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -905,11 +905,11 @@
                                   <Component id="psmRankLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="psmRankValue" min="-2" pref="270" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="7" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jSpectrumPanel1" pref="390" max="32767" attributes="0"/>
+                          <Component id="jSpectrumPanel1" pref="392" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -980,7 +980,7 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="307" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="309" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -1004,7 +1004,7 @@
                           <Component id="jGraph1" alignment="0" max="32767" attributes="0"/>
                           <Component id="jExperimentalFilterPanel1" alignment="1" max="32767" attributes="0"/>
                           <Component id="jTheoreticalFilterPanel1" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jFragmentationPanel1" alignment="0" pref="374" max="32767" attributes="0"/>
+                          <Component id="jFragmentationPanel1" alignment="0" pref="380" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -1044,7 +1044,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="162" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="163" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -1114,7 +1114,7 @@
                                   <Component id="oneCheckBox1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                                   <Component id="twoCheckBox1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="47" max="32767" attributes="0"/>
+                                  <EmptySpace pref="57" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1243,12 +1243,12 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="848" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="852" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="865" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="866" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -1314,11 +1314,11 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="fdrPanel" pref="272" max="32767" attributes="0"/>
+                                      <Component id="fdrPanel" pref="273" max="32767" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="tpEvaluePanel" pref="272" max="32767" attributes="0"/>
+                                      <Component id="tpEvaluePanel" pref="273" max="32767" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="tpQvaluePanel" pref="264" max="32767" attributes="0"/>
+                                      <Component id="tpQvaluePanel" pref="266" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -1330,7 +1330,7 @@
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="manualDecoyPrefixValue" min="-2" pref="51" max="-2" attributes="1"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="manualDecoyRatio" pref="64" max="32767" attributes="1"/>
+                                      <Component id="manualDecoyRatio" pref="68" max="32767" attributes="1"/>
                                       <EmptySpace min="-2" pref="559" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -1548,9 +1548,9 @@
                               </Group>
                               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="tpEvaluePanel" pref="612" max="32767" attributes="1"/>
-                                  <Component id="tpQvaluePanel" pref="612" max="32767" attributes="1"/>
-                                  <Component id="fdrPanel" alignment="1" pref="612" max="32767" attributes="1"/>
+                                  <Component id="tpEvaluePanel" pref="613" max="32767" attributes="1"/>
+                                  <Component id="tpQvaluePanel" pref="613" max="32767" attributes="1"/>
+                                  <Component id="fdrPanel" alignment="1" pref="613" max="32767" attributes="1"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -1919,12 +1919,12 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="848" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="852" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="865" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="866" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
