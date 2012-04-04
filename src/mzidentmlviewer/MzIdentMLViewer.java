@@ -3036,7 +3036,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
      * about Menu Item Action Performed
      */
     private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
-        JOptionPane.showMessageDialog(this, "mzIdentML Viewer", "About", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "mzIdentML Viewer - Version 1.0\n\nPost-genomic bioinformatics group\nInstitute of Integrative Biology\nUniversity of Liverpool\n", "About", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_aboutMenuItemActionPerformed
     /**
      * protein Detection Hypothesis Table Mouse Clicked
