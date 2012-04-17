@@ -60,6 +60,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
+import javax.swing.*;
 
 import javax.xml.bind.JAXBException;
 import mzidentml.FalseDiscoveryRate;
@@ -89,8 +90,6 @@ import uk.ac.ebi.pride.tools.jmzreader.JMzReaderException;
 import uk.ac.ebi.pride.tools.jmzreader.model.Spectrum;
 import uk.ac.ebi.pride.tools.mgf_parser.MgfFile;
 import util.CsvFileFilter;
-
-import util.TheoreticalFragmentation;
 
 /**
  *
@@ -1385,80 +1384,80 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         }
                     }
                 }
-                // Start of theortical values
-                Peptide peptide = mzIdentMLUnmarshaller.unmarshal(Peptide.class, spectrumIdentificationItem.getPeptideRef());
-                String find = peptide.getPeptideSequence();
-
-                TheoreticalFragmentation tf = new TheoreticalFragmentation(find);
-
-                List<Double> tmp = new ArrayList();
-                if (bCheckBox1.isSelected() && oneCheckBox1.isSelected()) {
-                    tmp.clear();
-                    tmp = tf.getBIons(find, "1");
-                    for (int j = 0; j < tmp.size(); j++) {
-
-                        ((DefaultTableModel) fragmentationTablePeptideView.getModel()).addRow(new Object[]{
-                                    Double.valueOf(tmp.get(j).toString()),
-                                    Double.valueOf("100"),
-                                    Double.valueOf("0.0"),
-                                    "T b+",
-                                    +1
-                                });
-                    }
-
-
-                }
-                if (bCheckBox1.isSelected() && twoCheckBox1.isSelected()) {
-
-                    tmp.clear();
-                    tmp = tf.getBIons(find, "2");
-                    for (int j = 0; j < tmp.size(); j++) {
-
-                        ((DefaultTableModel) fragmentationTablePeptideView.getModel()).addRow(new Object[]{
-                                    Double.valueOf(tmp.get(j).toString()),
-                                    Double.valueOf("100"),
-                                    Double.valueOf("0.0"),
-                                    "T b++",
-                                    +1
-                                });
-                    }
-                }
-                if (yCheckBox1.isSelected() && oneCheckBox1.isSelected()) {
-
-
-                    tmp.clear();
-                    tmp = tf.getYIons(find, "1");
-                    for (int j = 0; j < tmp.size(); j++) {
-
-                        ((DefaultTableModel) fragmentationTablePeptideView.getModel()).addRow(new Object[]{
-                                    Double.valueOf(tmp.get(j).toString()),
-                                    Double.valueOf("100"),
-                                    Double.valueOf("0.0"),
-                                    "T y+",
-                                    +1
-                                });
-                    }
-                }
-                if (yCheckBox1.isSelected() && twoCheckBox1.isSelected()) {
-
-
-                    tmp.clear();
-                    tmp = tf.getYIons(find, "2");
-                    for (int j = 0; j < tmp.size(); j++) {
-
-                        ((DefaultTableModel) fragmentationTablePeptideView.getModel()).addRow(new Object[]{
-                                    Double.valueOf(tmp.get(j).toString()),
-                                    Double.valueOf("100"),
-                                    Double.valueOf("0.0"),
-                                    "T y++",
-                                    +1
-                                });
-                    }
-                }
-
-
-
-                // End of theortical values
+//                // Start of theortical values
+//                Peptide peptide = mzIdentMLUnmarshaller.unmarshal(Peptide.class, spectrumIdentificationItem.getPeptideRef());
+//                String find = peptide.getPeptideSequence();
+//
+//                TheoreticalFragmentation tf = new TheoreticalFragmentation(find);
+//
+//                List<Double> tmp = new ArrayList();
+//                if (bCheckBox1.isSelected() && oneCheckBox1.isSelected()) {
+//                    tmp.clear();
+//                    tmp = tf.getBIons(find, "1");
+//                    for (int j = 0; j < tmp.size(); j++) {
+//
+//                        ((DefaultTableModel) fragmentationTablePeptideView.getModel()).addRow(new Object[]{
+//                                    Double.valueOf(tmp.get(j).toString()),
+//                                    Double.valueOf("100"),
+//                                    Double.valueOf("0.0"),
+//                                    "T b+",
+//                                    +1
+//                                });
+//                    }
+//
+//
+//                }
+//                if (bCheckBox1.isSelected() && twoCheckBox1.isSelected()) {
+//
+//                    tmp.clear();
+//                    tmp = tf.getBIons(find, "2");
+//                    for (int j = 0; j < tmp.size(); j++) {
+//
+//                        ((DefaultTableModel) fragmentationTablePeptideView.getModel()).addRow(new Object[]{
+//                                    Double.valueOf(tmp.get(j).toString()),
+//                                    Double.valueOf("100"),
+//                                    Double.valueOf("0.0"),
+//                                    "T b++",
+//                                    +1
+//                                });
+//                    }
+//                }
+//                if (yCheckBox1.isSelected() && oneCheckBox1.isSelected()) {
+//
+//
+//                    tmp.clear();
+//                    tmp = tf.getYIons(find, "1");
+//                    for (int j = 0; j < tmp.size(); j++) {
+//
+//                        ((DefaultTableModel) fragmentationTablePeptideView.getModel()).addRow(new Object[]{
+//                                    Double.valueOf(tmp.get(j).toString()),
+//                                    Double.valueOf("100"),
+//                                    Double.valueOf("0.0"),
+//                                    "T y+",
+//                                    +1
+//                                });
+//                    }
+//                }
+//                if (yCheckBox1.isSelected() && twoCheckBox1.isSelected()) {
+//
+//
+//                    tmp.clear();
+//                    tmp = tf.getYIons(find, "2");
+//                    for (int j = 0; j < tmp.size(); j++) {
+//
+//                        ((DefaultTableModel) fragmentationTablePeptideView.getModel()).addRow(new Object[]{
+//                                    Double.valueOf(tmp.get(j).toString()),
+//                                    Double.valueOf("100"),
+//                                    Double.valueOf("0.0"),
+//                                    "T y++",
+//                                    +1
+//                                });
+//                    }
+//                }
+//
+//
+//
+//                // End of theortical values
 
 
                 peakAnnotation1.clear();
@@ -1513,7 +1512,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int row = spectrumIdentificationItemTable.getSelectedRow();
         if (row != -1) {
-            try {
+          
                 SpectrumIdentificationItem spectrumIdentificationItem = spectrumIdentificationItemListForSpecificResult.get(row);
                 while (((DefaultTableModel) fragmentationTable.getModel()).getRowCount() > 0) {
                     ((DefaultTableModel) fragmentationTable.getModel()).removeRow(0);
@@ -1550,79 +1549,79 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                     }
                 }
                 // Start of theortical values
-                Peptide peptide = mzIdentMLUnmarshaller.unmarshal(Peptide.class, spectrumIdentificationItem.getPeptideRef());
-                String find = peptide.getPeptideSequence();
+//                Peptide peptide = mzIdentMLUnmarshaller.unmarshal(Peptide.class, spectrumIdentificationItem.getPeptideRef());
+//                String find = peptide.getPeptideSequence();
 
-                TheoreticalFragmentation tf = new TheoreticalFragmentation(find);
-
-                List<Double> tmp = new ArrayList();
-                if (bCheckBox.isSelected() && oneCheckBox.isSelected()) {
-                    tmp.clear();
-                    tmp = tf.getBIons(find, "1");
-                    for (int j = 0; j < tmp.size(); j++) {
-
-                        ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
-                                    Double.valueOf(tmp.get(j).toString()),
-                                    Double.valueOf("100"),
-                                    Double.valueOf("0.0"),
-                                    "T b+",
-                                    +1
-                                });
-                    }
-
-
-                }
-                if (bCheckBox.isSelected() && twoCheckBox.isSelected()) {
-
-                    tmp.clear();
-                    tmp = tf.getBIons(find, "2");
-                    for (int j = 0; j < tmp.size(); j++) {
-
-                        ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
-                                    Double.valueOf(tmp.get(j).toString()),
-                                    Double.valueOf("100"),
-                                    Double.valueOf("0.0"),
-                                    "T b++",
-                                    +1
-                                });
-                    }
-                }
-                if (yCheckBox.isSelected() && oneCheckBox.isSelected()) {
-
-
-                    tmp.clear();
-                    tmp = tf.getYIons(find, "1");
-                    for (int j = 0; j < tmp.size(); j++) {
-
-                        ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
-                                    Double.valueOf(tmp.get(j).toString()),
-                                    Double.valueOf("100"),
-                                    Double.valueOf("0.0"),
-                                    "T y+",
-                                    +1
-                                });
-                    }
-                }
-                if (yCheckBox.isSelected() && twoCheckBox.isSelected()) {
-
-
-                    tmp.clear();
-                    tmp = tf.getYIons(find, "2");
-                    for (int j = 0; j < tmp.size(); j++) {
-
-                        ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
-                                    Double.valueOf(tmp.get(j).toString()),
-                                    Double.valueOf("100"),
-                                    Double.valueOf("0.0"),
-                                    "T y++",
-                                    +1
-                                });
-                    }
-                }
-
-
-
-                // End of theortical values
+//                TheoreticalFragmentation tf = new TheoreticalFragmentation(find);
+//
+//                List<Double> tmp = new ArrayList();
+//                if (bCheckBox.isSelected() && oneCheckBox.isSelected()) {
+//                    tmp.clear();
+//                    tmp = tf.getBIons(find, "1");
+//                    for (int j = 0; j < tmp.size(); j++) {
+//
+//                        ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
+//                                    Double.valueOf(tmp.get(j).toString()),
+//                                    Double.valueOf("100"),
+//                                    Double.valueOf("0.0"),
+//                                    "T b+",
+//                                    +1
+//                                });
+//                    }
+//
+//
+//                }
+//                if (bCheckBox.isSelected() && twoCheckBox.isSelected()) {
+//
+//                    tmp.clear();
+//                    tmp = tf.getBIons(find, "2");
+//                    for (int j = 0; j < tmp.size(); j++) {
+//
+//                        ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
+//                                    Double.valueOf(tmp.get(j).toString()),
+//                                    Double.valueOf("100"),
+//                                    Double.valueOf("0.0"),
+//                                    "T b++",
+//                                    +1
+//                                });
+//                    }
+//                }
+//                if (yCheckBox.isSelected() && oneCheckBox.isSelected()) {
+//
+//
+//                    tmp.clear();
+//                    tmp = tf.getYIons(find, "1");
+//                    for (int j = 0; j < tmp.size(); j++) {
+//
+//                        ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
+//                                    Double.valueOf(tmp.get(j).toString()),
+//                                    Double.valueOf("100"),
+//                                    Double.valueOf("0.0"),
+//                                    "T y+",
+//                                    +1
+//                                });
+//                    }
+//                }
+//                if (yCheckBox.isSelected() && twoCheckBox.isSelected()) {
+//
+//
+//                    tmp.clear();
+//                    tmp = tf.getYIons(find, "2");
+//                    for (int j = 0; j < tmp.size(); j++) {
+//
+//                        ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
+//                                    Double.valueOf(tmp.get(j).toString()),
+//                                    Double.valueOf("100"),
+//                                    Double.valueOf("0.0"),
+//                                    "T y++",
+//                                    +1
+//                                });
+//                    }
+//                }
+//
+//
+//
+//                // End of theortical values
 
 
                 peakAnnotation.clear();
@@ -1664,9 +1663,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                     this.repaint();
                 }
                 setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-            } catch (JAXBException ex) {
-                Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
-            }
+          
         }
     }
 
@@ -1746,12 +1743,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jFragmentationPanel = new javax.swing.JPanel();
         jGraph = new javax.swing.JPanel();
         jExperimentalFilterPanel = new javax.swing.JPanel();
-        jTheoreticalFilterPanel = new javax.swing.JPanel();
-        bCheckBox = new javax.swing.JCheckBox();
-        yCheckBox = new javax.swing.JCheckBox();
-        oneCheckBox = new javax.swing.JCheckBox();
-        twoCheckBox = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
         peptideViewPanel = new javax.swing.JPanel();
         jSpectrumIdentificationItemPanel1 = new javax.swing.JPanel();
         jPeptideEvidencePanel1 = new javax.swing.JPanel();
@@ -1759,11 +1750,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jFragmentationPanel1 = new javax.swing.JPanel();
         jGraph1 = new javax.swing.JPanel();
         jExperimentalFilterPanel1 = new javax.swing.JPanel();
-        jTheoreticalFilterPanel1 = new javax.swing.JPanel();
-        bCheckBox1 = new javax.swing.JCheckBox();
-        yCheckBox1 = new javax.swing.JCheckBox();
-        oneCheckBox1 = new javax.swing.JCheckBox();
-        twoCheckBox1 = new javax.swing.JCheckBox();
         psmRankValue = new javax.swing.JComboBox();
         psmRankLabel = new javax.swing.JLabel();
         proteinDBViewPanel = new javax.swing.JPanel();
@@ -2073,7 +2059,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jFragmentationPanel.setLayout(jFragmentationPanelLayout);
         jFragmentationPanelLayout.setHorizontalGroup(
             jFragmentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 376, Short.MAX_VALUE)
         );
         jFragmentationPanelLayout.setVerticalGroup(
             jFragmentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2090,7 +2076,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         );
         jGraphLayout.setVerticalGroup(
             jGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 551, Short.MAX_VALUE)
         );
 
         jExperimentalFilterPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Experimental Filtering"));
@@ -2099,72 +2085,12 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jExperimentalFilterPanel.setLayout(jExperimentalFilterPanelLayout);
         jExperimentalFilterPanelLayout.setHorizontalGroup(
             jExperimentalFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 192, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jExperimentalFilterPanelLayout.setVerticalGroup(
             jExperimentalFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 17, Short.MAX_VALUE)
         );
-
-        jTheoreticalFilterPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Theoretical Filtering"));
-
-        bCheckBox.setText("b");
-        bCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bCheckBoxActionPerformed(evt);
-            }
-        });
-
-        yCheckBox.setText("y");
-        yCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                yCheckBoxActionPerformed(evt);
-            }
-        });
-
-        oneCheckBox.setText("1");
-        oneCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                oneCheckBoxActionPerformed(evt);
-            }
-        });
-
-        twoCheckBox.setText("2");
-        twoCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                twoCheckBoxActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jTheoreticalFilterPanelLayout = new javax.swing.GroupLayout(jTheoreticalFilterPanel);
-        jTheoreticalFilterPanel.setLayout(jTheoreticalFilterPanelLayout);
-        jTheoreticalFilterPanelLayout.setHorizontalGroup(
-            jTheoreticalFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jTheoreticalFilterPanelLayout.createSequentialGroup()
-                .addComponent(bCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(yCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(oneCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(twoCheckBox)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jTheoreticalFilterPanelLayout.setVerticalGroup(
-            jTheoreticalFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jTheoreticalFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(bCheckBox)
-                .addComponent(yCheckBox)
-                .addComponent(oneCheckBox)
-                .addComponent(twoCheckBox))
-        );
-
-        jButton1.setText("S");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jSpectrumPanelLayout = new javax.swing.GroupLayout(jSpectrumPanel);
         jSpectrumPanel.setLayout(jSpectrumPanelLayout);
@@ -2172,28 +2098,15 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
             jSpectrumPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jFragmentationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-            .addGroup(jSpectrumPanelLayout.createSequentialGroup()
-                .addComponent(jTheoreticalFilterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jExperimentalFilterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jExperimentalFilterPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jSpectrumPanelLayout.setVerticalGroup(
             jSpectrumPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jSpectrumPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(jSpectrumPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jSpectrumPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTheoreticalFilterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jSpectrumPanelLayout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jSpectrumPanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jExperimentalFilterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(24, 24, 24)
+                .addComponent(jExperimentalFilterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jFragmentationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -2279,7 +2192,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jFragmentationPanel1.setLayout(jFragmentationPanel1Layout);
         jFragmentationPanel1Layout.setHorizontalGroup(
             jFragmentationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 358, Short.MAX_VALUE)
+            .addGap(0, 366, Short.MAX_VALUE)
         );
         jFragmentationPanel1Layout.setVerticalGroup(
             jFragmentationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2296,7 +2209,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         );
         jGraph1Layout.setVerticalGroup(
             jGraph1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 555, Short.MAX_VALUE)
         );
 
         jExperimentalFilterPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Experimental Filtering"));
@@ -2312,69 +2225,12 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
             .addGap(0, 17, Short.MAX_VALUE)
         );
 
-        jTheoreticalFilterPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Theoretical Filtering"));
-
-        bCheckBox1.setText("b");
-        bCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bCheckBox1ActionPerformed(evt);
-            }
-        });
-
-        yCheckBox1.setText("y");
-        yCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                yCheckBox1ActionPerformed(evt);
-            }
-        });
-
-        oneCheckBox1.setText("1");
-        oneCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                oneCheckBox1ActionPerformed(evt);
-            }
-        });
-
-        twoCheckBox1.setText("2");
-        twoCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                twoCheckBox1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jTheoreticalFilterPanel1Layout = new javax.swing.GroupLayout(jTheoreticalFilterPanel1);
-        jTheoreticalFilterPanel1.setLayout(jTheoreticalFilterPanel1Layout);
-        jTheoreticalFilterPanel1Layout.setHorizontalGroup(
-            jTheoreticalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jTheoreticalFilterPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(bCheckBox1)
-                .addGap(64, 64, 64)
-                .addComponent(yCheckBox1)
-                .addGap(61, 61, 61)
-                .addComponent(oneCheckBox1)
-                .addGap(56, 56, 56)
-                .addComponent(twoCheckBox1)
-                .addContainerGap(55, Short.MAX_VALUE))
-        );
-        jTheoreticalFilterPanel1Layout.setVerticalGroup(
-            jTheoreticalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jTheoreticalFilterPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jTheoreticalFilterPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bCheckBox1)
-                    .addComponent(yCheckBox1)
-                    .addComponent(oneCheckBox1)
-                    .addComponent(twoCheckBox1)))
-        );
-
         javax.swing.GroupLayout jSpectrumPanel1Layout = new javax.swing.GroupLayout(jSpectrumPanel1);
         jSpectrumPanel1.setLayout(jSpectrumPanel1Layout);
         jSpectrumPanel1Layout.setHorizontalGroup(
             jSpectrumPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jGraph1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jExperimentalFilterPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTheoreticalFilterPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jFragmentationPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
         );
         jSpectrumPanel1Layout.setVerticalGroup(
@@ -2384,9 +2240,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 .addComponent(jGraph1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jExperimentalFilterPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jTheoreticalFilterPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(82, 82, 82)
                 .addComponent(jFragmentationPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -3366,8 +3220,9 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             final File mzid_file = fileChooser.getSelectedFile();
             setTitle("MzIdentML Viewer   -  " + mzid_file.getPath());
-
             thread.start();
+
+
             new Thread("LoadingThread") {
 
                 @Override
@@ -3416,6 +3271,32 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
                         progressBarDialog.setVisible(false);
                         progressBarDialog.dispose();
+
+                        String message = "Do you want to load spectrum source file?";
+
+
+
+                        int answer = JOptionPane.showConfirmDialog(null, message);
+                        if (answer == JOptionPane.YES_OPTION) {
+                            JFileChooser fc;
+                            //Create a file chooser
+                            fc = new JFileChooser();
+                            int returnVal1 = fc.showOpenDialog(null);
+
+                            if (returnVal1 == JFileChooser.APPROVE_OPTION) {
+                                try {
+                                    File file = fc.getSelectedFile();
+                                    jmzreader = new MgfFile(file);
+                                    JOptionPane.showMessageDialog(null, file.getName() + " is loaded", "Spectrum file", JOptionPane.INFORMATION_MESSAGE);
+
+                                } catch (JMzReaderException ex) {
+                                    System.out.println(ex.getMessage());
+                                }
+                            }
+                        }
+
+
+
                         if (proteinAmbiguityGroupTable.getRowCount() == 0) {
                             JOptionPane.showMessageDialog(null, "There is no protein view for this file", "Protein View", JOptionPane.INFORMATION_MESSAGE);
                         }
@@ -3797,24 +3678,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         export(fragmentationTable, "Export Fragmentation ");
     }//GEN-LAST:event_exportFragmentationMenuItemActionPerformed
 
-    private void bCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCheckBoxActionPerformed
-        updateGraph();
-
-    }//GEN-LAST:event_bCheckBoxActionPerformed
-
-    private void yCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yCheckBoxActionPerformed
-        updateGraph();
-    }//GEN-LAST:event_yCheckBoxActionPerformed
-
-    private void oneCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oneCheckBoxActionPerformed
-        updateGraph();
-    }//GEN-LAST:event_oneCheckBoxActionPerformed
-
-    private void twoCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_twoCheckBoxActionPerformed
-
-        updateGraph();
-    }//GEN-LAST:event_twoCheckBoxActionPerformed
-
     private void fdrPlotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fdrPlotActionPerformed
     }//GEN-LAST:event_fdrPlotActionPerformed
 
@@ -4184,47 +4047,9 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
     }//GEN-LAST:event_mainTabbedPaneMouseClicked
 
-    private void bCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCheckBox1ActionPerformed
-
-        updateGraph1();
-    }//GEN-LAST:event_bCheckBox1ActionPerformed
-
-    private void yCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yCheckBox1ActionPerformed
-
-        updateGraph1();
-    }//GEN-LAST:event_yCheckBox1ActionPerformed
-
-    private void oneCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oneCheckBox1ActionPerformed
-
-        updateGraph1();
-    }//GEN-LAST:event_oneCheckBox1ActionPerformed
-
-    private void twoCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_twoCheckBox1ActionPerformed
-
-        updateGraph1();
-    }//GEN-LAST:event_twoCheckBox1ActionPerformed
-
     private void psmRankValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psmRankValueActionPerformed
         loadPeptideTable();
     }//GEN-LAST:event_psmRankValueActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFileChooser fc;
-        //Create a file chooser
-        fc = new JFileChooser();
-        int returnVal = fc.showOpenDialog(this);
-
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            try {
-                File file = fc.getSelectedFile();
-                jmzreader = new MgfFile(file);
-
-
-            } catch (JMzReaderException ex) {
-                Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
     private void changeFontSize(int i) {
         proteinAmbiguityGroupTable.setFont(new Font("Serif", Font.PLAIN, i));
         proteinDetectionHypothesisTable.setFont(new Font("Serif", Font.PLAIN, i));
@@ -4489,8 +4314,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
-    private javax.swing.JCheckBox bCheckBox;
-    private javax.swing.JCheckBox bCheckBox1;
     private javax.swing.JPanel dBSequencePanel;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenuItem exportFDR;
@@ -4523,7 +4346,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private javax.swing.JLabel isDecoySiiFalse;
     private javax.swing.JLabel isDecoySiiFalseValue;
     private javax.swing.JLabel isDecoySiiValue;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jExperimentalFilterPanel;
     private javax.swing.JPanel jExperimentalFilterPanel1;
     private javax.swing.JPanel jFragmentationPanel;
@@ -4553,8 +4375,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private javax.swing.JPanel jSpectrumIdentificationResultPanel;
     private javax.swing.JPanel jSpectrumPanel;
     private javax.swing.JPanel jSpectrumPanel1;
-    private javax.swing.JPanel jTheoreticalFilterPanel;
-    private javax.swing.JPanel jTheoreticalFilterPanel1;
     private javax.swing.JRadioButtonMenuItem lookAndFeeMotifMenuItem;
     private javax.swing.JRadioButtonMenuItem lookAndFeelDefaultMenuItem;
     private javax.swing.JMenu lookAndFeelMenu;
@@ -4568,8 +4388,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private javax.swing.JTextField manualDecoyPrefixValue;
     private javax.swing.JLabel manualDecoyRatio;
     private javax.swing.JTextField manualDecoyRatioValue;
-    private javax.swing.JCheckBox oneCheckBox;
-    private javax.swing.JCheckBox oneCheckBox1;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenu optionsMenu;
     private javax.swing.JPanel peptideViewPanel;
@@ -4609,9 +4427,5 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private javax.swing.JPanel tpQvaluePanel;
     private javax.swing.JLabel tpSiiLabel;
     private javax.swing.JLabel tpSiiValue;
-    private javax.swing.JCheckBox twoCheckBox;
-    private javax.swing.JCheckBox twoCheckBox1;
-    private javax.swing.JCheckBox yCheckBox;
-    private javax.swing.JCheckBox yCheckBox1;
     // End of variables declaration//GEN-END:variables
 }
