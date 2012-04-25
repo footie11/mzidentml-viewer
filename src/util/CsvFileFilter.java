@@ -1,3 +1,7 @@
+
+/*
+ * @author Fawaz Ghali, University of Liverpool, 2012
+ */
 package util;
 
 import java.io.File;

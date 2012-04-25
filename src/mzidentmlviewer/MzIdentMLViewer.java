@@ -89,7 +89,9 @@ import uk.ac.ebi.pride.tools.jmzreader.JMzReader;
 import uk.ac.ebi.pride.tools.jmzreader.JMzReaderException;
 import uk.ac.ebi.pride.tools.jmzreader.model.Spectrum;
 import uk.ac.ebi.pride.tools.mgf_parser.MgfFile;
-import util.CsvFileFilter;
+import uk.ac.liv.mzidparsers.Omssa2mzid;
+import uk.ac.liv.mzidparsers.Tandem2mzid;
+import util.*;
 
 /**
  *
@@ -99,6 +101,9 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     // mzIdentML file
 
     private MzIdentMLFilter mzIdentMLFilter = new MzIdentMLFilter();
+    private OmssaFilter omssaFilter = new OmssaFilter();
+        private XmlFilter xmlFilter = new XmlFilter();
+
     private MzIdentMLUnmarshaller mzIdentMLUnmarshaller = null;
     // GUI tables
     private JXTable proteinAmbiguityGroupTable;
@@ -379,6 +384,9 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(dim.width, dim.height - 40);
         setLocationRelativeTo(getRootPane());
+        fileChooser.addChoosableFileFilter(omssaFilter);
+        fileChooser.addChoosableFileFilter(xmlFilter);
+        fileChooser.addChoosableFileFilter(mzIdentMLFilter);
         repaint();
     }
 
@@ -3282,7 +3290,24 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
 
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
-                        } else {
+                        } else 
+                        if (mzid_file.getPath().endsWith(".omx")) {
+                            File outFile = null;
+                            
+                            outFile = new File(mzid_file.getParent(), mzid_file.getName().replaceAll("\\.omx$", ""));
+                            new Omssa2mzid(mzid_file.getName(), outFile.getName());
+
+                            mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
+                        }else
+                        if (mzid_file.getPath().endsWith(".xml")) {
+                            File outFile = null;
+                            
+                            outFile = new File(mzid_file.getParent(), mzid_file.getName());
+                            new Tandem2mzid(mzid_file.getName(), outFile.getName());
+
+                            mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
+                        }
+                        else{
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(mzid_file);
                         }
 
@@ -3964,6 +3989,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
         JFileChooser chooser = new JFileChooser();
         chooser.setFileFilter(new MzIdentMLFilter());
+
         chooser.setMultiSelectionEnabled(false);
         chooser.setDialogTitle("Save");
 
