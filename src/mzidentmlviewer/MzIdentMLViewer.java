@@ -3293,18 +3293,14 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         } else 
                         if (mzid_file.getPath().endsWith(".omx")) {
                             File outFile = null;
-                            
-                            outFile = new File(mzid_file.getParent(), mzid_file.getName().replaceAll("\\.omx$", ""));
-                            new Omssa2mzid(mzid_file.getName(), outFile.getName());
-
+                            outFile = new File(fileChooser.getCurrentDirectory(),mzid_file.getName().replaceAll(".omx", ".mzid"));
+                            new Omssa2mzid(mzid_file.getPath(), outFile.getPath());
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
                         }else
                         if (mzid_file.getPath().endsWith(".xml")) {
                             File outFile = null;
-                            
-                            outFile = new File(mzid_file.getParent(), mzid_file.getName());
-                            new Tandem2mzid(mzid_file.getName(), outFile.getName());
-
+                            outFile = new File(fileChooser.getCurrentDirectory(),mzid_file.getName().replaceAll(".omx", ".mzid"));
+                            new Tandem2mzid(mzid_file.getPath(), outFile.getPath());
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
                         }
                         else{
@@ -3344,6 +3340,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                             JFileChooser fc;
                             //Create a file chooser
                             fc = new JFileChooser();
+                            fc.setCurrentDirectory(fileChooser.getCurrentDirectory());
                             int returnVal1 = fc.showOpenDialog(null);
 
                             if (returnVal1 == JFileChooser.APPROVE_OPTION) {
