@@ -1923,7 +1923,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jProteinDetectionHypothesisPanel.setLayout(jProteinDetectionHypothesisPanelLayout);
         jProteinDetectionHypothesisPanelLayout.setHorizontalGroup(
             jProteinDetectionHypothesisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 349, Short.MAX_VALUE)
+            .addGap(0, 348, Short.MAX_VALUE)
         );
         jProteinDetectionHypothesisPanelLayout.setVerticalGroup(
             jProteinDetectionHypothesisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1937,6 +1937,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
         jProteinSequenceTextPane.setContentType("text/html");
         jProteinSequenceTextPane.setFont(new java.awt.Font("Courier New", 0, 11)); // NOI18N
+        jProteinSequenceTextPane.setText("<html>\r\n  <head>\r\n\r\n  </head>\r\n  <body>\r\n    <div STYLE=\"font-family: Courier, 'Courier New', monospace\">\r\n      \r\n    </div>\r\n  </body>\r\n</html>\r\n");
         jProteinSequenceScrollPane.setViewportView(jProteinSequenceTextPane);
 
         javax.swing.GroupLayout jProteinSequencePanelLayout = new javax.swing.GroupLayout(jProteinSequencePanel);
@@ -1962,7 +1963,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         );
         jSpectrumIdentificationItemProteinPanelLayout.setVerticalGroup(
             jSpectrumIdentificationItemProteinPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 551, Short.MAX_VALUE)
+            .addGap(0, 547, Short.MAX_VALUE)
         );
 
         jScientificNameLabel.setText("Scientific name:");
@@ -1992,10 +1993,10 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 .addComponent(jScientificNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScientificNameValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(233, Short.MAX_VALUE))
+                .addContainerGap(234, Short.MAX_VALUE))
             .addComponent(jProteinDescriptionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jProteinSequencePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSpectrumIdentificationItemProteinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
+            .addComponent(jSpectrumIdentificationItemProteinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
         );
         jProteinInfoPanelLayout.setVerticalGroup(
             jProteinInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2021,8 +2022,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
             .addGroup(proteinViewPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(proteinViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jProteinDetectionHypothesisPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
-                    .addComponent(jProteinAmbiguityGroupPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE))
+                    .addComponent(jProteinDetectionHypothesisPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+                    .addComponent(jProteinAmbiguityGroupPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jProteinInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -2070,7 +2071,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jSpectrumIdentificationItemPanel.setLayout(jSpectrumIdentificationItemPanelLayout);
         jSpectrumIdentificationItemPanelLayout.setHorizontalGroup(
             jSpectrumIdentificationItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 446, Short.MAX_VALUE)
+            .addGap(0, 447, Short.MAX_VALUE)
         );
         jSpectrumIdentificationItemPanelLayout.setVerticalGroup(
             jSpectrumIdentificationItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2089,7 +2090,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         );
         jPeptideEvidencePanelLayout.setVerticalGroup(
             jPeptideEvidencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 429, Short.MAX_VALUE)
+            .addGap(0, 427, Short.MAX_VALUE)
         );
 
         jSpectrumPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Spectrum"));
@@ -2105,7 +2106,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jFragmentationPanel.setLayout(jFragmentationPanelLayout);
         jFragmentationPanelLayout.setHorizontalGroup(
             jFragmentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 376, Short.MAX_VALUE)
+            .addGap(0, 375, Short.MAX_VALUE)
         );
         jFragmentationPanelLayout.setVerticalGroup(
             jFragmentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2143,7 +2144,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jSpectrumPanelLayout.setHorizontalGroup(
             jSpectrumPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jFragmentationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+            .addComponent(jFragmentationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
             .addComponent(jExperimentalFilterPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jSpectrumPanelLayout.setVerticalGroup(
@@ -2168,7 +2169,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                     .addComponent(jSpectrumIdentificationResultPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPeptideEvidencePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSpectrumPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                .addComponent(jSpectrumPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
                 .addContainerGap())
         );
         spectrumViewPanelLayout.setVerticalGroup(
@@ -2223,7 +2224,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         );
         jPeptideEvidencePanel1Layout.setVerticalGroup(
             jPeptideEvidencePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 346, Short.MAX_VALUE)
+            .addGap(0, 344, Short.MAX_VALUE)
         );
 
         jSpectrumPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Spectrum"));
@@ -2493,7 +2494,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         );
         tpEvaluePanelLayout.setVerticalGroup(
             tpEvaluePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 627, Short.MAX_VALUE)
+            .addGap(0, 625, Short.MAX_VALUE)
         );
 
         tpQvaluePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("TP vs Q-value"));
@@ -2528,11 +2529,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(summaryPanelLayout.createSequentialGroup()
-                        .addComponent(fdrPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                        .addComponent(fdrPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tpEvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tpQvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                        .addComponent(tpQvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(summaryPanelLayout.createSequentialGroup()
                         .addComponent(manualDecoy)
@@ -3072,7 +3073,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                     ((DefaultTableModel) spectrumIdentificationItemProteinViewTable.getModel()).addRow(new String[]{
                                                 peptide.getPeptideSequence(), spectrumIdentificationItem2.getId(), combine});
                                     String find = peptide.getPeptideSequence();
-                                    String replace = "<FONT COLOR=\"red\">" + find + "</FONT>";
+                                    String replace = "<FONT COLOR=\"red\" FACE= \"Courier New\">" + find + "</FONT>";
                                     Pattern pattern = Pattern.compile(find);
                                     if (proteinSequence != null) {
                                         Matcher matcher = pattern.matcher(proteinSequence);
@@ -3136,9 +3137,10 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         }
 
                     }
-                    Font font = new Font("Courier New", Font.PLAIN, 12);
-                    jProteinSequenceTextPane.setFont(font);
+                   
+                  
                     jProteinSequenceTextPane.setText(sb_new.toString());
+                    System.out.println(jProteinSequenceTextPane.getFont().getFontName());
 
                 }
 
