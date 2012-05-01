@@ -1936,7 +1936,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jProteinSequencePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Protein Sequence"));
 
         jProteinSequenceTextPane.setContentType("text/html");
-        jProteinSequenceTextPane.setFont(new java.awt.Font("Courier New", 0, 11)); // NOI18N
         jProteinSequenceTextPane.setText("<html>\r\n  <head>\r\n\r\n  </head>\r\n  <body>\r\n    <div STYLE=\"font-family: Courier, 'Courier New', monospace\">\r\n      \r\n    </div>\r\n  </body>\r\n</html>\r\n");
         jProteinSequenceScrollPane.setViewportView(jProteinSequenceTextPane);
 
@@ -3073,7 +3072,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                     ((DefaultTableModel) spectrumIdentificationItemProteinViewTable.getModel()).addRow(new String[]{
                                                 peptide.getPeptideSequence(), spectrumIdentificationItem2.getId(), combine});
                                     String find = peptide.getPeptideSequence();
-                                    String replace = "<FONT COLOR=\"red\" FACE= \"Courier New\">" + find + "</FONT>";
+                                    String replace = "<FONT COLOR=\"red\" FACE=\"Courier New\">" + find + "</FONT>";
                                     Pattern pattern = Pattern.compile(find);
                                     if (proteinSequence != null) {
                                         Matcher matcher = pattern.matcher(proteinSequence);
@@ -3124,22 +3123,22 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         if (sb.charAt(j) == '<') {
                             if (sb.charAt(j + 1) == '/') {
                                 sb_new.append(sb.charAt(j + 1));
-                                for (int z = j + 2; z <= j + 6; z++) {
+                                for (int z = j + 2; z <= j + 7; z++) {
                                     sb_new.append(sb.charAt(z));
                                 }
-                                j = j + 6;
+                                j = j + 7;
                             } else {
-                                for (int z = j + 1; z <= j + 17; z++) {
+                                for (int z = j + 1; z <= j + 37; z++) {
                                     sb_new.append(sb.charAt(z));
                                 }
-                                j = j + 17;
+                                j = j + 37;
                             }
                         }
 
                     }
                    
                   
-                    jProteinSequenceTextPane.setText(sb_new.toString());
+                    jProteinSequenceTextPane.setText("<FONT FACE=\"Courier New\">" + sb_new.toString() + "</FONT>");
                     System.out.println(jProteinSequenceTextPane.getFont().getFontName());
 
                 }
