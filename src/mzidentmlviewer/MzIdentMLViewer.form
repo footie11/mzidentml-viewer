@@ -465,7 +465,7 @@
                             <Component class="javax.swing.JTextPane" name="jProteinSequenceTextPane">
                               <Properties>
                                 <Property name="contentType" type="java.lang.String" value="text/html"/>
-                                <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xd;&#xa;  &lt;head&gt;&#xd;&#xa;&#xd;&#xa;  &lt;/head&gt;&#xd;&#xa;  &lt;body&gt;&#xd;&#xa;    &lt;div STYLE=&quot;font-family: Courier, &apos;Courier New&apos;, monospace&quot;&gt;&#xd;&#xa;      &#xd;&#xa;    &lt;/div&gt;&#xd;&#xa;  &lt;/body&gt;&#xd;&#xa;&lt;/html&gt;&#xd;&#xa;"/>
+                                <Property name="text" type="java.lang.String" value=""/>
                               </Properties>
                             </Component>
                           </SubComponents>

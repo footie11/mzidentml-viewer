@@ -1936,7 +1936,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jProteinSequencePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Protein Sequence"));
 
         jProteinSequenceTextPane.setContentType("text/html");
-        jProteinSequenceTextPane.setText("<html>\r\n  <head>\r\n\r\n  </head>\r\n  <body>\r\n    <div STYLE=\"font-family: Courier, 'Courier New', monospace\">\r\n      \r\n    </div>\r\n  </body>\r\n</html>\r\n");
+        jProteinSequenceTextPane.setText("");
         jProteinSequenceScrollPane.setViewportView(jProteinSequenceTextPane);
 
         javax.swing.GroupLayout jProteinSequencePanelLayout = new javax.swing.GroupLayout(jProteinSequencePanel);
@@ -3072,7 +3072,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                     ((DefaultTableModel) spectrumIdentificationItemProteinViewTable.getModel()).addRow(new String[]{
                                                 peptide.getPeptideSequence(), spectrumIdentificationItem2.getId(), combine});
                                     String find = peptide.getPeptideSequence();
-                                    String replace = "<FONT COLOR=\"red\" FACE=\"Courier New\">" + find + "</FONT>";
+                                    String replace = "<FONT COLOR=\"red\">" + find + "</FONT>";
                                     Pattern pattern = Pattern.compile(find);
                                     if (proteinSequence != null) {
                                         Matcher matcher = pattern.matcher(proteinSequence);
@@ -3128,19 +3128,21 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                 }
                                 j = j + 7;
                             } else {
-                                for (int z = j + 1; z <= j + 37; z++) {
+                                for (int z = j + 1; z <= j + 18; z++) {
                                     sb_new.append(sb.charAt(z));
                                 }
-                                j = j + 37;
+                                j = j + 18;
                             }
                         }
 
                     }
+            
                    
                   
                     jProteinSequenceTextPane.setText("<FONT FACE=\"Courier New\">" + sb_new.toString() + "</FONT>");
-                    System.out.println(jProteinSequenceTextPane.getFont().getFontName());
-
+                    System.out.println("-----------------------");
+                    System.out.println(jProteinSequenceTextPane.getText());
+                  
                 }
 
 
