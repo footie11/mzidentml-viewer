@@ -3115,26 +3115,36 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
                     for (int j = 0; j < sb.length(); j++) {
 
+//                        if (i % 60 == 0 && i != 0) {
+//                            sb_new.append("<BR>");
+//                        }
+//                        i = i + 1;
+//                        sb_new.append(sb.charAt(j));
+//                        if (sb.charAt(j) == '<') {
+//                            if (sb.charAt(j + 1) == '/') {
+//                                sb_new.append(sb.charAt(j + 1));
+//                                for (int z = j + 2; z <= j + 7; z++) {
+//                                    sb_new.append(sb.charAt(z));
+//                                }
+//                                j = j + 7;
+//                            } else {
+//                                for (int z = j + 1; z <= j + 18; z++) {
+//                                    sb_new.append(sb.charAt(z));
+//                                }
+//                                j = j + 18;
+//                            }
+//                        }
+                        
                         if (i % 60 == 0 && i != 0) {
                             sb_new.append("<BR>");
                         }
                         i = i + 1;
-                        sb_new.append(sb.charAt(j));
                         if (sb.charAt(j) == '<') {
-                            if (sb.charAt(j + 1) == '/') {
-                                sb_new.append(sb.charAt(j + 1));
-                                for (int z = j + 2; z <= j + 7; z++) {
-                                    sb_new.append(sb.charAt(z));
-                                }
-                                j = j + 7;
-                            } else {
-                                for (int z = j + 1; z <= j + 18; z++) {
-                                    sb_new.append(sb.charAt(z));
-                                }
-                                j = j + 18;
-                            }
+                         while (sb.charAt(j+1)!='>')   {
+                             j=j+1;
                         }
-
+                        sb_new.append(sb.charAt(j));
+                       }
                     }
             
                    
