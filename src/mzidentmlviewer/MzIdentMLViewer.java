@@ -3101,12 +3101,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                             }
 
                         }
-
-
-
                     }
-
-
                 }
                 if (proteinSequence != null) {
                     StringBuilder sb = new StringBuilder(proteinSequence);
@@ -3146,16 +3141,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         sb_new.append(sb.charAt(j));
                        }
                     }
-            
-                   
-                  
                     jProteinSequenceTextPane.setText("<FONT FACE=\"Courier New\">" + sb_new.toString() + "</FONT>");
                     System.out.println("-----------------------");
                     System.out.println(jProteinSequenceTextPane.getText());
-                  
+                 
                 }
-
-
 //                SimpleAttributeSet sa = new SimpleAttributeSet();
 //                StyleConstants.setAlignment(sa, StyleConstants.ALIGN_JUSTIFIED);
 //
@@ -3163,10 +3153,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
             } catch (JAXBException ex) {
                 Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-
-
-
 
         }
         proteinDetectionHypothesisTable.setSortable(true);
@@ -3387,6 +3373,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         progressBarDialog.setVisible(false);
                         progressBarDialog.dispose();
                         System.out.println(ex.getMessage());
+                         JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                     }
 
 
