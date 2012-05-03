@@ -1329,7 +1329,9 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 jGraph.repaint();
                 if (jmzreader != null) {
                     try {
-                        String sir_id = (String) spectrumIdentificationResultTable.getModel().getValueAt(row, 0);
+                        int row1 = spectrumIdentificationResultTable.getSelectedRow();
+                        String sir_id = (String) spectrumIdentificationResultTable.getModel().getValueAt(row1, 0);
+                        System.out.println(sir_id);
                         SpectrumIdentificationResult spectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationResult.class, sir_id);
                         String spectrumID = spectrumIdentificationResult.getSpectrumID();
                         String spectrumIndex = spectrumID.substring(6);
