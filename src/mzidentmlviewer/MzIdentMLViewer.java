@@ -3213,10 +3213,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         if (proteinDetectionHypothesis.getPeptideHypothesis() != null) {
                             number_peptide = String.valueOf(proteinDetectionHypothesis.getPeptideHypothesis().size());
                         }
+                        
                         ((DefaultTableModel) proteinDetectionHypothesisTable.getModel()).addRow(new Object[]{
                                     proteinDetectionHypothesis.getId(),
                                     dBSequenceAccession,
-                                    score,
+                                    Double.valueOf(score),
                                     "",
                                     Integer.valueOf(number_peptide),
                                     isDecoy,
