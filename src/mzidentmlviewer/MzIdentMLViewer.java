@@ -199,6 +199,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 proteinDetectionHypothesisTableMouseClicked(evt);
             }
         });
+        
+        
         JScrollPane jProteinDetectionHypothesisPane = new JScrollPane(proteinDetectionHypothesisTable);
         jProteinDetectionHypothesisPanel.setLayout(new java.awt.BorderLayout());
         jProteinDetectionHypothesisPanel.add(jProteinDetectionHypothesisPane);
@@ -396,6 +398,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private void peptideEvidenceTableMouseClicked(MouseEvent evt) {
         int row = peptideEvidenceTable.getSelectedRow();
         if (row != -1) {
+               row = peptideEvidenceTable.convertRowIndexToModel(row);
             String db_ref = (String) peptideEvidenceTable.getValueAt(row, 6);
 
             int rowCount = dBSequenceTable.getModel().getRowCount();
@@ -787,6 +790,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int row = spectrumIdentificationResultTable.getSelectedRow();
         if (row != -1) {
+              row = spectrumIdentificationResultTable.convertRowIndexToModel(row);
             try {
                 while (((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() > 0) {
                     ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).removeRow(0);
@@ -989,6 +993,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int row = spectrumIdentificationItemTablePeptideView.getSelectedRow();
         if (row != -1) {
+             row = spectrumIdentificationItemTablePeptideView.convertRowIndexToModel(row);
             try {
                 while (((DefaultTableModel) fragmentationTablePeptideView.getModel()).getRowCount() > 0) {
                     ((DefaultTableModel) fragmentationTablePeptideView.getModel()).removeRow(0);
@@ -1176,6 +1181,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int row = spectrumIdentificationItemTable.getSelectedRow();
         if (row != -1) {
+            row = spectrumIdentificationItemTable.convertRowIndexToModel(row);
             while (((DefaultTableModel) fragmentationTable.getModel()).getRowCount() > 0) {
                 ((DefaultTableModel) fragmentationTable.getModel()).removeRow(0);
             }
@@ -1404,6 +1410,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int row = spectrumIdentificationItemTablePeptideView.getSelectedRow();
         if (row != -1) {
+              row = spectrumIdentificationItemTablePeptideView.convertRowIndexToModel(row);
             try {
                 SpectrumIdentificationItem spectrumIdentificationItem = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationItem.class, (String) spectrumIdentificationItemTablePeptideView.getValueAt(row, 0));
                 while (((DefaultTableModel) fragmentationTablePeptideView.getModel()).getRowCount() > 0) {
@@ -1568,7 +1575,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int row = spectrumIdentificationItemTable.getSelectedRow();
         if (row != -1) {
-
+             row = spectrumIdentificationItemTable.convertRowIndexToModel(row);
             SpectrumIdentificationItem spectrumIdentificationItem = spectrumIdentificationItemListForSpecificResult.get(row);
             while (((DefaultTableModel) fragmentationTable.getModel()).getRowCount() > 0) {
                 ((DefaultTableModel) fragmentationTable.getModel()).removeRow(0);
@@ -3004,19 +3011,25 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         int row = proteinDetectionHypothesisTable.getSelectedRow();
         SpectrumIdentificationItem spectrumIdentificationItem2 = null;
         if (row != -1) {
+             row = spectrumIdentificationItemTable.convertRowIndexToModel(row);
             try {
                 while (spectrumIdentificationItemProteinViewTable.getRowCount() > 0) {
                     ((DefaultTableModel) spectrumIdentificationItemProteinViewTable.getModel()).removeRow(0);
                 }
                 spectrumIdentificationItemProteinViewTable.scrollRowToVisible(0);
+                row = proteinDetectionHypothesisTable.convertRowIndexToModel(row);
                 ProteinDetectionHypothesis proteinDetectionHypothesis = mzIdentMLUnmarshaller.unmarshal(ProteinDetectionHypothesis.class, (String) proteinDetectionHypothesisTable.getModel().getValueAt(row, 0));
+                System.out.println((String) proteinDetectionHypothesisTable.getModel().getValueAt(row, 0));
                 DBSequence dBSequence = mzIdentMLUnmarshaller.unmarshal(DBSequence.class, proteinDetectionHypothesis.getDBSequenceRef());
+                System.out.println(proteinDetectionHypothesis.getDBSequenceRef());
+                System.out.println(dBSequence.getAccession());
                 List<PeptideHypothesis> peptideHypothesisList = proteinDetectionHypothesis.getPeptideHypothesis();
                 String proteinSequence = "";
+                String protein_description = "";
                 if (dBSequence != null) {
                     List<CvParam> cvParamListDBSequence = dBSequence.getCvParam();
                     String scientific_name = null;
-                    String protein_description = null;
+                    
                     for (int j = 0; j < cvParamListDBSequence.size(); j++) {
                         CvParam cvParam = cvParamListDBSequence.get(j);
                         if (cvParam.getName().equals("taxonomy: scientific name")) {
@@ -3074,11 +3087,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                     ((DefaultTableModel) spectrumIdentificationItemProteinViewTable.getModel()).addRow(new String[]{
                                                 peptide.getPeptideSequence(), spectrumIdentificationItem2.getId(), combine});
                                     String find = peptide.getPeptideSequence();
-                                    String replace = "<FONT COLOR=\"red\">" + find + "</FONT>";
+//                                    String replace = "<FONT COLOR=\"red\">" + find + "</FONT>";
                                     Pattern pattern = Pattern.compile(find);
                                     if (proteinSequence != null) {
                                         Matcher matcher = pattern.matcher(proteinSequence);
-                                        proteinSequence = matcher.replaceAll(replace);
+//                                        proteinSequence = matcher.replaceAll(replace);
                                     }
                                     List<CvParam> cvParamListSpectrumIdentificationItem = spectrumIdentificationItem2.getCvParam();
 
@@ -3112,11 +3125,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
                     for (int j = 0; j < sb.length(); j++) {
 
-//                        if (i % 60 == 0 && i != 0) {
-//                            sb_new.append("<BR>");
-//                        }
-//                        i = i + 1;
-//                        sb_new.append(sb.charAt(j));
+                        if (i % 60 == 0 && i != 0) {
+                            sb_new.append("<BR>");
+                        }
+                        i = i + 1;
+                        sb_new.append(sb.charAt(j));
 //                        if (sb.charAt(j) == '<') {
 //                            if (sb.charAt(j + 1) == '/') {
 //                                sb_new.append(sb.charAt(j + 1));
@@ -3132,16 +3145,16 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 //                            }
 //                        }
                         
-                        if (i % 60 == 0 && i != 0) {
-                            sb_new.append("<BR>");
-                        }
-                        i = i + 1;
-                        if (sb.charAt(j) == '<') {
-                         while (sb.charAt(j+1)!='>')   {
-                             j=j+1;
-                        }
-                        sb_new.append(sb.charAt(j));
-                       }
+//                        if (i % 60 == 0 && i != 0) {
+//                            sb_new.append("<BR>");
+//                        }
+//                        i = i + 1;
+//                        if (sb.charAt(j) == '<') {
+//                         while (sb.charAt(j+1)!='>')   {
+//                             j=j+1;
+//                        }
+//                        sb_new.append(sb.charAt(j));
+//                       }
                     }
                     jProteinSequenceTextPane.setText("<FONT FACE=\"Courier New\">" + sb_new.toString() + "</FONT>");
                     System.out.println("-----------------------");
@@ -3175,6 +3188,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
 
         if (row != -1) {
+            row = proteinAmbiguityGroupTable.convertRowIndexToModel(row);
             try {
                 while (proteinDetectionHypothesisTable.getRowCount() > 0) {
                     ((DefaultTableModel) proteinDetectionHypothesisTable.getModel()).removeRow(0);
