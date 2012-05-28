@@ -618,22 +618,30 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         while (iterProteinAmbiguityGroup.hasNext()) {
             ProteinAmbiguityGroup proteinAmbiguityGroup = iterProteinAmbiguityGroup.next();
 
-
+            protein_accessions = "";
             proteinDetectionHypothesisList = proteinAmbiguityGroup.getProteinDetectionHypothesis();
 
             if (proteinDetectionHypothesisList.size() > 0) {
                 for (int j = 0; j < proteinDetectionHypothesisList.size(); j++) {
-                    ProteinDetectionHypothesis proteinDetectionHypothesis = proteinDetectionHypothesisList.get(j);
-                    if (proteinDetectionHypothesis.getId().startsWith("PDH_")) {
-                        protein_accessions = protein_accessions + proteinDetectionHypothesis.getId().substring(4) + ";";
-                    }
+                    try {
+                        ProteinDetectionHypothesis proteinDetectionHypothesis = proteinDetectionHypothesisList.get(j);
+                        
+                    DBSequence dBSequence = mzIdentMLUnmarshaller.unmarshal(DBSequence.class, proteinDetectionHypothesis.getDBSequenceRef());
+                    
+                        if (dBSequence.getAccession()!=null) {
+                            protein_accessions = protein_accessions + dBSequence.getAccession() + ";";
+                        }
 
-                    if (proteinDetectionHypothesis.isPassThreshold()) {
-                        pDHListPassThreshold.add(proteinDetectionHypothesis);
+                        if (proteinDetectionHypothesis.isPassThreshold()) {
+                            pDHListPassThreshold.add(proteinDetectionHypothesis);
+                        }
+                    } catch (JAXBException ex) {
+                        Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                 }
             }
+            protein_accessions = protein_accessions.substring(0, protein_accessions.length()-1);
             ((DefaultTableModel) proteinAmbiguityGroupTable.getModel()).addRow(new String[]{
                         proteinAmbiguityGroup.getId(),
                         proteinAmbiguityGroup.getName(),
@@ -4098,8 +4106,30 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private void mainTabbedPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainTabbedPaneMouseClicked
         // compare which tab is selected & boolean
         if (mainTabbedPane.getSelectedIndex() == 1 && !secondTab && mzIdentMLUnmarshaller != null) {
+            progressBarDialog = new ProgressBarDialog(this, true);
+        final Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                progressBarDialog.setTitle("Parsing the mzid file. Please Wait...");
+                progressBarDialog.setVisible(true);
+            }
+        }, "ProgressBarDialog");
+		
+
+		thread.start();
+
+
+            new Thread("LoadingThread") {
+
+                @Override
+                public void run() {
             loadSpectrumIdentificationResultTable();
             secondTab = true;
+            
+            }
+				
+				 }.start();
         }
 
         if (mainTabbedPane.getSelectedIndex() == 2 && !thirdTab && mzIdentMLUnmarshaller != null) {
