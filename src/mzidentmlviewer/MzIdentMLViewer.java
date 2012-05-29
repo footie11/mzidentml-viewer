@@ -4129,6 +4129,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
             }.start();
         }
 
+        
         if (mainTabbedPane.getSelectedIndex() == 2 && !thirdTab && mzIdentMLUnmarshaller != null) {
                         progressBarDialog = new ProgressBarDialog(this, true);
             final Thread thread = new Thread(new Runnable() {
