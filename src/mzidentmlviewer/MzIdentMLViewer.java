@@ -102,8 +102,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
     private MzIdentMLFilter mzIdentMLFilter = new MzIdentMLFilter();
     private OmssaFilter omssaFilter = new OmssaFilter();
-        private XmlFilter xmlFilter = new XmlFilter();
-
+    private XmlFilter xmlFilter = new XmlFilter();
     private MzIdentMLUnmarshaller mzIdentMLUnmarshaller = null;
     // GUI tables
     private JXTable proteinAmbiguityGroupTable;
@@ -199,8 +198,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 proteinDetectionHypothesisTableMouseClicked(evt);
             }
         });
-        
-        
+
+
         JScrollPane jProteinDetectionHypothesisPane = new JScrollPane(proteinDetectionHypothesisTable);
         jProteinDetectionHypothesisPanel.setLayout(new java.awt.BorderLayout());
         jProteinDetectionHypothesisPanel.add(jProteinDetectionHypothesisPane);
@@ -398,7 +397,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private void peptideEvidenceTableMouseClicked(MouseEvent evt) {
         int row = peptideEvidenceTable.getSelectedRow();
         if (row != -1) {
-               row = peptideEvidenceTable.convertRowIndexToModel(row);
+            row = peptideEvidenceTable.convertRowIndexToModel(row);
             String db_ref = (String) peptideEvidenceTable.getValueAt(row, 6);
 
             int rowCount = dBSequenceTable.getModel().getRowCount();
@@ -625,10 +624,10 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 for (int j = 0; j < proteinDetectionHypothesisList.size(); j++) {
                     try {
                         ProteinDetectionHypothesis proteinDetectionHypothesis = proteinDetectionHypothesisList.get(j);
-                        
-                    DBSequence dBSequence = mzIdentMLUnmarshaller.unmarshal(DBSequence.class, proteinDetectionHypothesis.getDBSequenceRef());
-                    
-                        if (dBSequence.getAccession()!=null) {
+
+                        DBSequence dBSequence = mzIdentMLUnmarshaller.unmarshal(DBSequence.class, proteinDetectionHypothesis.getDBSequenceRef());
+
+                        if (dBSequence.getAccession() != null) {
                             protein_accessions = protein_accessions + dBSequence.getAccession() + ";";
                         }
 
@@ -641,7 +640,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
                 }
             }
-            protein_accessions = protein_accessions.substring(0, protein_accessions.length()-1);
+            protein_accessions = protein_accessions.substring(0, protein_accessions.length() - 1);
             ((DefaultTableModel) proteinAmbiguityGroupTable.getModel()).addRow(new String[]{
                         proteinAmbiguityGroup.getId(),
                         proteinAmbiguityGroup.getName(),
@@ -798,7 +797,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int row = spectrumIdentificationResultTable.getSelectedRow();
         if (row != -1) {
-              row = spectrumIdentificationResultTable.convertRowIndexToModel(row);
+            row = spectrumIdentificationResultTable.convertRowIndexToModel(row);
             try {
                 while (((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() > 0) {
                     ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).removeRow(0);
@@ -1001,7 +1000,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int row = spectrumIdentificationItemTablePeptideView.getSelectedRow();
         if (row != -1) {
-             row = spectrumIdentificationItemTablePeptideView.convertRowIndexToModel(row);
+            row = spectrumIdentificationItemTablePeptideView.convertRowIndexToModel(row);
             try {
                 while (((DefaultTableModel) fragmentationTablePeptideView.getModel()).getRowCount() > 0) {
                     ((DefaultTableModel) fragmentationTablePeptideView.getModel()).removeRow(0);
@@ -1345,7 +1344,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                     try {
                         int row1 = spectrumIdentificationResultTable.getSelectedRow();
                         String sir_id = (String) spectrumIdentificationResultTable.getModel().getValueAt(row1, 0);
-                        System.out.println(sir_id);
+//                        System.out.println(sir_id);
                         SpectrumIdentificationResult spectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationResult.class, sir_id);
                         String spectrumID = spectrumIdentificationResult.getSpectrumID();
                         String spectrumIndex = spectrumID.substring(6);
@@ -1418,7 +1417,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int row = spectrumIdentificationItemTablePeptideView.getSelectedRow();
         if (row != -1) {
-              row = spectrumIdentificationItemTablePeptideView.convertRowIndexToModel(row);
+            row = spectrumIdentificationItemTablePeptideView.convertRowIndexToModel(row);
             try {
                 SpectrumIdentificationItem spectrumIdentificationItem = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationItem.class, (String) spectrumIdentificationItemTablePeptideView.getValueAt(row, 0));
                 while (((DefaultTableModel) fragmentationTablePeptideView.getModel()).getRowCount() > 0) {
@@ -1583,7 +1582,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int row = spectrumIdentificationItemTable.getSelectedRow();
         if (row != -1) {
-             row = spectrumIdentificationItemTable.convertRowIndexToModel(row);
+            row = spectrumIdentificationItemTable.convertRowIndexToModel(row);
             SpectrumIdentificationItem spectrumIdentificationItem = spectrumIdentificationItemListForSpecificResult.get(row);
             while (((DefaultTableModel) fragmentationTable.getModel()).getRowCount() > 0) {
                 ((DefaultTableModel) fragmentationTable.getModel()).removeRow(0);
@@ -1658,73 +1657,73 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 //                jGraph.repaint();
 //                this.repaint();
 //            }
-               while (jGraph.getComponents().length > 0) {
-                    jGraph.remove(0);
-                }
-                jGraph.validate();
-                jGraph.repaint();
-                if (jmzreader != null) {
-                    try {
-                        String sir_id = (String) spectrumIdentificationResultTable.getModel().getValueAt(row, 0);
-                        SpectrumIdentificationResult spectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationResult.class, sir_id);
-                        String spectrumID = spectrumIdentificationResult.getSpectrumID();
-                        String spectrumIndex = spectrumID.substring(6);
-                        Spectrum spectrum = jmzreader.getSpectrumById(spectrumIndex);
-                        peakList = spectrum.getPeakList();
+            while (jGraph.getComponents().length > 0) {
+                jGraph.remove(0);
+            }
+            jGraph.validate();
+            jGraph.repaint();
+            if (jmzreader != null) {
+                try {
+                    String sir_id = (String) spectrumIdentificationResultTable.getModel().getValueAt(row, 0);
+                    SpectrumIdentificationResult spectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationResult.class, sir_id);
+                    String spectrumID = spectrumIdentificationResult.getSpectrumID();
+                    String spectrumIndex = spectrumID.substring(6);
+                    Spectrum spectrum = jmzreader.getSpectrumById(spectrumIndex);
+                    peakList = spectrum.getPeakList();
 
-                        List<Double> mzValues;
-                        if (spectrum.getPeakList() != null) {
-                            mzValues = new ArrayList<Double>(spectrum.getPeakList().keySet());
-                        } else {
-                            mzValues = Collections.emptyList();
-                        }
-
-                        double[] mz = new double[mzValues.size()];
-                        double[] intensities = new double[mzValues.size()];
-
-                        int index = 0;
-                        for (Double mzValue : mzValues) {
-                            mz[index] = mzValue;
-                            intensities[index] = spectrum.getPeakList().get(mzValue);
-                            index++;
-                        }
-                        spectrumPanel = new SpectrumPanel(
-                                mz,
-                                intensities,
-                                spectrumIdentificationItem.getExperimentalMassToCharge(),
-                                String.valueOf(spectrumIdentificationItem.getChargeState()),
-                                spectrumIdentificationItem.getName());
-                        spectrumPanel.setAnnotations(peakAnnotation);
-                        jGraph.setLayout(new java.awt.BorderLayout());
-                        jGraph.setLayout(new javax.swing.BoxLayout(jGraph, javax.swing.BoxLayout.LINE_AXIS));
-                        jGraph.add(spectrumPanel);
-                        jGraph.validate();
-                        jGraph.repaint();
-                    } catch (JMzReaderException ex) {
-                        Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (JAXBException ex) {
-                        Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
+                    List<Double> mzValues;
+                    if (spectrum.getPeakList() != null) {
+                        mzValues = new ArrayList<Double>(spectrum.getPeakList().keySet());
+                    } else {
+                        mzValues = Collections.emptyList();
                     }
 
-                } else if (mzValuesAsDouble.length > 0) {
+                    double[] mz = new double[mzValues.size()];
+                    double[] intensities = new double[mzValues.size()];
+
+                    int index = 0;
+                    for (Double mzValue : mzValues) {
+                        mz[index] = mzValue;
+                        intensities[index] = spectrum.getPeakList().get(mzValue);
+                        index++;
+                    }
                     spectrumPanel = new SpectrumPanel(
-                            mzValuesAsDouble,
-                            intensityValuesAsDouble,
+                            mz,
+                            intensities,
                             spectrumIdentificationItem.getExperimentalMassToCharge(),
                             String.valueOf(spectrumIdentificationItem.getChargeState()),
                             spectrumIdentificationItem.getName());
-
                     spectrumPanel.setAnnotations(peakAnnotation);
-
-
-
                     jGraph.setLayout(new java.awt.BorderLayout());
                     jGraph.setLayout(new javax.swing.BoxLayout(jGraph, javax.swing.BoxLayout.LINE_AXIS));
                     jGraph.add(spectrumPanel);
                     jGraph.validate();
                     jGraph.repaint();
-                    this.repaint();
+                } catch (JMzReaderException ex) {
+                    Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (JAXBException ex) {
+                    Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
+            } else if (mzValuesAsDouble.length > 0) {
+                spectrumPanel = new SpectrumPanel(
+                        mzValuesAsDouble,
+                        intensityValuesAsDouble,
+                        spectrumIdentificationItem.getExperimentalMassToCharge(),
+                        String.valueOf(spectrumIdentificationItem.getChargeState()),
+                        spectrumIdentificationItem.getName());
+
+                spectrumPanel.setAnnotations(peakAnnotation);
+
+
+
+                jGraph.setLayout(new java.awt.BorderLayout());
+                jGraph.setLayout(new javax.swing.BoxLayout(jGraph, javax.swing.BoxLayout.LINE_AXIS));
+                jGraph.add(spectrumPanel);
+                jGraph.validate();
+                jGraph.repaint();
+                this.repaint();
+            }
             setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         }
@@ -3019,7 +3018,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         int row = proteinDetectionHypothesisTable.getSelectedRow();
         SpectrumIdentificationItem spectrumIdentificationItem2 = null;
         if (row != -1) {
-             row = spectrumIdentificationItemTable.convertRowIndexToModel(row);
+            row = spectrumIdentificationItemTable.convertRowIndexToModel(row);
             try {
                 while (spectrumIdentificationItemProteinViewTable.getRowCount() > 0) {
                     ((DefaultTableModel) spectrumIdentificationItemProteinViewTable.getModel()).removeRow(0);
@@ -3027,17 +3026,17 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 spectrumIdentificationItemProteinViewTable.scrollRowToVisible(0);
                 row = proteinDetectionHypothesisTable.convertRowIndexToModel(row);
                 ProteinDetectionHypothesis proteinDetectionHypothesis = mzIdentMLUnmarshaller.unmarshal(ProteinDetectionHypothesis.class, (String) proteinDetectionHypothesisTable.getModel().getValueAt(row, 0));
-                System.out.println((String) proteinDetectionHypothesisTable.getModel().getValueAt(row, 0));
+//                System.out.println((String) proteinDetectionHypothesisTable.getModel().getValueAt(row, 0));
                 DBSequence dBSequence = mzIdentMLUnmarshaller.unmarshal(DBSequence.class, proteinDetectionHypothesis.getDBSequenceRef());
-                System.out.println(proteinDetectionHypothesis.getDBSequenceRef());
-                System.out.println(dBSequence.getAccession());
+//                System.out.println(proteinDetectionHypothesis.getDBSequenceRef());
+//                System.out.println(dBSequence.getAccession());
                 List<PeptideHypothesis> peptideHypothesisList = proteinDetectionHypothesis.getPeptideHypothesis();
                 String proteinSequence = "";
                 String protein_description = "";
                 if (dBSequence != null) {
                     List<CvParam> cvParamListDBSequence = dBSequence.getCvParam();
                     String scientific_name = null;
-                    
+
                     for (int j = 0; j < cvParamListDBSequence.size(); j++) {
                         CvParam cvParam = cvParamListDBSequence.get(j);
                         if (cvParam.getName().equals("taxonomy: scientific name")) {
@@ -3092,6 +3091,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                     if (location != null) {
                                         combine = combine + " at location: " + location;
                                     }
+                                    
                                     ((DefaultTableModel) spectrumIdentificationItemProteinViewTable.getModel()).addRow(new String[]{
                                                 peptide.getPeptideSequence(), spectrumIdentificationItem2.getId(), combine});
                                     String find = peptide.getPeptideSequence();
@@ -3152,7 +3152,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 //                                j = j + 18;
 //                            }
 //                        }
-                        
+
 //                        if (i % 60 == 0 && i != 0) {
 //                            sb_new.append("<BR>");
 //                        }
@@ -3165,9 +3165,9 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 //                       }
                     }
                     jProteinSequenceTextPane.setText("<FONT FACE=\"Courier New\">" + sb_new.toString() + "</FONT>");
-                    System.out.println("-----------------------");
-                    System.out.println(jProteinSequenceTextPane.getText());
-                 
+//                    System.out.println("-----------------------");
+//                    System.out.println(jProteinSequenceTextPane.getText());
+
                 }
 //                SimpleAttributeSet sa = new SimpleAttributeSet();
 //                StyleConstants.setAlignment(sa, StyleConstants.ALIGN_JUSTIFIED);
@@ -3235,7 +3235,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         if (proteinDetectionHypothesis.getPeptideHypothesis() != null) {
                             number_peptide = String.valueOf(proteinDetectionHypothesis.getPeptideHypothesis().size());
                         }
-                        
+
                         ((DefaultTableModel) proteinDetectionHypothesisTable.getModel()).addRow(new Object[]{
                                     proteinDetectionHypothesis.getId(),
                                     dBSequenceAccession,
@@ -3314,20 +3314,17 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
 
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
-                        } else 
-                        if (mzid_file.getPath().endsWith(".omx")) {
+                        } else if (mzid_file.getPath().endsWith(".omx")) {
                             File outFile = null;
-                            outFile = new File(fileChooser.getCurrentDirectory(),mzid_file.getName().replaceAll(".omx", ".mzid"));
+                            outFile = new File(fileChooser.getCurrentDirectory(), mzid_file.getName().replaceAll(".omx", ".mzid"));
                             new Omssa2mzid(mzid_file.getPath(), outFile.getPath());
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
-                        }else
-                        if (mzid_file.getPath().endsWith(".xml")) {
+                        } else if (mzid_file.getPath().endsWith(".xml")) {
                             File outFile = null;
-                            outFile = new File(fileChooser.getCurrentDirectory(),mzid_file.getName().replaceAll(".omx", ".mzid"));
+                            outFile = new File(fileChooser.getCurrentDirectory(), mzid_file.getName().replaceAll(".omx", ".mzid"));
                             new Tandem2mzid(mzid_file.getPath(), outFile.getPath());
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
-                        }
-                        else{
+                        } else {
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(mzid_file);
                         }
 
@@ -3398,7 +3395,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         progressBarDialog.setVisible(false);
                         progressBarDialog.dispose();
                         System.out.println(ex.getMessage());
-                         JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                     }
 
 
@@ -4107,50 +4104,141 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         // compare which tab is selected & boolean
         if (mainTabbedPane.getSelectedIndex() == 1 && !secondTab && mzIdentMLUnmarshaller != null) {
             progressBarDialog = new ProgressBarDialog(this, true);
-        final Thread thread = new Thread(new Runnable() {
+            final Thread thread = new Thread(new Runnable() {
 
-            @Override
-            public void run() {
-                progressBarDialog.setTitle("Parsing the mzid file. Please Wait...");
-                progressBarDialog.setVisible(true);
-            }
-        }, "ProgressBarDialog");
-		
+                @Override
+                public void run() {
+                    progressBarDialog.setTitle("Parsing the mzid file. Please Wait...");
+                    progressBarDialog.setVisible(true);
+                }
+            }, "ProgressBarDialog");
 
-		thread.start();
+
+            thread.start();
 
 
             new Thread("LoadingThread") {
 
                 @Override
                 public void run() {
-            loadSpectrumIdentificationResultTable();
-            secondTab = true;
-            
-            }
-				
-				 }.start();
+                    loadSpectrumIdentificationResultTable();
+                    secondTab = true;
+                    progressBarDialog.setVisible(false);
+                    progressBarDialog.dispose();
+                }
+            }.start();
         }
 
         if (mainTabbedPane.getSelectedIndex() == 2 && !thirdTab && mzIdentMLUnmarshaller != null) {
-            loadPeptideTable();
+                        progressBarDialog = new ProgressBarDialog(this, true);
+            final Thread thread = new Thread(new Runnable() {
 
-            thirdTab = true;
+                @Override
+                public void run() {
+                    progressBarDialog.setTitle("Parsing the mzid file. Please Wait...");
+                    progressBarDialog.setVisible(true);
+                }
+            }, "ProgressBarDialog");
+
+
+            thread.start();
+
+
+            new Thread("LoadingThread") {
+
+                @Override
+                public void run() {
+                    loadPeptideTable();
+                    thirdTab = true;
+                    progressBarDialog.setVisible(false);
+                    progressBarDialog.dispose();
+                }
+            }.start();
+
         }
 
         if (mainTabbedPane.getSelectedIndex() == 3 && !fourthTab && mzIdentMLUnmarshaller != null) {
-            loadDBSequenceTable();
-            fourthTab = true;
+                        progressBarDialog = new ProgressBarDialog(this, true);
+            final Thread thread = new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    progressBarDialog.setTitle("Parsing the mzid file. Please Wait...");
+                    progressBarDialog.setVisible(true);
+                }
+            }, "ProgressBarDialog");
+
+
+            thread.start();
+
+
+            new Thread("LoadingThread") {
+
+                @Override
+                public void run() {
+                    loadSpectrumIdentificationResultTable();
+                    loadDBSequenceTable();
+                    fourthTab = true;
+                    progressBarDialog.dispose();
+                }
+            }.start();
+            
         }
 
         if (mainTabbedPane.getSelectedIndex() == 4 && !fifthTab && mzIdentMLUnmarshaller != null) {
-            loadSummaryStats();
-            fifthTab = true;
+                        progressBarDialog = new ProgressBarDialog(this, true);
+            final Thread thread = new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    progressBarDialog.setTitle("Parsing the mzid file. Please Wait...");
+                    progressBarDialog.setVisible(true);
+                }
+            }, "ProgressBarDialog");
+
+
+            thread.start();
+
+
+            new Thread("LoadingThread") {
+
+                @Override
+                public void run() {
+                    loadSummaryStats();
+                    fifthTab = true;
+                    progressBarDialog.setVisible(false);
+                    progressBarDialog.dispose();
+                }
+            }.start();
+            
         }
 
         if (mainTabbedPane.getSelectedIndex() == 5 && !sixthTab && mzIdentMLUnmarshaller != null) {
-            loadProtocolData();
-            sixthTab = true;
+                        progressBarDialog = new ProgressBarDialog(this, true);
+            final Thread thread = new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    progressBarDialog.setTitle("Parsing the mzid file. Please Wait...");
+                    progressBarDialog.setVisible(true);
+                }
+            }, "ProgressBarDialog");
+
+
+            thread.start();
+
+
+            new Thread("LoadingThread") {
+
+                @Override
+                public void run() {
+                    loadProtocolData();
+                    sixthTab = true;
+                    progressBarDialog.setVisible(false);
+                    progressBarDialog.dispose();
+                }
+            }.start();
+            
         }
 
     }//GEN-LAST:event_mainTabbedPaneMouseClicked
