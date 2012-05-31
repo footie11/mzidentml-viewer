@@ -432,7 +432,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         // protein view
         String[] proteinAmbiguityGroupTableHeaders = new String[]{"ID", "Name", "Protein Accessions"};
         String[] proteinDetectionHypothesisTableHeaders = new String[]{"ID", "Accession", "Scores", "P-values", "Number of peptides", "Is Decoy", "passThreshold"};
-        String[] spectrumIdentificationItemProteinViewTableHeaders = new String[]{"Peptide Sequence", "SII", "Name", "Score", "Expectation value"};
+        String[] spectrumIdentificationItemProteinViewTableHeaders = new String[]{"Peptide Sequence", "SII", "Name", "Score", "Expectation value","passThreshold"};
         proteinAmbiguityGroupTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, proteinAmbiguityGroupTableHeaders) {
         });
         proteinDetectionHypothesisTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, proteinDetectionHypothesisTableHeaders) {
@@ -511,7 +511,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
             }
         }
 
-        String[] spectrumIdentificationItemTableHeaders = new String[spectrumIdentificationItemCvParamLengs + 7];
+        String[] spectrumIdentificationItemTableHeaders = new String[spectrumIdentificationItemCvParamLengs + 8];
         spectrumIdentificationItemTableHeaders[0] = "ID";
         spectrumIdentificationItemTableHeaders[1] = "Peptide Sequence";
         spectrumIdentificationItemTableHeaders[2] = "Modification";
@@ -519,10 +519,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         spectrumIdentificationItemTableHeaders[4] = "Experimental MassToCharge";
         spectrumIdentificationItemTableHeaders[5] = "Rank";
         spectrumIdentificationItemTableHeaders[6] = "Is Decoy";
+        spectrumIdentificationItemTableHeaders[7] = "PassThreshold";
         if (sii != null) {
             for (int i = 0; i < sii.length; i++) {
                 String string = sii[i];
-                spectrumIdentificationItemTableHeaders[7 + i] = string;
+                spectrumIdentificationItemTableHeaders[8 + i] = string;
             }
         }
 
@@ -748,7 +749,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                     roundTwoDecimals(calculatedMassToCharge),
                                     roundTwoDecimals(spectrumIdentificationItem.getExperimentalMassToCharge()),
                                     Integer.valueOf(spectrumIdentificationItem.getRank()),
-                                    isDecoy
+                                    isDecoy,
+                                    spectrumIdentificationItem.isPassThreshold()
                                 });
 
 
@@ -761,14 +763,14 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                             String accession = cvParam.getAccession();
 
                             if (cvParam.getName().equals("peptide unique to one protein")) {
-                                ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).setValueAt(1, ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() - 1, 7 + s);
+                                ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).setValueAt(1, ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() - 1, 8 + s);
                             } else if (accession.equals("MS:1001330")
                                     || accession.equals("MS:1001172")
                                     || accession.equals("MS:1001159")
                                     || accession.equals("MS:1001328")) {
-                                ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).setValueAt(roundScientificNumbers(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() - 1, 7 + s);
+                                ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).setValueAt(roundScientificNumbers(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() - 1, 8 + s);
                             } else {
-                                ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).setValueAt(cvParam.getValue(), ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() - 1, 7 + s);
+                                ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).setValueAt(cvParam.getValue(), ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() - 1, 8 + s);
                             }
                         }
                     }
@@ -914,7 +916,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                             roundTwoDecimals(calculatedMassToCharge),
                                             roundTwoDecimals(spectrumIdentificationItem.getExperimentalMassToCharge()),
                                             Integer.valueOf(spectrumIdentificationItem.getRank()),
-                                            isDecoy
+                                            isDecoy,
+                                            spectrumIdentificationItem.isPassThreshold()
                                         });
 
 
@@ -926,14 +929,14 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                     String accession = cvParam.getAccession();
 
                                     if (cvParam.getName().equals("peptide unique to one protein")) {
-                                        ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(1, ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 7 + s);
+                                        ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(1, ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
                                     } else if (accession.equals("MS:1001330")
                                             || accession.equals("MS:1001172")
                                             || accession.equals("MS:1001159")
                                             || accession.equals("MS:1001328")) {
-                                        ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(roundScientificNumbers(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 7 + s);
+                                        ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(roundScientificNumbers(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
                                     } else {
-                                        ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(cvParam.getValue(), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 7 + s);
+                                        ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(cvParam.getValue(), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
                                     }
                                 }
 
@@ -3119,6 +3122,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
 
                                     }
+                                    ((DefaultTableModel) spectrumIdentificationItemProteinViewTable.getModel()).setValueAt(spectrumIdentificationItem2.isPassThreshold(), ((DefaultTableModel) spectrumIdentificationItemProteinViewTable.getModel()).getRowCount() - 1, 5);
                                 }
 
                             }
