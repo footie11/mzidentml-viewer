@@ -1076,11 +1076,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                             }
                         }
                     }
-                    while (jExperimentalFilterPanel1.getComponents().length > 0) {
-                        jExperimentalFilterPanel1.remove(0);
-                    }
-                    jExperimentalFilterPanel1.validate();
-                    jExperimentalFilterPanel1.repaint();
+//                    while (jExperimentalFilterPanel1.getComponents().length > 0) {
+//                        jExperimentalFilterPanel1.remove(0);
+//                    }
+//                    jExperimentalFilterPanel1.validate();
+//                    jExperimentalFilterPanel1.repaint();
 //                    if (filterListIon1.isEmpty() && filterListCharge1.isEmpty()) {
 //                        jExperimentalFilterPanel1.setLayout(new GridLayout(0, 1));
 //                    } else {
@@ -1127,7 +1127,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 //                       jExperimentalFilterPanel1.add(filterCheckBoxCharge1[k]);
 //                    }
 
-                    jExperimentalFilterPanel1.repaint();
+                        jExperimentalFilterPanel1.repaint();
                     jExperimentalFilterPanel1.revalidate();
 
                     double[] mzValuesAsDouble = new double[fragmentationTablePeptideView.getModel().getRowCount()];
@@ -1264,11 +1264,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         }
                     }
                 }
-                while (jExperimentalFilterPanel.getComponents().length > 0) {
-                    jExperimentalFilterPanel.remove(0);
-                }
-                jExperimentalFilterPanel.validate();
-                jExperimentalFilterPanel.repaint();
+//                while (jExperimentalFilterPanel.getComponents().length > 0) {
+//                    jExperimentalFilterPanel.remove(0);
+//                }
+//                jExperimentalFilterPanel.validate();
+//                jExperimentalFilterPanel.repaint();
 //                if (filterListIon.isEmpty() && filterListCharge.isEmpty()) {
 //                    jExperimentalFilterPanel.setLayout(new GridLayout(0, 1));
 //                } else {
