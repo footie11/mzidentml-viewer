@@ -157,6 +157,9 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private boolean secondTab, thirdTab, fourthTab, fifthTab, sixthTab;
     private JMzReader jmzreader = null;
     private Map<Double, Double> peakList = new HashMap();
+    
+    
+    private HashMap<String, String> siiSirHashMap = new HashMap();
 
     /**
      * Creates new form MzIdentMLViewer
@@ -690,10 +693,16 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         while (((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() > 0) {
             ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).removeRow(0);
         }
-        Iterator<SpectrumIdentificationItem> iterSpectrumIdentificationItem = mzIdentMLUnmarshaller.unmarshalCollectionFromXpath(MzIdentMLElement.SpectrumIdentificationItem);
-        while (iterSpectrumIdentificationItem.hasNext()) {
+        siiSirHashMap.clear();
+        Iterator<SpectrumIdentificationResult> iterSpectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshalCollectionFromXpath(MzIdentMLElement.SpectrumIdentificationResult);
+        while (iterSpectrumIdentificationResult.hasNext()) {
             try {
-                SpectrumIdentificationItem spectrumIdentificationItem = iterSpectrumIdentificationItem.next();
+                SpectrumIdentificationResult spectrumIdentificationResult = iterSpectrumIdentificationResult.next();
+                List<SpectrumIdentificationItem> spectrumIdentificationItemList = spectrumIdentificationResult.getSpectrumIdentificationItem();
+                for (int i = 0; i < spectrumIdentificationItemList.size(); i++) {
+                    SpectrumIdentificationItem spectrumIdentificationItem = spectrumIdentificationItemList.get(i);
+                    siiSirHashMap.put(spectrumIdentificationItem.getId(), spectrumIdentificationResult.getId());
+                    
                 boolean isDecoy = checkIfSpectrumIdentificationItemIsDecoy(spectrumIdentificationItem);
 
 
@@ -775,6 +784,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         }
                     }
                 }
+            }
             } catch (JAXBException ex) {
                 Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1127,8 +1137,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 //                       jExperimentalFilterPanel1.add(filterCheckBoxCharge1[k]);
 //                    }
 
-                        jExperimentalFilterPanel1.repaint();
-                    jExperimentalFilterPanel1.revalidate();
+//                        jExperimentalFilterPanel1.repaint();
+//                    jExperimentalFilterPanel1.revalidate();
 
                     double[] mzValuesAsDouble = new double[fragmentationTablePeptideView.getModel().getRowCount()];
                     double[] intensityValuesAsDouble = new double[fragmentationTablePeptideView.getModel().getRowCount()];
@@ -1152,7 +1162,78 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                 Color.blue,
                                 type));
                     }
-                    if (mzValuesAsDouble.length > 0) {
+//                    if (mzValuesAsDouble.length > 0) {
+//                        spectrumPanel1 = new SpectrumPanel(
+//                                mzValuesAsDouble,
+//                                intensityValuesAsDouble,
+//                                spectrumIdentificationItem.getExperimentalMassToCharge(),
+//                                String.valueOf(spectrumIdentificationItem.getChargeState()),
+//                                spectrumIdentificationItem.getName());
+//
+//                        spectrumPanel1.setAnnotations(peakAnnotation1);
+//                       
+//
+//                        while (jGraph1.getComponents().length > 0) {
+//                            jGraph1.remove(0);
+//                        }
+//                        jGraph1.setLayout(new java.awt.BorderLayout());
+//                        jGraph1.setLayout(new javax.swing.BoxLayout(jGraph1, javax.swing.BoxLayout.LINE_AXIS));
+//                       
+//                        jGraph1.add(spectrumPanel1);
+//                        jGraph1.validate();
+//                        jGraph1.repaint();
+//                        this.repaint();
+//                    }
+                    
+                    
+                        while (jGraph1.getComponents().length > 0) {
+                            jGraph1.remove(0);
+                        }
+                 if (jmzreader != null) {
+                        try {
+                            
+                            String sir_id = (String)siiSirHashMap.get((String) spectrumIdentificationItemTablePeptideView.getValueAt(row, 0));
+                            SpectrumIdentificationResult spectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationResult.class, sir_id);
+                            String spectrumID = spectrumIdentificationResult.getSpectrumID();
+                            String spectrumIndex = spectrumID.substring(6);
+                            Spectrum spectrum = jmzreader.getSpectrumById(spectrumIndex);
+                            peakList = spectrum.getPeakList();
+
+                            List<Double> mzValues;
+                            if (spectrum.getPeakList() != null) {
+                                mzValues = new ArrayList<Double>(spectrum.getPeakList().keySet());
+                            } else {
+                                mzValues = Collections.emptyList();
+                            }
+
+                            double[] mz = new double[mzValues.size()];
+                            double[] intensities = new double[mzValues.size()];
+
+                            int index = 0;
+                            for (Double mzValue : mzValues) {
+                                mz[index] = mzValue;
+                                intensities[index] = spectrum.getPeakList().get(mzValue);
+                                index++;
+                            }
+                            spectrumPanel1 = new SpectrumPanel(
+                                    mz,
+                                    intensities,
+                                    spectrumIdentificationItem.getExperimentalMassToCharge(),
+                                    String.valueOf(spectrumIdentificationItem.getChargeState()),
+                                    spectrumIdentificationItem.getName());
+                            spectrumPanel1.setAnnotations(peakAnnotation1);
+                            jGraph1.setLayout(new java.awt.BorderLayout());
+                            jGraph1.setLayout(new javax.swing.BoxLayout(jGraph1, javax.swing.BoxLayout.LINE_AXIS));
+                            jGraph1.add(spectrumPanel1);
+                            jGraph1.validate();
+                            jGraph1.repaint();
+                        } catch (JMzReaderException ex) {
+                            Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (JAXBException ex) {
+                            Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                    } else if (mzValuesAsDouble.length > 0) {
                         spectrumPanel1 = new SpectrumPanel(
                                 mzValuesAsDouble,
                                 intensityValuesAsDouble,
@@ -1161,14 +1242,11 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                                 spectrumIdentificationItem.getName());
 
                         spectrumPanel1.setAnnotations(peakAnnotation1);
-                       
 
-                        while (jGraph1.getComponents().length > 0) {
-                            jGraph1.remove(0);
-                        }
+
+
                         jGraph1.setLayout(new java.awt.BorderLayout());
                         jGraph1.setLayout(new javax.swing.BoxLayout(jGraph1, javax.swing.BoxLayout.LINE_AXIS));
-                       
                         jGraph1.add(spectrumPanel1);
                         jGraph1.validate();
                         jGraph1.repaint();
