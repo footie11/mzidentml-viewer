@@ -1467,7 +1467,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
-                } else if (mzValuesAsDouble.length > 0) {
+                } else 
+                    if (mzValuesAsDouble.length > 0) {
                     spectrumPanel = new SpectrumPanel(
                             mzValuesAsDouble,
                             intensityValuesAsDouble,
@@ -1986,7 +1987,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         fileChooser.addChoosableFileFilter (mzIdentMLFilter);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("MzIdentML Viewer");
+        setTitle("ProteoIDViewer");
         setMinimumSize(new java.awt.Dimension(900, 800));
 
         mainTabbedPane.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -2325,7 +2326,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jFragmentationPanel1.setLayout(jFragmentationPanel1Layout);
         jFragmentationPanel1Layout.setHorizontalGroup(
             jFragmentationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 894, Short.MAX_VALUE)
+            .addGap(0, 893, Short.MAX_VALUE)
         );
         jFragmentationPanel1Layout.setVerticalGroup(
             jFragmentationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2363,7 +2364,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jSpectrumPanel1Layout.setHorizontalGroup(
             jSpectrumPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jExperimentalFilterPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jFragmentationPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 906, Short.MAX_VALUE)
+            .addComponent(jFragmentationPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 905, Short.MAX_VALUE)
             .addComponent(jGraph1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jSpectrumPanel1Layout.setVerticalGroup(
@@ -2429,7 +2430,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                         .addComponent(psmRankLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(psmRankValue, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 211, Short.MAX_VALUE))
+                        .addGap(0, 212, Short.MAX_VALUE))
                     .addComponent(jSpectrumIdentificationItemPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPeptideEvidencePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -3108,7 +3109,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
      * exit Menu Item Action Performed
      */
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-        int exit = JOptionPane.showConfirmDialog(this, "Are you sure?", "Close mzIdentML Viewer", JOptionPane.YES_NO_OPTION);
+        int exit = JOptionPane.showConfirmDialog(this, "Are you sure?", "Close ProteoIDViewer", JOptionPane.YES_NO_OPTION);
         if (exit == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
@@ -3117,7 +3118,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
      * about Menu Item Action Performed
      */
     private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
-        JOptionPane.showMessageDialog(this, "mzIdentML Viewer - Version 1.0\n\nPost-genomic bioinformatics group\nInstitute of Integrative Biology\nUniversity of Liverpool\n", "About", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "ProteoIDViewer \n\nPost-genomic bioinformatics group\nInstitute of Integrative Biology\nUniversity of Liverpool\n", "About", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_aboutMenuItemActionPerformed
     /**
      * protein Detection Hypothesis Table Mouse Clicked
@@ -3400,7 +3401,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         int returnVal = fileChooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             final File mzid_file = fileChooser.getSelectedFile();
-            setTitle("MzIdentML Viewer   -  " + mzid_file.getPath());
+            setTitle("ProteoIDViewer   -  " + mzid_file.getPath());
             thread.start();
 
 

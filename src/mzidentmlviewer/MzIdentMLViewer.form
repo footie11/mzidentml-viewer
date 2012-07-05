@@ -209,7 +209,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="title" type="java.lang.String" value="MzIdentML Viewer"/>
+    <Property name="title" type="java.lang.String" value="ProteoIDViewer"/>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[900, 800]"/>
     </Property>
@@ -888,7 +888,7 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jExperimentalFilterPanel1" alignment="1" max="32767" attributes="0"/>
-                              <Component id="jFragmentationPanel1" alignment="0" pref="906" max="32767" attributes="0"/>
+                              <Component id="jFragmentationPanel1" alignment="0" pref="905" max="32767" attributes="0"/>
                               <Component id="jGraph1" alignment="0" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
@@ -922,7 +922,7 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="894" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="893" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
@@ -995,7 +995,7 @@
                                           <Component id="psmRankLabel" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="psmRankValue" min="-2" pref="79" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="211" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="212" max="32767" attributes="0"/>
                                       </Group>
                                       <Component id="jSpectrumIdentificationItemPanel1" alignment="0" max="32767" attributes="1"/>
                                       <Component id="jPeptideEvidencePanel1" alignment="0" max="32767" attributes="0"/>
