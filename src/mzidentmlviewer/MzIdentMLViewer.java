@@ -64,6 +64,7 @@ import javax.swing.*;
 
 import javax.xml.bind.JAXBException;
 import mzidentml.FalseDiscoveryRate;
+import mzidentml.MzIdentMLToCSV;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -1963,12 +1964,9 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         exitMenuItem = new javax.swing.JMenuItem();
         exportMenu = new javax.swing.JMenu();
-        exportProteinAmbiguityGrouMenuItem = new javax.swing.JMenuItem();
-        exportProteinDetectionHypothesisMenuItem = new javax.swing.JMenuItem();
-        exportPeptideSpectrumMatchesMenuItem = new javax.swing.JMenuItem();
-        exportSeparator1 = new javax.swing.JPopupMenu.Separator();
-        exportSpectrumIdentificationResultMenuItem = new javax.swing.JMenuItem();
-        exportFragmentationMenuItem = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         exportSeparator2 = new javax.swing.JPopupMenu.Separator();
         exportFDR = new javax.swing.JMenuItem();
         optionsMenu = new javax.swing.JMenu();
@@ -2961,46 +2959,29 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
         exportMenu.setText("Export");
 
-        exportProteinAmbiguityGrouMenuItem.setText("Export Protein Ambiguity Groups");
-        exportProteinAmbiguityGrouMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1.setText("Export Proteins Only");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportProteinAmbiguityGrouMenuItemActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
-        exportMenu.add(exportProteinAmbiguityGrouMenuItem);
+        exportMenu.add(jMenuItem1);
 
-        exportProteinDetectionHypothesisMenuItem.setText("Export Protein Detection Hypothesis");
-        exportProteinDetectionHypothesisMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem2.setText("Export Protein Groups");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportProteinDetectionHypothesisMenuItemActionPerformed(evt);
+                jMenuItem2ActionPerformed(evt);
             }
         });
-        exportMenu.add(exportProteinDetectionHypothesisMenuItem);
+        exportMenu.add(jMenuItem2);
 
-        exportPeptideSpectrumMatchesMenuItem.setText("Export Peptide-Spectrum Matches");
-        exportPeptideSpectrumMatchesMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem3.setText("Export PSMs");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportPeptideSpectrumMatchesMenuItemActionPerformed(evt);
+                jMenuItem3ActionPerformed(evt);
             }
         });
-        exportMenu.add(exportPeptideSpectrumMatchesMenuItem);
-        exportMenu.add(exportSeparator1);
-
-        exportSpectrumIdentificationResultMenuItem.setText("Export Spectrum Identification Result");
-        exportSpectrumIdentificationResultMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportSpectrumIdentificationResultMenuItemActionPerformed(evt);
-            }
-        });
-        exportMenu.add(exportSpectrumIdentificationResultMenuItem);
-
-        exportFragmentationMenuItem.setText("Export Fragmentation");
-        exportFragmentationMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportFragmentationMenuItemActionPerformed(evt);
-            }
-        });
-        exportMenu.add(exportFragmentationMenuItem);
+        exportMenu.add(jMenuItem3);
         exportMenu.add(exportSeparator2);
 
         exportFDR.setText("Export FDR as CSV");
@@ -3852,26 +3833,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }
 
-    private void exportProteinAmbiguityGrouMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportProteinAmbiguityGrouMenuItemActionPerformed
-        export(proteinAmbiguityGroupTable, "Export Protein Ambiguity Group");
-    }//GEN-LAST:event_exportProteinAmbiguityGrouMenuItemActionPerformed
-
-    private void exportProteinDetectionHypothesisMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportProteinDetectionHypothesisMenuItemActionPerformed
-        export(proteinDetectionHypothesisTable, "Export Protein Detection Hypothesis");
-    }//GEN-LAST:event_exportProteinDetectionHypothesisMenuItemActionPerformed
-
-    private void exportPeptideSpectrumMatchesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPeptideSpectrumMatchesMenuItemActionPerformed
-        export(spectrumIdentificationItemProteinViewTable, "Export Peptide Spectrum Matches");
-    }//GEN-LAST:event_exportPeptideSpectrumMatchesMenuItemActionPerformed
-
-    private void exportSpectrumIdentificationResultMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportSpectrumIdentificationResultMenuItemActionPerformed
-        export(spectrumIdentificationResultTable, "Export Spectrum Identification Result");
-    }//GEN-LAST:event_exportSpectrumIdentificationResultMenuItemActionPerformed
-
-    private void exportFragmentationMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportFragmentationMenuItemActionPerformed
-        export(fragmentationTable, "Export Fragmentation ");
-    }//GEN-LAST:event_exportFragmentationMenuItemActionPerformed
-
     private void fdrPlotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fdrPlotActionPerformed
     }//GEN-LAST:event_fdrPlotActionPerformed
 
@@ -4361,6 +4322,243 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private void psmRankValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psmRankValueActionPerformed
         loadPeptideTable();
     }//GEN-LAST:event_psmRankValueActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+            MzIdentMLToCSV mzidToCsv = new MzIdentMLToCSV();
+             JFileChooser chooser = new JFileChooser();
+        chooser.setFileFilter(new CsvFileFilter());
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setDialogTitle("Export Proteins Only");
+
+        File selectedFile;
+
+        int returnVal = chooser.showSaveDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+            selectedFile = chooser.getSelectedFile();
+
+            if (!selectedFile.getName().toLowerCase().endsWith(".csv")) {
+                selectedFile = new File(selectedFile.getAbsolutePath() + ".csv");
+            }
+
+            while (selectedFile.exists()) {
+                int option = JOptionPane.showConfirmDialog(this,
+                        "The  file " + chooser.getSelectedFile().getName()
+                        + " already exists. Replace file?",
+                        "Replace File?", JOptionPane.YES_NO_CANCEL_OPTION);
+
+                if (option == JOptionPane.NO_OPTION) {
+                    chooser = new JFileChooser();
+                    chooser.setFileFilter(new CsvFileFilter());
+                    chooser.setMultiSelectionEnabled(false);
+                    chooser.setDialogTitle("Export Proteins Only");
+
+                    returnVal = chooser.showSaveDialog(this);
+
+                    if (returnVal == JFileChooser.CANCEL_OPTION) {
+                        return;
+                    } else {
+                        selectedFile = chooser.getSelectedFile();
+
+                        if (!selectedFile.getName().toLowerCase().endsWith(".csv")) {
+                            selectedFile = new File(selectedFile.getAbsolutePath() + ".csv");
+                        }
+                    }
+                } else { // YES option
+                    break;
+                }
+            }
+
+            this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+
+
+            try {
+
+                selectedFile = chooser.getSelectedFile();
+
+                if (!selectedFile.getName().toLowerCase().endsWith(".csv")) {
+                    selectedFile = new File(selectedFile.getAbsolutePath() + ".csv");
+                }
+
+                if (selectedFile.exists()) {
+                    selectedFile.delete();
+                }
+
+                
+                mzidToCsv.useMzIdentMLToCSV(mzIdentMLUnmarshaller, selectedFile.getPath(), "exportProteinsOnly");
+
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this,
+                        "An error occured when exporting the spectra file details.",
+                        "Error Exporting",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+            this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        }
+            
+      
+
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+          MzIdentMLToCSV mzidToCsv = new MzIdentMLToCSV();
+             JFileChooser chooser = new JFileChooser();
+        chooser.setFileFilter(new CsvFileFilter());
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setDialogTitle("Export Protein Groups");
+
+        File selectedFile;
+
+        int returnVal = chooser.showSaveDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+            selectedFile = chooser.getSelectedFile();
+
+            if (!selectedFile.getName().toLowerCase().endsWith(".csv")) {
+                selectedFile = new File(selectedFile.getAbsolutePath() + ".csv");
+            }
+
+            while (selectedFile.exists()) {
+                int option = JOptionPane.showConfirmDialog(this,
+                        "The  file " + chooser.getSelectedFile().getName()
+                        + " already exists. Replace file?",
+                        "Replace File?", JOptionPane.YES_NO_CANCEL_OPTION);
+
+                if (option == JOptionPane.NO_OPTION) {
+                    chooser = new JFileChooser();
+                    chooser.setFileFilter(new CsvFileFilter());
+                    chooser.setMultiSelectionEnabled(false);
+                    chooser.setDialogTitle("Export Protein Groups");
+
+                    returnVal = chooser.showSaveDialog(this);
+
+                    if (returnVal == JFileChooser.CANCEL_OPTION) {
+                        return;
+                    } else {
+                        selectedFile = chooser.getSelectedFile();
+
+                        if (!selectedFile.getName().toLowerCase().endsWith(".csv")) {
+                            selectedFile = new File(selectedFile.getAbsolutePath() + ".csv");
+                        }
+                    }
+                } else { // YES option
+                    break;
+                }
+            }
+
+            this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+
+
+            try {
+
+                selectedFile = chooser.getSelectedFile();
+
+                if (!selectedFile.getName().toLowerCase().endsWith(".csv")) {
+                    selectedFile = new File(selectedFile.getAbsolutePath() + ".csv");
+                }
+
+                if (selectedFile.exists()) {
+                    selectedFile.delete();
+                }
+
+                
+                mzidToCsv.useMzIdentMLToCSV(mzIdentMLUnmarshaller, selectedFile.getPath(), "exportProteinGroups");
+
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this,
+                        "An error occured when exporting the spectra file details.",
+                        "Error Exporting",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+            this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        }
+            
+      
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+         MzIdentMLToCSV mzidToCsv = new MzIdentMLToCSV();
+             JFileChooser chooser = new JFileChooser();
+        chooser.setFileFilter(new CsvFileFilter());
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setDialogTitle("Export PSMs");
+
+        File selectedFile;
+
+        int returnVal = chooser.showSaveDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+            selectedFile = chooser.getSelectedFile();
+
+            if (!selectedFile.getName().toLowerCase().endsWith(".csv")) {
+                selectedFile = new File(selectedFile.getAbsolutePath() + ".csv");
+            }
+
+            while (selectedFile.exists()) {
+                int option = JOptionPane.showConfirmDialog(this,
+                        "The  file " + chooser.getSelectedFile().getName()
+                        + " already exists. Replace file?",
+                        "Replace File?", JOptionPane.YES_NO_CANCEL_OPTION);
+
+                if (option == JOptionPane.NO_OPTION) {
+                    chooser = new JFileChooser();
+                    chooser.setFileFilter(new CsvFileFilter());
+                    chooser.setMultiSelectionEnabled(false);
+                    chooser.setDialogTitle("Export PSMs");
+
+                    returnVal = chooser.showSaveDialog(this);
+
+                    if (returnVal == JFileChooser.CANCEL_OPTION) {
+                        return;
+                    } else {
+                        selectedFile = chooser.getSelectedFile();
+
+                        if (!selectedFile.getName().toLowerCase().endsWith(".csv")) {
+                            selectedFile = new File(selectedFile.getAbsolutePath() + ".csv");
+                        }
+                    }
+                } else { // YES option
+                    break;
+                }
+            }
+
+            this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+
+
+            try {
+
+                selectedFile = chooser.getSelectedFile();
+
+                if (!selectedFile.getName().toLowerCase().endsWith(".csv")) {
+                    selectedFile = new File(selectedFile.getAbsolutePath() + ".csv");
+                }
+
+                if (selectedFile.exists()) {
+                    selectedFile.delete();
+                }
+
+                
+                mzidToCsv.useMzIdentMLToCSV(mzIdentMLUnmarshaller, selectedFile.getPath(), "exportPSMs");
+
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this,
+                        "An error occured when exporting the spectra file details.",
+                        "Error Exporting",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+            this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        }
+            
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
     private void changeFontSize(int i) {
         proteinAmbiguityGroupTable.setFont(new Font("Serif", Font.PLAIN, i));
         proteinDetectionHypothesisTable.setFont(new Font("Serif", Font.PLAIN, i));
@@ -4628,14 +4826,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private javax.swing.JPanel dBSequencePanel;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenuItem exportFDR;
-    private javax.swing.JMenuItem exportFragmentationMenuItem;
     private javax.swing.JMenu exportMenu;
-    private javax.swing.JMenuItem exportPeptideSpectrumMatchesMenuItem;
-    private javax.swing.JMenuItem exportProteinAmbiguityGrouMenuItem;
-    private javax.swing.JMenuItem exportProteinDetectionHypothesisMenuItem;
-    private javax.swing.JPopupMenu.Separator exportSeparator1;
     private javax.swing.JPopupMenu.Separator exportSeparator2;
-    private javax.swing.JMenuItem exportSpectrumIdentificationResultMenuItem;
     private javax.swing.JPanel fdrPanel;
     private javax.swing.JLabel fdrProteinsLabel;
     private javax.swing.JLabel fdrProteinsValue;
@@ -4664,6 +4856,9 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     private javax.swing.JPanel jGraph;
     private javax.swing.JPanel jGraph1;
     private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPeptideEvidencePanel;
