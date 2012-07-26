@@ -211,7 +211,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         // spectrum Identification Item Protein View Table
         spectrumIdentificationItemProteinViewTable = new JXTable() {
         };
-        spectrumIdentificationItemProteinViewTable.setSortable(true);
         spectrumIdentificationItemProteinViewTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         spectrumIdentificationItemProteinViewTable.addMouseListener(new java.awt.event.MouseAdapter() {
 
@@ -302,6 +301,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         //spectrum Identification Item Table
         spectrumIdentificationItemTablePeptideView = new JXTable() {
         };
+        
+       // spectrumIdentificationItemTablePeptideView.setAutoCreateRowSorter(true);
 
         JScrollPane jSpectrumIdentificationItemTablePeptideViewScrollPane = new JScrollPane(spectrumIdentificationItemTablePeptideView);
         jSpectrumIdentificationItemPanel1.setLayout(new java.awt.BorderLayout());
@@ -426,6 +427,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
     public void createTables() {
         // dBSequence view dBSequenceTable
         String[] dBSequenceTableHeaders = new String[]{"ID", "Accession", "Seq", "Protein Description"};
+        dBSequenceTable.setAutoCreateRowSorter(true);
         dBSequenceTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, dBSequenceTableHeaders) {
         });
         while (((DefaultTableModel) dBSequenceTable.getModel()).getRowCount() > 0) {
@@ -439,10 +441,13 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         String[] spectrumIdentificationItemProteinViewTableHeaders = new String[]{"Peptide Sequence", "SII", "Name", "Score", "Expectation value","passThreshold"};
         proteinAmbiguityGroupTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, proteinAmbiguityGroupTableHeaders) {
         });
+        proteinAmbiguityGroupTable.setAutoCreateRowSorter(true);
         proteinDetectionHypothesisTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, proteinDetectionHypothesisTableHeaders) {
         });
+        proteinDetectionHypothesisTable.setAutoCreateRowSorter(true);
         spectrumIdentificationItemProteinViewTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, spectrumIdentificationItemProteinViewTableHeaders) {
         });
+        spectrumIdentificationItemProteinViewTable.setAutoCreateRowSorter(true);
         jProteinSequenceTextPane.setText("");
         jProteinSequenceTextPane.setText("");
 
@@ -527,6 +532,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         if (sii != null) {
             for (int i = 0; i < sii.length; i++) {
                 String string = sii[i];
+                
+                    string = string.replaceAll("\\\\","");
                 spectrumIdentificationItemTableHeaders[8 + i] = string;
             }
         }
@@ -544,6 +551,8 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
         spectrumIdentificationResultTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, spectrumIdentificationResultTableHeaders) {
         });
+                spectrumIdentificationResultTable.setAutoCreateRowSorter(true);
+
 
         while (((DefaultTableModel) spectrumIdentificationResultTable.getModel()).getRowCount() > 0) {
             ((DefaultTableModel) spectrumIdentificationResultTable.getModel()).removeRow(0);
@@ -551,10 +560,16 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
         spectrumIdentificationItemTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, spectrumIdentificationItemTableHeaders) {
         });
+                spectrumIdentificationItemTable.setAutoCreateRowSorter(true);
+
         peptideEvidenceTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, peptideEvidenceTableHeaders) {
         });
+                peptideEvidenceTable.setAutoCreateRowSorter(true);
+
         fragmentationTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, fragmentationTableHeaders) {
         });
+                fragmentationTable.setAutoCreateRowSorter(true);
+
         while (((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() > 0) {
             ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).removeRow(0);
         }
@@ -570,10 +585,16 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
         spectrumIdentificationItemTablePeptideView.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, spectrumIdentificationItemTableHeaders) {
         });
+                        spectrumIdentificationItemTablePeptideView.setAutoCreateRowSorter(true);
+
         peptideEvidenceTablePeptideView.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, peptideEvidenceTableHeaders) {
         });
+                        peptideEvidenceTablePeptideView.setAutoCreateRowSorter(true);
+
         fragmentationTablePeptideView.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, fragmentationTableHeaders) {
         });
+                        peptideEvidenceTablePeptideView.setAutoCreateRowSorter(true);
+
         while (((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() > 0) {
             ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).removeRow(0);
         }
@@ -654,7 +675,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
         }
 
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        proteinAmbiguityGroupTable.setSortable(true);
     }
 
     private void loadSpectrumIdentificationResultTable() {
@@ -683,7 +703,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
         }
 
-        spectrumIdentificationResultTable.setSortable(true);
 
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -749,7 +768,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                     } else if (psmRankValue.getSelectedIndex() == 2) {
                         rank = 3;
                     }
-
+                    
 
                     if (spectrumIdentificationItem.getRank() <= rank) {
                         ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).addRow(new Object[]{
@@ -806,7 +825,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
      */
     private void spectrumIdentificationResultTableMouseClicked(MouseEvent evt) {
 
-        spectrumIdentificationItemTable.setSortable(false);
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int row = spectrumIdentificationResultTable.getSelectedRow();
         if (row != -1) {
@@ -963,9 +981,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        spectrumIdentificationItemTable.setSortable(true);
-
-        this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+       this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }
 
     private double roundTwoDecimals(double d) {
@@ -1009,8 +1025,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
      * Creates spectrum Identification Item Table Mouse Clicked
      */
     private void spectrumIdentificationItemTablePeptideViewMouseClicked(MouseEvent evt) {
-        fragmentationTablePeptideView.setSortable(false);
-
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int row = spectrumIdentificationItemTablePeptideView.getSelectedRow();
         if (row != -1) {
@@ -1025,7 +1039,14 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
 
                 fragmentationTablePeptideView.scrollRowToVisible(0);
                 SpectrumIdentificationItem spectrumIdentificationItem = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationItem.class, (String) spectrumIdentificationItemTablePeptideView.getValueAt(row, 0));
-
+                
+                String sir_id1 = (String)siiSirHashMap.get((String) spectrumIdentificationItemTablePeptideView.getValueAt(row, 0));
+                System.out.println("SIR");
+                System.out.println(sir_id1);
+                System.out.println("SII");
+                System.out.println((String) spectrumIdentificationItemTablePeptideView.getValueAt(row, 0));
+                System.out.println("----------------------------");
+                
                 if (spectrumIdentificationItem != null) {
                     List<PeptideEvidenceRef> peptideEvidenceRefList = spectrumIdentificationItem.getPeptideEvidenceRef();
                     if (peptideEvidenceRefList != null) {
@@ -1258,7 +1279,7 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        fragmentationTablePeptideView.setSortable(true);
+        
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }
 
@@ -1266,7 +1287,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
      * Creates spectrum Identification Item Table Mouse Clicked
      */
     private void spectrumIdentificationItemTableMouseClicked(MouseEvent evt) {
-        fragmentationTable.setSortable(false);
 
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int row = spectrumIdentificationItemTable.getSelectedRow();
@@ -1490,7 +1510,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 }
             }
         }
-        fragmentationTable.setSortable(true);
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }
 
@@ -3105,7 +3124,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
      * protein Detection Hypothesis Table Mouse Clicked
      */
     private void proteinDetectionHypothesisTableMouseClicked(MouseEvent evt) {
-        spectrumIdentificationItemProteinViewTable.setSortable(false);
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int row = proteinDetectionHypothesisTable.getSelectedRow();
         SpectrumIdentificationItem spectrumIdentificationItem2 = null;
@@ -3271,7 +3289,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
             }
 
         }
-        proteinDetectionHypothesisTable.setSortable(true);
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }
 
@@ -3279,7 +3296,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
      * protein Ambiguity Group Table Mouse Clicked
      */
     private void proteinAmbiguityGroupTableMouseClicked(MouseEvent evt) {
-        proteinDetectionHypothesisTable.setSortable(false);
         jProteinSequenceTextPane.setText("");
         jProteinSequenceTextPane.setText("");
         jScientificNameValueLabel.setText("");
@@ -3344,7 +3360,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                 Logger.getLogger(MzIdentMLViewer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        proteinDetectionHypothesisTable.setSortable(true);
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }
 
@@ -3517,7 +3532,6 @@ public class MzIdentMLViewer extends javax.swing.JFrame {
                     });
 
         }
-        dBSequenceTable.setSortable(true);
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }
 
