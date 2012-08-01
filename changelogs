@@ -1,3 +1,10 @@
+version: 0.912
+date: 01/08/2012
+- Fixing Spectrum loading problems. Spectrum spectrum = jmzreader.getSpectrumById(spectrumIndex);
+- Removed \ from X\!Tandem
+- Ordering XTandem:expect value and Mascot:Score
+- fixing after a sort operation, the incorrect spectra is loaded
+---------------------------------------------------------------------
 version: 0.91
 date: 17/07/2012
 -Adding export functions based on MzIdentMLToCSV
