@@ -987,13 +987,13 @@ public class ProteoIDViewer extends javax.swing.JFrame {
     }
 
     private double roundTwoDecimals(double d) {
-        DecimalFormat twoDForm = new DecimalFormat("#.##");
-        return Double.valueOf(twoDForm.format(d));
+         double multipicationFactor = Math.pow(10, 2);
+            return Math.round(d * multipicationFactor) / multipicationFactor;
     }
 
     private double roundThreeDecimals(double d) {
-        DecimalFormat twoDForm = new DecimalFormat("#.###");
-        return Double.valueOf(twoDForm.format(d));
+         double multipicationFactor = Math.pow(10, 3);
+            return Math.round(d * multipicationFactor) / multipicationFactor;
     }
 
     private String roundScientificNumbers(double d) {
