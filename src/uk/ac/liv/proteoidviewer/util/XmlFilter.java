@@ -2,7 +2,7 @@
 /*
  * @author Fawaz Ghali, University of Liverpool, 2012
  */
-package util;
+package uk.ac.liv.proteoidviewer.util;
 
 import java.io.File;
 

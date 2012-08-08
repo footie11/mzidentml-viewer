@@ -5,7 +5,7 @@
  * Created on 15-Dec-2010, 12:53:27
  */
 
-package util;
+package uk.ac.liv.proteoidviewer.util;
 
 /**
  *
