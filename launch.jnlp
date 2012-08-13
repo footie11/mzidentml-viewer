@@ -11,9 +11,7 @@
     
 </information>
    
-    <security> 
-<all-permissions/> 
-</security>
+
  
     <resources>
         <j2se java-vm-args="-Xms1024m" version="1.7+"/>
