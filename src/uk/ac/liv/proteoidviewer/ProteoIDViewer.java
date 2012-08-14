@@ -797,7 +797,8 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                                         || accession.equals("MS:1001172")
                                         || accession.equals("MS:1001159")
                                         || accession.equals("MS:1001328")) {
-                                    ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).setValueAt(roundScientificNumbers(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() - 1, 8 + s);
+                                   // ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).setValueAt(roundScientificNumbers(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() - 1, 8 + s);
+                                    ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).setValueAt(roundThreeDecimals(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() - 1, 8 + s);
                                 } else {
                                     ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).setValueAt(cvParam.getValue(), ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() - 1, 8 + s);
                                 }
@@ -965,7 +966,8 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                                             || accession.equals("MS:1001172")
                                             || accession.equals("MS:1001159")
                                             || accession.equals("MS:1001328")) {
-                                        ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(roundScientificNumbers(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
+                                       // ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(roundScientificNumbers(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
+                                         ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(roundThreeDecimals(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
                                     } else {
                                         ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(cvParam.getValue(), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
                                     }
