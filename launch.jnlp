@@ -19,9 +19,9 @@
 
  
     <resources>
-        <j2se java-vm-args="-Xms1024m" version="1.7+"/>
+        <j2se java-vm-args="-Xms1024m" version="1.6"/>
         <jar href="ProteoIDViewer.jar" main="true"/>
-        
+       
         
     <jar href="lib/activation-1.1.jar"/>
 <jar href="lib/batik-all-1.6.jar"/>
