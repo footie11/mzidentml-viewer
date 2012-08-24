@@ -198,7 +198,7 @@ made subject to such option by the copyright holder.
     
     <!-- Generating JNLP file -->
     
-    <target name="generate-jnlp" depends="sign-jars,-test-generate-task-available,-unavailable-generate-task" if="generate.task.available">
+    <target name="generate-jnlp" depends="-test-generate-task-available,-unavailable-generate-task" if="generate.task.available">
         <taskdef name="generate-jnlp" classname="org.netbeans.modules.javawebstart.anttasks.GenerateJnlpFileTask" 
             classpath="${libs.JWSAntTasks.classpath}"/>
         <property name="jnlp.lazy.jars" value=""/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<jnlp codebase="http://mzidentml-viewer.googlecode.com/svn/" href="launch.jnlp" spec="1.0+">
+<jnlp codebase="https://mzidentml-viewer.googlecode.com/svn/" href="launch.jnlp" spec="1.0+">
     <information>
         <title>mzIdentML Java Viewer</title>
         <vendor>Fawaz Ghali</vendor>
@@ -8,22 +8,17 @@
         <description kind="short">mzIdentML Java Viewer</description>
         
         
-    
+    <offline-allowed/>
 </information>
-   
-    <security> 
-<all-permissions/> 
-</security>
-
-<update check="always" />
-
- 
+    <update check="background"/>
+    
     <resources>
-        <j2se java-vm-args="-Xms1024m" version="1.6"/>
+        <j2se java-vm-args="-Xms1024m" version="1.7+"/>
         <jar href="ProteoIDViewer.jar" main="true"/>
-       
         
-    <jar href="lib/activation-1.1.jar"/>
+        
+    <jar href="lib/MzidParsers.jar"/>
+<jar href="lib/activation-1.1.jar"/>
 <jar href="lib/batik-all-1.6.jar"/>
 <jar href="lib/braf-1.0.1.jar"/>
 <jar href="lib/chardet-1.0.jar"/>
@@ -82,7 +77,6 @@
 <jar href="lib/xpp3-1.1.3.4-RC3.jar"/>
 <jar href="lib/xtandem-parser-1.2.4.jar"/>
 <jar href="lib/xxindex-0.11.jar"/>
-<jar href="lib/MzidParsers.jar"/>
 </resources>
     <application-desc main-class="uk.ac.liv.proteoidviewer.ProteoIDViewer">
         
