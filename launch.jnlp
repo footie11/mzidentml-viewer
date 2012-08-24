@@ -11,7 +11,9 @@
     <offline-allowed/>
 </information>
     <update check="background"/>
-    
+    security>
+		<all-permissions/>
+	</security>
     <resources>
         <j2se java-vm-args="-Xms1024m" version="1.7+"/>
         <jar href="ProteoIDViewer.jar" main="true"/>
