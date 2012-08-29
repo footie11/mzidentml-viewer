@@ -93,8 +93,8 @@ import uk.ac.ebi.pride.tools.jmzreader.JMzReader;
 import uk.ac.ebi.pride.tools.jmzreader.JMzReaderException;
 import uk.ac.ebi.pride.tools.jmzreader.model.Spectrum;
 import uk.ac.ebi.pride.tools.mgf_parser.MgfFile;
-import uk.ac.liv.mzidparsers.Omssa2mzid;
-import uk.ac.liv.mzidparsers.Tandem2mzid;
+import uk.ac.liv.mzidconverters.Omssa2mzid;
+import uk.ac.liv.mzidconverters.Tandem2mzid;
 
 /**
  *
@@ -436,7 +436,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         // protocolTable
         String[] protocolTableHeaders = new String[]{"", ""};
         // protein view
-        String[] proteinAmbiguityGroupTableHeaders = new String[]{"ID", "Name", "Protein Accessions"};
+        String[] proteinAmbiguityGroupTableHeaders = new String[]{"ID", "Name", "Protein Accessions", "Representative Protein", "Scores", "P-values", "Number of peptides", "Is Decoy", "passThreshold"};
         String[] proteinDetectionHypothesisTableHeaders = new String[]{"ID", "Accession", "Scores", "P-values", "Number of peptides", "Is Decoy", "passThreshold"};
         String[] spectrumIdentificationItemProteinViewTableHeaders = new String[]{"Peptide Sequence", "SII", "Name", "Score", "Expectation value", "passThreshold"};
         proteinAmbiguityGroupTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{}, proteinAmbiguityGroupTableHeaders) {
@@ -645,7 +645,12 @@ public class ProteoIDViewer extends javax.swing.JFrame {
 
             protein_accessions = "";
             proteinDetectionHypothesisList = proteinAmbiguityGroup.getProteinDetectionHypothesis();
-
+            boolean representativeProtein = false;
+            String representativeProteinAccession = "";
+            boolean isDecoy = false;
+            String score = " ";
+            String number_peptide = " ";
+            boolean isPassThreshold = false;
             if (proteinDetectionHypothesisList.size() > 0) {
                 for (int j = 0; j < proteinDetectionHypothesisList.size(); j++) {
                     try {
@@ -660,6 +665,26 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                         if (proteinDetectionHypothesis.isPassThreshold()) {
                             pDHListPassThreshold.add(proteinDetectionHypothesis);
                         }
+
+
+                        List<CvParam> cvParamList = proteinDetectionHypothesis.getCvParam();
+                        for (int i = 0; i < cvParamList.size(); i++) {
+                            CvParam cvParam = cvParamList.get(i);
+                            if (cvParam.getName().equals("anchor protein")) {
+                                representativeProtein = true;
+                                representativeProteinAccession = dBSequence.getAccession();
+                                isDecoy = checkIfProteinDetectionHypothesisIsDecoy(proteinDetectionHypothesis);
+                                if (proteinDetectionHypothesis.getPeptideHypothesis() != null) {
+                                    number_peptide = String.valueOf(proteinDetectionHypothesis.getPeptideHypothesis().size());
+                                }
+
+                                isPassThreshold = proteinDetectionHypothesis.isPassThreshold();
+                            }
+                            if (cvParam.getName().contains("score")) {
+                                score = cvParam.getValue();
+                            }
+
+                        }
                     } catch (JAXBException ex) {
                         Logger.getLogger(ProteoIDViewer.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -667,11 +692,32 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 }
             }
             protein_accessions = protein_accessions.substring(0, protein_accessions.length() - 1);
-            ((DefaultTableModel) proteinAmbiguityGroupTable.getModel()).addRow(new String[]{
-                        proteinAmbiguityGroup.getId(),
-                        proteinAmbiguityGroup.getName(),
-                        protein_accessions
-                    });
+            if (representativeProtein) {
+                ((DefaultTableModel) proteinAmbiguityGroupTable.getModel()).addRow(new Object[]{
+                            proteinAmbiguityGroup.getId(),
+                            proteinAmbiguityGroup.getName(),
+                            protein_accessions,
+                            representativeProteinAccession,
+                            roundTwoDecimals(Double.valueOf(score).doubleValue()),
+                            " ",
+                            Integer.valueOf(number_peptide),
+                            String.valueOf(isDecoy),
+                            String.valueOf(isPassThreshold)
+                        });
+            } else {
+                ((DefaultTableModel) proteinAmbiguityGroupTable.getModel()).addRow(new Object[]{
+                            proteinAmbiguityGroup.getId(),
+                            proteinAmbiguityGroup.getName(),
+                            protein_accessions,
+                            " ",
+                            " ",
+                            " ",
+                            " ",
+                            " ",
+                            " "
+                        });
+            }
+
         }
 
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -797,7 +843,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                                         || accession.equals("MS:1001172")
                                         || accession.equals("MS:1001159")
                                         || accession.equals("MS:1001328")) {
-                                   // ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).setValueAt(roundScientificNumbers(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() - 1, 8 + s);
+                                    // ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).setValueAt(roundScientificNumbers(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() - 1, 8 + s);
                                     ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).setValueAt(roundThreeDecimals(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() - 1, 8 + s);
                                 } else {
                                     ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).setValueAt(cvParam.getValue(), ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).getRowCount() - 1, 8 + s);
@@ -966,8 +1012,8 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                                             || accession.equals("MS:1001172")
                                             || accession.equals("MS:1001159")
                                             || accession.equals("MS:1001328")) {
-                                       // ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(roundScientificNumbers(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
-                                         ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(roundThreeDecimals(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
+                                        // ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(roundScientificNumbers(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
+                                        ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(roundThreeDecimals(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
                                     } else {
                                         ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(cvParam.getValue(), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
                                     }
@@ -989,13 +1035,13 @@ public class ProteoIDViewer extends javax.swing.JFrame {
     }
 
     private double roundTwoDecimals(double d) {
-         double multipicationFactor = Math.pow(10, 2);
-            return Math.round(d * multipicationFactor) / multipicationFactor;
+        double multipicationFactor = Math.pow(10, 2);
+        return Math.round(d * multipicationFactor) / multipicationFactor;
     }
 
     private double roundThreeDecimals(double d) {
-         double multipicationFactor = Math.pow(10, 3);
-            return Math.round(d * multipicationFactor) / multipicationFactor;
+        double multipicationFactor = Math.pow(10, 3);
+        return Math.round(d * multipicationFactor) / multipicationFactor;
     }
 
     private String roundScientificNumbers(double d) {
@@ -2031,16 +2077,21 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         jProteinAmbiguityGroupPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Protein Group"));
         jProteinAmbiguityGroupPanel.setToolTipText("groups of proteins sharing some or all of the same peptides");
         jProteinAmbiguityGroupPanel.setPreferredSize(new java.awt.Dimension(772, 150));
+        jProteinAmbiguityGroupPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jProteinAmbiguityGroupPanelMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jProteinAmbiguityGroupPanelLayout = new javax.swing.GroupLayout(jProteinAmbiguityGroupPanel);
         jProteinAmbiguityGroupPanel.setLayout(jProteinAmbiguityGroupPanelLayout);
         jProteinAmbiguityGroupPanelLayout.setHorizontalGroup(
             jProteinAmbiguityGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 608, Short.MAX_VALUE)
+            .addGap(0, 614, Short.MAX_VALUE)
         );
         jProteinAmbiguityGroupPanelLayout.setVerticalGroup(
             jProteinAmbiguityGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 212, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jProteinDetectionHypothesisPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Protein"));
@@ -2051,11 +2102,11 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         jProteinDetectionHypothesisPanel.setLayout(jProteinDetectionHypothesisPanelLayout);
         jProteinDetectionHypothesisPanelLayout.setHorizontalGroup(
             jProteinDetectionHypothesisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 608, Short.MAX_VALUE)
+            .addGap(0, 614, Short.MAX_VALUE)
         );
         jProteinDetectionHypothesisPanelLayout.setVerticalGroup(
             jProteinDetectionHypothesisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1232, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jProteinInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Protein Info"));
@@ -2090,7 +2141,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         );
         jSpectrumIdentificationItemProteinPanelLayout.setVerticalGroup(
             jSpectrumIdentificationItemProteinPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1130, Short.MAX_VALUE)
+            .addGap(0, 1134, Short.MAX_VALUE)
         );
 
         jScientificNameLabel.setText("Scientific name:");
@@ -2120,10 +2171,10 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 .addComponent(jScientificNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScientificNameValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(504, Short.MAX_VALUE))
+                .addContainerGap(506, Short.MAX_VALUE))
             .addComponent(jProteinDescriptionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jProteinSequencePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSpectrumIdentificationItemProteinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)
+            .addComponent(jSpectrumIdentificationItemProteinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE)
         );
         jProteinInfoPanelLayout.setVerticalGroup(
             jProteinInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2137,7 +2188,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jProteinSequencePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jSpectrumIdentificationItemProteinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1154, Short.MAX_VALUE))
+                .addComponent(jSpectrumIdentificationItemProteinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1157, Short.MAX_VALUE))
         );
 
         jSpectrumIdentificationItemProteinPanel.getAccessibleContext().setAccessibleDescription("Spectrum Identification Item");
@@ -2149,8 +2200,8 @@ public class ProteoIDViewer extends javax.swing.JFrame {
             .addGroup(proteinViewPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(proteinViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jProteinDetectionHypothesisPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
-                    .addComponent(jProteinAmbiguityGroupPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE))
+                    .addComponent(jProteinDetectionHypothesisPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
+                    .addComponent(jProteinAmbiguityGroupPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jProteinInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -2162,9 +2213,9 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 .addGroup(proteinViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jProteinInfoPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(proteinViewPanelLayout.createSequentialGroup()
-                        .addComponent(jProteinAmbiguityGroupPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jProteinAmbiguityGroupPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(jProteinDetectionHypothesisPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1255, Short.MAX_VALUE)))
+                        .addComponent(jProteinDetectionHypothesisPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -2190,11 +2241,11 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         jFragmentationPanel.setLayout(jFragmentationPanelLayout);
         jFragmentationPanelLayout.setHorizontalGroup(
             jFragmentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 885, Short.MAX_VALUE)
+            .addGap(0, 893, Short.MAX_VALUE)
         );
         jFragmentationPanelLayout.setVerticalGroup(
             jFragmentationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 212, Short.MAX_VALUE)
+            .addGap(0, 213, Short.MAX_VALUE)
         );
 
         jGraph.setBorder(javax.swing.BorderFactory.createTitledBorder("Graph"));
@@ -2207,7 +2258,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         );
         jGraphLayout.setVerticalGroup(
             jGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1153, Short.MAX_VALUE)
+            .addGap(0, 1156, Short.MAX_VALUE)
         );
 
         jExperimentalFilterPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Experimental Filtering"));
@@ -2228,7 +2279,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         jSpectrumPanelLayout.setHorizontalGroup(
             jSpectrumPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jFragmentationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 901, Short.MAX_VALUE)
+            .addComponent(jFragmentationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 905, Short.MAX_VALUE)
             .addComponent(jExperimentalFilterPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jSpectrumPanelLayout.setVerticalGroup(
@@ -2282,11 +2333,11 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         jPeptideEvidencePanel.setLayout(jPeptideEvidencePanelLayout);
         jPeptideEvidencePanelLayout.setHorizontalGroup(
             jPeptideEvidencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 464, Short.MAX_VALUE)
+            .addGap(0, 468, Short.MAX_VALUE)
         );
         jPeptideEvidencePanelLayout.setVerticalGroup(
             jPeptideEvidencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1027, Short.MAX_VALUE)
+            .addGap(0, 1029, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -2351,11 +2402,11 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         jFragmentationPanel1.setLayout(jFragmentationPanel1Layout);
         jFragmentationPanel1Layout.setHorizontalGroup(
             jFragmentationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 885, Short.MAX_VALUE)
+            .addGap(0, 893, Short.MAX_VALUE)
         );
         jFragmentationPanel1Layout.setVerticalGroup(
             jFragmentationPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 226, Short.MAX_VALUE)
+            .addGap(0, 227, Short.MAX_VALUE)
         );
 
         jGraph1.setBorder(javax.swing.BorderFactory.createTitledBorder("Graph"));
@@ -2368,7 +2419,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         );
         jGraph1Layout.setVerticalGroup(
             jGraph1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1157, Short.MAX_VALUE)
+            .addGap(0, 1160, Short.MAX_VALUE)
         );
 
         jExperimentalFilterPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Experimental Filtering"));
@@ -2389,7 +2440,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         jSpectrumPanel1Layout.setHorizontalGroup(
             jSpectrumPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jExperimentalFilterPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jFragmentationPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 901, Short.MAX_VALUE)
+            .addComponent(jFragmentationPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 905, Short.MAX_VALUE)
             .addComponent(jGraph1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jSpectrumPanel1Layout.setVerticalGroup(
@@ -2441,7 +2492,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         );
         jPeptideEvidencePanel1Layout.setVerticalGroup(
             jPeptideEvidencePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1122, Short.MAX_VALUE)
+            .addGap(0, 1124, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -2496,11 +2547,11 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         dBSequencePanel.setLayout(dBSequencePanelLayout);
         dBSequencePanelLayout.setHorizontalGroup(
             dBSequencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1386, Short.MAX_VALUE)
+            .addGap(0, 1390, Short.MAX_VALUE)
         );
         dBSequencePanelLayout.setVerticalGroup(
             dBSequencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1485, Short.MAX_VALUE)
+            .addGap(0, 1486, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout proteinDBViewPanelLayout = new javax.swing.GroupLayout(proteinDBViewPanel);
@@ -2645,7 +2696,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         );
         tpEvaluePanelLayout.setVerticalGroup(
             tpEvaluePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 916, Short.MAX_VALUE)
+            .addGap(0, 917, Short.MAX_VALUE)
         );
 
         tpQvaluePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("TP vs Q-value"));
@@ -2680,11 +2731,11 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(summaryPanelLayout.createSequentialGroup()
-                        .addComponent(fdrPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
+                        .addComponent(fdrPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tpEvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                        .addComponent(tpEvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tpQvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                        .addComponent(tpQvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(summaryPanelLayout.createSequentialGroup()
                         .addComponent(manualDecoy)
@@ -2850,7 +2901,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                         .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(fdrProteinsLabel)
                             .addComponent(fdrProteinsValue))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 252, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 253, Short.MAX_VALUE)
                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(manualDecoyPrefix)
@@ -2904,14 +2955,14 @@ public class ProteoIDViewer extends javax.swing.JFrame {
             protocolSummaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(protocolSummaryPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1366, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1370, Short.MAX_VALUE)
                 .addContainerGap())
         );
         protocolSummaryPanelLayout.setVerticalGroup(
             protocolSummaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(protocolSummaryPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1463, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1464, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -3312,9 +3363,8 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         int row = proteinAmbiguityGroupTable.getSelectedRow();
 
 
-
         if (row != -1) {
-//            row = proteinAmbiguityGroupTable.convertRowIndexToModel(row);
+            row = proteinAmbiguityGroupTable.convertRowIndexToModel(row);
             try {
                 while (proteinDetectionHypothesisTable.getRowCount() > 0) {
                     ((DefaultTableModel) proteinDetectionHypothesisTable.getModel()).removeRow(0);
@@ -3357,7 +3407,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                         ((DefaultTableModel) proteinDetectionHypothesisTable.getModel()).addRow(new Object[]{
                                     proteinDetectionHypothesis.getId(),
                                     dBSequenceAccession,
-                                    Double.valueOf(score),
+                                    roundTwoDecimals(Double.valueOf(score).doubleValue()),
                                     "",
                                     Integer.valueOf(number_peptide),
                                     isDecoy,
@@ -3434,7 +3484,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                         } else if (mzid_file.getPath().endsWith(".omx")) {
                             File outFile = null;
                             outFile = new File(fileChooser.getCurrentDirectory(), mzid_file.getName().replaceAll(".omx", ".mzid"));
-                            new Omssa2mzid(mzid_file.getPath(), outFile.getPath());
+                            new Omssa2mzid(mzid_file.getPath(), outFile.getPath(), false);
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
                         } else if (mzid_file.getPath().endsWith(".xml")) {
                             File outFile = null;
@@ -4585,6 +4635,10 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jProteinAmbiguityGroupPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jProteinAmbiguityGroupPanelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jProteinAmbiguityGroupPanelMouseClicked
     private void changeFontSize(int i) {
         proteinAmbiguityGroupTable.setFont(new Font("Serif", Font.PLAIN, i));
         proteinDetectionHypothesisTable.setFont(new Font("Serif", Font.PLAIN, i));

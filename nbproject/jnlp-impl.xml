@@ -132,7 +132,7 @@ made subject to such option by the copyright holder.
         </condition>
     </target>
 
-    <target name="-add-trusted-only-attribute" depends="-set-mixed-code-properties,-init-macrodef-extend-manifest" if="mixed.code.trusted.only">
+    <target name="-add-trusted-only-attribute" depends="-init-macrodef-extend-manifest" if="mixed.code.trusted.only">
         <jnlp:extend-manifest>
             <customize>
                 <attribute name="Trusted-Only" value="true"/>
@@ -140,7 +140,7 @@ made subject to such option by the copyright holder.
         </jnlp:extend-manifest>
     </target>
 
-    <target name="-add-trusted-library-attribute" depends="-set-mixed-code-properties,-init-macrodef-extend-manifest" if="mixed.code.trusted.library">
+    <target name="-add-trusted-library-attribute" depends="-init-macrodef-extend-manifest" if="mixed.code.trusted.library">
         <jnlp:extend-manifest>
             <customize>
                 <attribute name="Trusted-Library" value="true"/>

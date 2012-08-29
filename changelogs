@@ -1,10 +1,13 @@
+version: 0.94
+date: 29/08/2012
+- Adding the Representative Protein in the Protein groups view
+---------------------------------------------------------------------
 version: 0.93
 date: 23/08/2012
 - Null pointer exception in Peptide view
 - Format exception for double values
 - Adding mzId validator 
 ---------------------------------------------------------------------
-
 version: 0.92
 date: 01/08/2012
 - Fixing Spectrum loading problems. Spectrum spectrum = jmzreader.getSpectrumById(spectrumIndex);
