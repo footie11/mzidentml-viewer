@@ -760,7 +760,21 @@ public class ProteoIDViewer extends javax.swing.JFrame {
             ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).removeRow(0);
         }
         siiSirHashMap.clear();
+        
+        Iterator<Peptide> iterPeptide = mzIdentMLUnmarshaller.unmarshalCollectionFromXpath(MzIdentMLElement.Peptide);
+        HashMap<String,Peptide> pepMap = new HashMap();
+        
+        while(iterPeptide.hasNext()){
+            Peptide pep = iterPeptide.next();
+            pepMap.put(pep.getId(), pep);
+            
+        }
+        
+        
         Iterator<SpectrumIdentificationResult> iterSpectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshalCollectionFromXpath(MzIdentMLElement.SpectrumIdentificationResult);
+        
+
+        
         while (iterSpectrumIdentificationResult.hasNext()) {
             try {
                 SpectrumIdentificationResult spectrumIdentificationResult = iterSpectrumIdentificationResult.next();
@@ -772,7 +786,10 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                     boolean isDecoy = checkIfSpectrumIdentificationItemIsDecoy(spectrumIdentificationItem);
 
 
-                    Peptide peptide = mzIdentMLUnmarshaller.unmarshal(Peptide.class, spectrumIdentificationItem.getPeptideRef());
+                    //Peptide peptide = mzIdentMLUnmarshaller.unmarshal(Peptide.class, spectrumIdentificationItem.getPeptideRef());
+                    Peptide peptide = pepMap.get(spectrumIdentificationItem.getPeptideRef());
+                    //Peptide peptide = spectrumIdentificationItem.getPeptide();
+                    
                     if (peptide != null) {
                         List<Modification> modificationList = peptide.getModification();
                         Modification modification;
@@ -852,7 +869,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                         }
                     }
                 }
-            } catch (JAXBException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(ProteoIDViewer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -2664,7 +2681,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
 
         fdrProteinsValue.setText("0");
 
-        manualCalculate.setText("Calculate");
+        manualCalculate.setText("Calculate / Show graphs");
         manualCalculate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 manualCalculateActionPerformed(evt);
@@ -2785,10 +2802,6 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                                 .addComponent(totalPDHsaboveThresholdLabel)))
                         .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(summaryPanelLayout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addComponent(manualCalculate)
-                                .addContainerGap())
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, summaryPanelLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 296, Short.MAX_VALUE)
                                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -2817,7 +2830,11 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                                             .addComponent(tpProteinsValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(fdrProteinsValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(fdrSiiValue, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(552, 552, 552))))))
+                                .addGap(552, 552, 552))
+                            .addGroup(summaryPanelLayout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(manualCalculate, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))))
         );
         summaryPanelLayout.setVerticalGroup(
             summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3976,10 +3993,37 @@ public class ProteoIDViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_font16ActionPerformed
 
     private void manualCalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualCalculateActionPerformed
-        try {
+       
 //            if (!getTitle().endsWith("*")) {
 //                setTitle(getTitle() + " *");
 //            }
+
+        progressBarDialog = new ProgressBarDialog(this, true);
+        final Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                progressBarDialog.setTitle("Calculating FDR stats and drawing graphs. Please wait..");
+                progressBarDialog.setVisible(true);
+            }
+        }, "ProgressBarDialog");
+
+        thread.start();
+
+            new Thread("LoadingThread") {
+
+            @Override
+            public void run() {
+                makeFDRGraphs();
+                progressBarDialog.setVisible(false);
+                progressBarDialog.dispose();
+            }
+        }.start();
+
+    }
+        
+    public void makeFDRGraphs(){    
+      try{
             sIIListIsDecoyTrue.clear();
             sIIListIsDecoyFalse.clear();
 
@@ -4005,11 +4049,19 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                     PeptideEvidence peptideEvidence1 = mzIdentMLUnmarshaller.unmarshal(PeptideEvidence.class, peptideEvidenceRef.getPeptideEvidenceRef());
                     DBSequence dbSeq = mzIdentMLUnmarshaller.unmarshal(DBSequence.class, peptideEvidence1.getDBSequenceRef());
 
-                    if (!dbSeq.getAccession().startsWith(manualDecoyPrefixValue.getText())) {
-                        sIIListIsDecoyFalse.add(spectrumIdentificationItem);
-                        isdecoy = false;
-                        break;
-
+                    if(manualDecoy.isSelected()){   //Added by ARJ to use value in file if manual decoy is not selected
+                        if (!dbSeq.getAccession().startsWith(manualDecoyPrefixValue.getText())) {
+                            sIIListIsDecoyFalse.add(spectrumIdentificationItem);
+                            isdecoy = false;
+                            break;
+                        }
+                    }
+                    else{
+                        if(!peptideEvidence1.isIsDecoy()){
+                            sIIListIsDecoyFalse.add(spectrumIdentificationItem);
+                            isdecoy = false;
+                            break;
+                        }
                     }
 
                 }
@@ -4045,7 +4097,14 @@ public class ProteoIDViewer extends javax.swing.JFrame {
             while (fdrPanel.getComponents().length > 0) {
                 fdrPanel.remove(0);
             }
-            falseDiscoveryRate = new FalseDiscoveryRate(mzIdentMLUnmarshaller, manualDecoyRatioValue.getText(), manualDecoyPrefixValue.getText(), siiComboBox.getSelectedIndex());
+            
+            if(manualDecoy.isSelected()){
+                falseDiscoveryRate = new FalseDiscoveryRate(mzIdentMLUnmarshaller, manualDecoyRatioValue.getText(), manualDecoyPrefixValue.getText(), siiComboBox.getSelectedIndex());
+            }
+            else{
+                
+                falseDiscoveryRate = new FalseDiscoveryRate(mzIdentMLUnmarshaller,siiComboBox.getSelectedIndex());
+            }
             falseDiscoveryRate.computeFDRusingJonesMethod();
 
 
@@ -4122,8 +4181,8 @@ public class ProteoIDViewer extends javax.swing.JFrame {
             final XYSeries dataTpQValueSeries = new XYSeries("data", false);
 
             for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
-                dataTpQValueSeries.add(Math.log10(falseDiscoveryRate.getSorted_qValues().get(i)), falseDiscoveryRate.getTP().get(i));
-
+                dataTpQValueSeries.add(falseDiscoveryRate.getSorted_qValues().get(i), falseDiscoveryRate.getTP().get(i));
+                //System.out.println(falseDiscoveryRate.getSorted_qValues().get(i) + " " + falseDiscoveryRate.getTP().get(i) );
             }
 
 
@@ -4688,7 +4747,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
     private JFreeChart createTpQvalue(final XYDataset dataset) {
         final JFreeChart chart = ChartFactory.createScatterPlot(
                 "TP vs Q-value", // chart title
-                "log10(Q-value)", // x axis label
+                "Q-value", // x axis label
                 "TP value", // y axis label
                 dataset, // data
                 PlotOrientation.VERTICAL,
