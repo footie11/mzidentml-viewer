@@ -1,3 +1,7 @@
+ProteoIDViewer-0.96
+date: 08/11/2012
+Add code to ignore any zero value (e-values) for first two plots
+---------------------------------------------------------------------
 version: 0.94
 date: 29/08/2012
 - Adding the Representative Protein in the Protein groups view
