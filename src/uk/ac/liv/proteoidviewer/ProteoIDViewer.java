@@ -3579,7 +3579,13 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                         progressBarDialog.setVisible(false);
                         progressBarDialog.dispose();
                         System.out.println(ex.getMessage());
-                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+                        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+                        String msg = ex.getMessage();
+                        
+                        if(msg.equals("No entry found for ID: null and Class: class uk.ac.ebi.jmzidml.model.mzidml.DBSequence. Make sure the element you are looking for has an ID attribute and is id-mapped!"))
+                            msg = "No dbSequence_ref provided from ProteinDetectionHypothesis, please report this error back to the mzid exporter";
+                        JOptionPane.showMessageDialog(null, msg, "Exception", JOptionPane.ERROR_MESSAGE);
                     }
 
 
@@ -3846,6 +3852,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                     String p_ref = spectrumIdentificationItem.getPeptideRef();
 
                     Peptide peptide = mzIdentMLUnmarshaller.unmarshal(Peptide.class, p_ref);
+                    
                     if (!peptideListNonReduntant.contains(peptide)) {
                         peptideListNonReduntant.add(peptide);
                     }
@@ -4114,21 +4121,24 @@ public class ProteoIDViewer extends javax.swing.JFrame {
             final XYSeries dataFDR = new XYSeries("FDR", false);
 
             for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
-                dataFDR.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getSorted_estimatedFDR().get(i));
+                if(falseDiscoveryRate.getSorted_evalues().get(i)!=0)
+                    dataFDR.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getSorted_estimatedFDR().get(i));
 
             }
 
             final XYSeries dataFDRQvalue = new XYSeries("Q-value", false);
 
             for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
-                dataFDRQvalue.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getSorted_qValues().get(i));
+                if(falseDiscoveryRate.getSorted_evalues().get(i)!=0)
+                    dataFDRQvalue.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getSorted_qValues().get(i));
 
             }
 
             final XYSeries dataFDRSimple = new XYSeries("Simple FDR", false);
 
             for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
-                dataFDRSimple.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getSorted_simpleFDR().get(i));
+                if(falseDiscoveryRate.getSorted_evalues().get(i)!=0)
+                    dataFDRSimple.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getSorted_simpleFDR().get(i));
 
             }
 
@@ -4152,14 +4162,16 @@ public class ProteoIDViewer extends javax.swing.JFrame {
             final XYSeries dataTpQvalue = new XYSeries("TP", false);
 
             for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
-                dataTpQvalue.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getTP().get(i));
+                if(falseDiscoveryRate.getSorted_evalues().get(i)!=0)
+                    dataTpQvalue.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getTP().get(i));
 
             }
 
             final XYSeries dataFpQvalue = new XYSeries("FP", false);
 
             for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
-                dataFpQvalue.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getFP().get(i));
+                if(falseDiscoveryRate.getSorted_evalues().get(i)!=0)
+                    dataFpQvalue.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getFP().get(i));
 
             }
 
