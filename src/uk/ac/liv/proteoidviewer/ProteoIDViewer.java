@@ -66,6 +66,7 @@ import java.util.zip.GZIPInputStream;
 import javax.swing.*;
 
 import javax.xml.bind.JAXBException;
+import org.apache.commons.lang.StringEscapeUtils;
 import uk.ac.liv.mzidlib.FalseDiscoveryRate;
 import uk.ac.liv.mzidlib.MzIdentMLToCSV;
 import org.jfree.chart.ChartFactory;
@@ -161,6 +162,8 @@ public class ProteoIDViewer extends javax.swing.JFrame {
     private JMzReader jmzreader = null;
     private Map<Double, Double> peakList = new HashMap();
     private HashMap<String, String> siiSirHashMap = new HashMap();
+    private HashMap<String, String> cvTermHashMap = new HashMap();
+    private String fileName="";
 
     /**
      * Creates new form ProteoIDViewer
@@ -2043,6 +2046,8 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JSeparator();
         siiComboBox = new javax.swing.JComboBox();
         siiListLabel = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
+        jComboBox2 = new javax.swing.JComboBox();
         protocolPanel = new javax.swing.JPanel();
         protocolSummaryPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -2740,6 +2745,8 @@ public class ProteoIDViewer extends javax.swing.JFrame {
 
         siiListLabel.setText("SII List:");
 
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Better scores are lower", "Better scores are higher" }));
+
         javax.swing.GroupLayout summaryPanelLayout = new javax.swing.GroupLayout(summaryPanel);
         summaryPanel.setLayout(summaryPanelLayout);
         summaryPanelLayout.setHorizontalGroup(
@@ -2755,43 +2762,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                         .addComponent(tpQvaluePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(summaryPanelLayout.createSequentialGroup()
-                        .addComponent(manualDecoy)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(manualDecoyLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(manualDecoyPrefix)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(manualDecoyPrefixValue, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(manualDecoyRatio, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
-                        .addGap(559, 559, 559))
-                    .addGroup(summaryPanelLayout.createSequentialGroup()
                         .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(summaryPanelLayout.createSequentialGroup()
-                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(totalSIRLabel)
-                                    .addComponent(totalSIILabel)
-                                    .addComponent(siiListLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(siiComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(manualDecoyRatioValue, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(summaryPanelLayout.createSequentialGroup()
-                                            .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(totalSIRLabelValue)
-                                                .addComponent(totalSIIbelowThresholdLabel)
-                                                .addComponent(totalSIIaboveThresholdLabel)
-                                                .addComponent(totalSIIaboveThresholdRankOneLabel))
-                                            .addGap(22, 22, 22)
-                                            .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(totalPAGsLabelValue)
-                                                .addComponent(totalPeptidesaboveThresholdLabelValue)
-                                                .addComponent(percentIdentifiedSpectraLabelValue)
-                                                .addComponent(totalPDHsaboveThresholdLabelValue, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(totalSIIbelowThresholdLabelValue, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
-                                                .addComponent(totalSIIaboveThresholdLabelValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(totalSIIaboveThresholdRankOneLabelValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                             .addComponent(percentIdentifiedSpectraLabel)
                             .addComponent(totalPeptidesaboveThresholdLabel)
                             .addGroup(summaryPanelLayout.createSequentialGroup()
@@ -2800,41 +2771,80 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                                     .addComponent(totalPDHsLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(totalPDHsaboveThresholdLabel)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 408, Short.MAX_VALUE)
+                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(summaryPanelLayout.createSequentialGroup()
+                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(isDecoySii)
+                                    .addComponent(isDecoySiiFalse))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(isDecoySiiFalseValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(isDecoySiiValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(summaryPanelLayout.createSequentialGroup()
+                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(fpSiiLabel)
+                                    .addComponent(tpSiiLabel)
+                                    .addComponent(fdrSiiLabel)
+                                    .addComponent(fpProteinsLabel)
+                                    .addComponent(tpProteinsLabel)
+                                    .addComponent(fdrProteinsLabel))
+                                .addGap(40, 40, 40)
+                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(fpSiiValue, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tpSiiValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fpProteinsValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(tpProteinsValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fdrProteinsValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fdrSiiValue, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(552, 552, 552))
+                    .addGroup(summaryPanelLayout.createSequentialGroup()
                         .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(summaryPanelLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 296, Short.MAX_VALUE)
-                                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(summaryPanelLayout.createSequentialGroup()
-                                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(isDecoySii)
-                                            .addComponent(isDecoySiiFalse))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(isDecoySiiFalseValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(isDecoySiiValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGroup(summaryPanelLayout.createSequentialGroup()
-                                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(fpSiiLabel)
-                                            .addComponent(tpSiiLabel)
-                                            .addComponent(fdrSiiLabel)
-                                            .addComponent(fpProteinsLabel)
-                                            .addComponent(tpProteinsLabel)
-                                            .addComponent(fdrProteinsLabel))
-                                        .addGap(40, 40, 40)
-                                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(fpSiiValue, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(tpSiiValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(fpProteinsValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(tpProteinsValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(fdrProteinsValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(fdrSiiValue, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(552, 552, 552))
+                                .addComponent(manualDecoy)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(manualDecoyLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(manualDecoyPrefix)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(manualDecoyPrefixValue, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(summaryPanelLayout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addComponent(manualCalculate, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())))))
+                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(totalSIRLabel)
+                                    .addComponent(totalSIILabel)
+                                    .addComponent(siiListLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(siiComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(summaryPanelLayout.createSequentialGroup()
+                                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(totalSIRLabelValue)
+                                            .addComponent(totalSIIbelowThresholdLabel)
+                                            .addComponent(totalSIIaboveThresholdLabel)
+                                            .addComponent(totalSIIaboveThresholdRankOneLabel))
+                                        .addGap(22, 22, 22)
+                                        .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(totalSIIbelowThresholdLabelValue, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                                            .addComponent(totalSIIaboveThresholdLabelValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(totalSIIaboveThresholdRankOneLabelValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(totalPeptidesaboveThresholdLabelValue, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(percentIdentifiedSpectraLabelValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(totalPDHsaboveThresholdLabelValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(totalPAGsLabelValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGroup(summaryPanelLayout.createSequentialGroup()
+                                        .addGap(150, 150, 150)
+                                        .addComponent(manualDecoyRatio, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(manualDecoyRatioValue, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(manualCalculate, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         summaryPanelLayout.setVerticalGroup(
             summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2926,7 +2936,9 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                         .addComponent(manualDecoyLabel)
                         .addComponent(manualDecoyRatio)
                         .addComponent(manualDecoyRatioValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(manualCalculate))
+                        .addComponent(manualCalculate)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(manualDecoy))
                 .addGap(11, 11, 11)
                 .addGroup(summaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -3498,18 +3510,22 @@ public class ProteoIDViewer extends javax.swing.JFrame {
 
 
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
+                            fileName=outFile.getAbsolutePath();
                         } else if (mzid_file.getPath().endsWith(".omx")) {
                             File outFile = null;
                             outFile = new File(fileChooser.getCurrentDirectory(), mzid_file.getName().replaceAll(".omx", ".mzid"));
                             new Omssa2mzid(mzid_file.getPath(), outFile.getPath(), false);
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
+                            fileName=outFile.getAbsolutePath();
                         } else if (mzid_file.getPath().endsWith(".xml")) {
                             File outFile = null;
                             outFile = new File(fileChooser.getCurrentDirectory(), mzid_file.getName().replaceAll(".omx", ".mzid"));
                             new Tandem2mzid(mzid_file.getPath(), outFile.getPath());
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
+                            fileName=outFile.getAbsolutePath();
                         } else {
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(mzid_file);
+                            fileName=mzid_file.getAbsolutePath();
                         }
 
 
@@ -3842,7 +3858,31 @@ public class ProteoIDViewer extends javax.swing.JFrame {
 
                 }
             }
-
+            
+            if(siiListTemp.size()>0){
+             
+                 SpectrumIdentificationItem spectrumIdentificationItem = siiListTemp.get(0);
+                 List<CvParam> cvParamList = spectrumIdentificationItem.getCvParam();
+                 for (int i = 0; i < cvParamList.size(); i++) {
+                    CvParam cvParam = cvParamList.get(i);
+                    if(cvParam.getName()!=null&& !cvParam.getName().equals("")){
+                            boolean isthere=false;
+                            for(int j=0; j<jComboBox1.getItemCount();j++){
+                                if(jComboBox1.getItemAt(j).equals(cvParam.getName())){
+                                    isthere=true;
+                                    break;
+                                }
+                            }
+                            if(!isthere){
+                                jComboBox1.addItem(cvParam.getName());
+                                cvTermHashMap.put(cvParam.getName(), cvParam.getAccession());
+                            }
+                       
+                    }
+                    
+                }
+                
+            }
 
             for (int j = 0; j < siiListTemp.size(); j++) {
                 SpectrumIdentificationItem spectrumIdentificationItem = siiListTemp.get(j);
@@ -3850,8 +3890,9 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 if (spectrumIdentificationItem.isPassThreshold()) {
                     sIIListPassThreshold.add(spectrumIdentificationItem);
                     String p_ref = spectrumIdentificationItem.getPeptideRef();
-
-                    Peptide peptide = mzIdentMLUnmarshaller.unmarshal(Peptide.class, p_ref);
+                  
+                    // Update FG 18-03-2013 escape XML 
+                    Peptide peptide = mzIdentMLUnmarshaller.unmarshal(Peptide.class, StringEscapeUtils.escapeXml(p_ref));
                     
                     if (!peptideListNonReduntant.contains(peptide)) {
                         peptideListNonReduntant.add(peptide);
@@ -4106,12 +4147,15 @@ public class ProteoIDViewer extends javax.swing.JFrame {
             }
             
             if(manualDecoy.isSelected()){
-                falseDiscoveryRate = new FalseDiscoveryRate(mzIdentMLUnmarshaller, manualDecoyRatioValue.getText(), manualDecoyPrefixValue.getText(), siiComboBox.getSelectedIndex());
-            }
-            else{
-                
-                falseDiscoveryRate = new FalseDiscoveryRate(mzIdentMLUnmarshaller,siiComboBox.getSelectedIndex());
-            }
+                String cvTerm="";
+                boolean order=false;
+                if(jComboBox2.getSelectedItem().equals("Better scores are lower")){
+                   order=true; 
+                }
+                cvTerm = cvTermHashMap.get(jComboBox1.getSelectedItem());
+                falseDiscoveryRate = new FalseDiscoveryRate(fileName, manualDecoyRatioValue.getText(), manualDecoyPrefixValue.getText(),cvTerm ,order );
+            
+            
             falseDiscoveryRate.computeFDRusingJonesMethod();
 
 
@@ -4209,6 +4253,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
             tpQvaluePanel.add(jTpSimpleFDRPane);
 
             repaint();
+            }
         } catch (JAXBException ex) {
             Logger.getLogger(ProteoIDViewer.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -4533,7 +4578,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 }
 
 
-                mzidToCsv.useMzIdentMLToCSV(mzIdentMLUnmarshaller, selectedFile.getPath(), "exportProteinsOnly");
+                mzidToCsv.useMzIdentMLToCSV(mzIdentMLUnmarshaller, selectedFile.getPath(), "exportProteinsOnly", false);
 
 
             } catch (Exception ex) {
@@ -4613,7 +4658,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 }
 
 
-                mzidToCsv.useMzIdentMLToCSV(mzIdentMLUnmarshaller, selectedFile.getPath(), "exportProteinGroups");
+                mzidToCsv.useMzIdentMLToCSV(mzIdentMLUnmarshaller, selectedFile.getPath(), "exportProteinGroups",false);
 
 
             } catch (Exception ex) {
@@ -4692,7 +4737,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 }
 
 
-                mzidToCsv.useMzIdentMLToCSV(mzIdentMLUnmarshaller, selectedFile.getPath(), "exportPSMs");
+                mzidToCsv.useMzIdentMLToCSV(mzIdentMLUnmarshaller, selectedFile.getPath(), "exportPSMs", false);
 
 
             } catch (Exception ex) {
@@ -5000,6 +5045,8 @@ public class ProteoIDViewer extends javax.swing.JFrame {
     private javax.swing.JLabel isDecoySiiFalse;
     private javax.swing.JLabel isDecoySiiFalseValue;
     private javax.swing.JLabel isDecoySiiValue;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JPanel jExperimentalFilterPanel;
     private javax.swing.JPanel jExperimentalFilterPanel1;
     private javax.swing.JPanel jFragmentationPanel;

@@ -1212,51 +1212,7 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="manualDecoy" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="manualDecoyLabel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="manualDecoyPrefix" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="manualDecoyPrefixValue" min="-2" pref="51" max="-2" attributes="1"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="manualDecoyRatio" pref="606" max="32767" attributes="1"/>
-                                      <EmptySpace min="-2" pref="559" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="totalSIRLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="totalSIILabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="siiListLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="siiComboBox" min="-2" max="-2" attributes="0"/>
-                                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                                      <Component id="manualDecoyRatioValue" min="-2" pref="51" max="-2" attributes="1"/>
-                                                      <Group type="102" attributes="0">
-                                                          <Group type="103" groupAlignment="0" attributes="0">
-                                                              <Component id="totalSIRLabelValue" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="totalSIIbelowThresholdLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="totalSIIaboveThresholdLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="totalSIIaboveThresholdRankOneLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                          </Group>
-                                                          <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                              <Component id="totalPAGsLabelValue" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="totalPeptidesaboveThresholdLabelValue" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="percentIdentifiedSpectraLabelValue" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="totalPDHsaboveThresholdLabelValue" alignment="0" min="-2" pref="18" max="-2" attributes="0"/>
-                                                              <Component id="totalSIIbelowThresholdLabelValue" alignment="0" pref="41" max="32767" attributes="0"/>
-                                                              <Component id="totalSIIaboveThresholdLabelValue" alignment="0" max="32767" attributes="0"/>
-                                                              <Component id="totalSIIaboveThresholdRankOneLabelValue" alignment="0" max="32767" attributes="0"/>
-                                                          </Group>
-                                                      </Group>
-                                                  </Group>
-                                              </Group>
-                                          </Group>
                                           <Component id="percentIdentifiedSpectraLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="totalPeptidesaboveThresholdLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Group type="102" alignment="0" attributes="0">
@@ -1268,51 +1224,97 @@
                                               <Component id="totalPDHsaboveThresholdLabel" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace pref="296" max="32767" attributes="0"/>
-                                              <Component id="jSeparator4" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="isDecoySii" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="isDecoySiiFalse" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <EmptySpace max="-2" attributes="0"/>
-                                                      <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="isDecoySiiFalseValue" max="32767" attributes="0"/>
-                                                          <Component id="isDecoySiiValue" max="32767" attributes="0"/>
-                                                      </Group>
-                                                  </Group>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="fpSiiLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="tpSiiLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="fdrSiiLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="fpProteinsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="tpProteinsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="fdrProteinsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                          <Component id="fpSiiValue" alignment="0" min="-2" pref="39" max="-2" attributes="0"/>
-                                                          <Component id="tpSiiValue" alignment="0" max="32767" attributes="1"/>
-                                                          <Component id="fpProteinsValue" alignment="0" max="32767" attributes="0"/>
-                                                          <Component id="tpProteinsValue" alignment="0" max="32767" attributes="0"/>
-                                                          <Component id="fdrProteinsValue" alignment="0" max="32767" attributes="0"/>
-                                                          <Component id="fdrSiiValue" alignment="0" min="-2" pref="47" max="-2" attributes="0"/>
-                                                      </Group>
-                                                  </Group>
+                                      <EmptySpace pref="408" max="32767" attributes="0"/>
+                                      <Component id="jSeparator4" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="isDecoySii" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="isDecoySiiFalse" alignment="0" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <EmptySpace min="-2" pref="552" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="isDecoySiiFalseValue" max="32767" attributes="0"/>
+                                                  <Component id="isDecoySiiValue" max="32767" attributes="0"/>
+                                              </Group>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                                              <Component id="manualCalculate" min="-2" pref="162" max="-2" attributes="0"/>
-                                              <EmptySpace max="32767" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="fpSiiLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="tpSiiLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="fdrSiiLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="fpProteinsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="tpProteinsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="fdrProteinsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="fpSiiValue" alignment="0" min="-2" pref="39" max="-2" attributes="0"/>
+                                                  <Component id="tpSiiValue" alignment="0" max="32767" attributes="1"/>
+                                                  <Component id="fpProteinsValue" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="tpProteinsValue" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="fdrProteinsValue" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="fdrSiiValue" alignment="0" min="-2" pref="47" max="-2" attributes="0"/>
+                                              </Group>
                                           </Group>
                                       </Group>
+                                      <EmptySpace min="-2" pref="552" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="manualDecoy" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="manualDecoyLabel" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="manualDecoyPrefix" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="manualDecoyPrefixValue" min="-2" pref="51" max="-2" attributes="1"/>
+                                          </Group>
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="totalSIRLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="totalSIILabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="siiListLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="siiComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Group type="102" attributes="0">
+                                                      <Group type="103" groupAlignment="0" attributes="0">
+                                                          <Component id="totalSIRLabelValue" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="totalSIIbelowThresholdLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="totalSIIaboveThresholdLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="totalSIIaboveThresholdRankOneLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                          <Component id="totalSIIbelowThresholdLabelValue" alignment="0" pref="41" max="32767" attributes="0"/>
+                                                          <Component id="totalSIIaboveThresholdLabelValue" alignment="0" max="32767" attributes="0"/>
+                                                          <Component id="totalSIIaboveThresholdRankOneLabelValue" alignment="0" max="32767" attributes="0"/>
+                                                          <Component id="totalPeptidesaboveThresholdLabelValue" alignment="0" min="-2" pref="27" max="-2" attributes="0"/>
+                                                          <Component id="percentIdentifiedSpectraLabelValue" alignment="0" max="32767" attributes="0"/>
+                                                          <Component id="totalPDHsaboveThresholdLabelValue" alignment="0" max="32767" attributes="0"/>
+                                                          <Component id="totalPAGsLabelValue" alignment="0" max="32767" attributes="0"/>
+                                                      </Group>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <EmptySpace min="-2" pref="150" max="-2" attributes="0"/>
+                                                      <Component id="manualDecoyRatio" min="-2" pref="41" max="-2" attributes="1"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="manualDecoyRatioValue" min="-2" pref="51" max="-2" attributes="1"/>
+                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                      <Component id="jComboBox1" min="-2" pref="155" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jComboBox2" min="-2" pref="177" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="manualCalculate" min="-2" pref="162" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -1433,6 +1435,8 @@
                                       <Component id="manualDecoyRatio" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="manualDecoyRatioValue" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="manualCalculate" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jComboBox2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="manualDecoy" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -1751,6 +1755,23 @@
                     <Component class="javax.swing.JLabel" name="siiListLabel">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="SII List:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="jComboBox1">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                          <StringArray count="0"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="jComboBox2">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                          <StringArray count="2">
+                            <StringItem index="0" value="Better scores are lower"/>
+                            <StringItem index="1" value="Better scores are higher"/>
+                          </StringArray>
+                        </Property>
                       </Properties>
                     </Component>
                   </SubComponents>
