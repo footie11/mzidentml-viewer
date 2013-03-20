@@ -274,7 +274,7 @@
               </Properties>
               <AccessibilityProperties>
                 <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Protein View"/>
-                <Property name="AccessibleContext.accessibleParent" type="javax.accessibility.Accessible" editor="org.netbeans.modules.form.RADVisualComponent$AccessibleParentEditor">
+                <Property name="AccessibleContext.accessibleParent" type="javax.accessibility.Accessible" editor="org.netbeans.modules.form.ComponentChooserEditor">
                   <ComponentRef name="mainTabbedPane"/>
                 </Property>
               </AccessibilityProperties>
@@ -293,8 +293,8 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jProteinDetectionHypothesisPanel" pref="626" max="32767" attributes="1"/>
-                              <Component id="jProteinAmbiguityGroupPanel" alignment="0" pref="626" max="32767" attributes="1"/>
+                              <Component id="jProteinDetectionHypothesisPanel" pref="624" max="32767" attributes="1"/>
+                              <Component id="jProteinAmbiguityGroupPanel" alignment="0" pref="624" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jProteinInfoPanel" max="32767" attributes="0"/>
@@ -365,7 +365,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="614" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="608" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -397,7 +397,7 @@
                           </Group>
                           <Component id="jProteinDescriptionPanel" alignment="0" max="32767" attributes="1"/>
                           <Component id="jProteinSequencePanel" alignment="0" max="32767" attributes="1"/>
-                          <Component id="jSpectrumIdentificationItemProteinPanel" alignment="0" pref="758" max="32767" attributes="1"/>
+                          <Component id="jSpectrumIdentificationItemProteinPanel" alignment="0" pref="756" max="32767" attributes="1"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -413,7 +413,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jProteinSequencePanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jSpectrumIdentificationItemProteinPanel" pref="1157" max="32767" attributes="0"/>
+                              <Component id="jSpectrumIdentificationItemProteinPanel" pref="1136" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -450,7 +450,7 @@
                           <SubComponents>
                             <Component class="javax.swing.JTextPane" name="jProteinSequenceTextPane">
                               <Properties>
-                                <Property name="contentType" type="java.lang.String" value="text/html"/>
+                                <Property name="contentType" type="java.lang.String" value="text/html" noResource="true"/>
                                 <Property name="text" type="java.lang.String" value=""/>
                               </Properties>
                             </Component>
@@ -482,7 +482,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="1134" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="1106" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -525,7 +525,7 @@
                           <SubComponents>
                             <Component class="javax.swing.JEditorPane" name="jProteinDescriptionEditorPane">
                               <Properties>
-                                <Property name="contentType" type="java.lang.String" value="text/html"/>
+                                <Property name="contentType" type="java.lang.String" value="text/html" noResource="true"/>
                               </Properties>
                             </Component>
                           </SubComponents>
@@ -546,7 +546,7 @@
               <AccessibilityProperties>
                 <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Spectrum Summary"/>
                 <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Spectrum Summary"/>
-                <Property name="AccessibleContext.accessibleParent" type="javax.accessibility.Accessible" editor="org.netbeans.modules.form.RADVisualComponent$AccessibleParentEditor">
+                <Property name="AccessibleContext.accessibleParent" type="javax.accessibility.Accessible" editor="org.netbeans.modules.form.ComponentChooserEditor">
                   <ComponentRef name="mainTabbedPane"/>
                 </Property>
               </AccessibilityProperties>
@@ -562,12 +562,12 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jSplitPane1" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jSplitPane1" alignment="0" pref="1422" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jSplitPane1" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jSplitPane1" alignment="0" pref="1531" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -601,7 +601,7 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jGraph" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jFragmentationPanel" alignment="0" pref="905" max="32767" attributes="0"/>
+                              <Component id="jFragmentationPanel" alignment="0" pref="901" max="32767" attributes="0"/>
                               <Component id="jExperimentalFilterPanel" alignment="1" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
@@ -638,12 +638,12 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="893" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="885" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="213" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="206" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                           </Layout>
@@ -665,7 +665,7 @@
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="1156" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="1135" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                           </Layout>
@@ -797,12 +797,12 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="468" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="464" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="1029" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="1015" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                           </Layout>
@@ -837,7 +837,7 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jSplitPane2" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jSplitPane2" alignment="0" pref="1531" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -874,7 +874,7 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jExperimentalFilterPanel1" alignment="1" max="32767" attributes="0"/>
-                              <Component id="jFragmentationPanel1" alignment="0" pref="905" max="32767" attributes="0"/>
+                              <Component id="jFragmentationPanel1" alignment="0" pref="901" max="32767" attributes="0"/>
                               <Component id="jGraph1" alignment="0" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
@@ -908,12 +908,12 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="893" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="885" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="227" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="220" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                           </Layout>
@@ -935,7 +935,7 @@
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="1160" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="1139" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                           </Layout>
@@ -1070,7 +1070,7 @@
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="1124" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="1110" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                           </Layout>
@@ -1088,7 +1088,7 @@
                 </Property>
               </Properties>
               <AccessibilityProperties>
-                <Property name="AccessibleContext.accessibleParent" type="javax.accessibility.Accessible" editor="org.netbeans.modules.form.RADVisualComponent$AccessibleParentEditor">
+                <Property name="AccessibleContext.accessibleParent" type="javax.accessibility.Accessible" editor="org.netbeans.modules.form.ComponentChooserEditor">
                   <ComponentRef name="mainTabbedPane"/>
                 </Property>
               </AccessibilityProperties>
@@ -1133,12 +1133,12 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="1390" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="1386" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="1486" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="1479" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -1154,7 +1154,7 @@
               <AccessibilityProperties>
                 <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Global Statistics"/>
                 <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="Global Statistics"/>
-                <Property name="AccessibleContext.accessibleParent" type="javax.accessibility.Accessible" editor="org.netbeans.modules.form.RADVisualComponent$AccessibleParentEditor">
+                <Property name="AccessibleContext.accessibleParent" type="javax.accessibility.Accessible" editor="org.netbeans.modules.form.ComponentChooserEditor">
                   <ComponentRef name="mainTabbedPane"/>
                 </Property>
               </AccessibilityProperties>
@@ -1204,11 +1204,11 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="fdrPanel" pref="450" max="32767" attributes="0"/>
+                                      <Component id="fdrPanel" pref="449" max="32767" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="tpEvaluePanel" pref="450" max="32767" attributes="0"/>
+                                      <Component id="tpEvaluePanel" pref="449" max="32767" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="tpQvaluePanel" pref="450" max="32767" attributes="0"/>
+                                      <Component id="tpQvaluePanel" pref="448" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -1224,7 +1224,7 @@
                                               <Component id="totalPDHsaboveThresholdLabel" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <EmptySpace pref="408" max="32767" attributes="0"/>
+                                      <EmptySpace pref="404" max="32767" attributes="0"/>
                                       <Component id="jSeparator4" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -1426,7 +1426,7 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="253" max="32767" attributes="0"/>
+                              <EmptySpace pref="250" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="103" alignment="1" groupAlignment="3" attributes="0">
                                       <Component id="manualDecoyPrefix" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1442,9 +1442,9 @@
                               </Group>
                               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="tpEvaluePanel" pref="940" max="32767" attributes="1"/>
-                                  <Component id="tpQvaluePanel" pref="940" max="32767" attributes="1"/>
-                                  <Component id="fdrPanel" alignment="1" pref="940" max="32767" attributes="1"/>
+                                  <Component id="tpEvaluePanel" pref="936" max="32767" attributes="1"/>
+                                  <Component id="tpQvaluePanel" pref="936" max="32767" attributes="1"/>
+                                  <Component id="fdrPanel" alignment="1" pref="936" max="32767" attributes="1"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -1707,7 +1707,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="917" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="906" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -1785,7 +1785,7 @@
                 </Property>
               </Properties>
               <AccessibilityProperties>
-                <Property name="AccessibleContext.accessibleParent" type="javax.accessibility.Accessible" editor="org.netbeans.modules.form.RADVisualComponent$AccessibleParentEditor">
+                <Property name="AccessibleContext.accessibleParent" type="javax.accessibility.Accessible" editor="org.netbeans.modules.form.ComponentChooserEditor">
                   <ComponentRef name="mainTabbedPane"/>
                 </Property>
               </AccessibilityProperties>
@@ -1832,7 +1832,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" pref="1370" max="32767" attributes="0"/>
+                              <Component id="jScrollPane1" pref="1366" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1841,7 +1841,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" pref="1464" max="32767" attributes="0"/>
+                              <Component id="jScrollPane1" pref="1457" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1857,7 +1857,7 @@
                       <SubComponents>
                         <Component class="javax.swing.JTextPane" name="protocalTextPane">
                           <Properties>
-                            <Property name="contentType" type="java.lang.String" value="text/html"/>
+                            <Property name="contentType" type="java.lang.String" value="text/html" noResource="true"/>
                             <Property name="editable" type="boolean" value="false"/>
                           </Properties>
                         </Component>

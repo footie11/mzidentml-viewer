@@ -1163,13 +1163,16 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                             m_intensity = ionType.getFragmentArray().get(1).getValues();
                             m_error = ionType.getFragmentArray().get(2).getValues();
                             String type = cvParam.getName();
+                            type = type.replaceAll(" ion", "");
+                            type = type.replaceAll("param: ", "");
+                            
                             if (m_mz != null && !m_mz.isEmpty()) {
                                 for (int j = 0; j < m_mz.size(); j++) {
                                     ((DefaultTableModel) fragmentationTablePeptideView.getModel()).addRow(new Object[]{
                                                 Double.valueOf(m_mz.get(j).toString()),
                                                 Double.valueOf(m_intensity.get(j).toString()),
                                                 Double.valueOf(m_error.get(j).toString()),
-                                                type,
+                                                type+ionType.getIndex().get(j),
                                                 Integer.valueOf(ionType.getCharge())
                                             });
 
@@ -1419,13 +1422,16 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                         m_intensity = ionType.getFragmentArray().get(1).getValues();
                         m_error = ionType.getFragmentArray().get(2).getValues();
                         String type = cvParam.getName();
+                        type =type.replaceAll("param: ", "");
+                        type=type.replaceAll(" ion", "");
+                        
                         if (m_mz != null && !m_mz.isEmpty()) {
                             for (int j = 0; j < m_mz.size(); j++) {
                                 ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
                                             Double.valueOf(m_mz.get(j).toString()),
                                             Double.valueOf(m_intensity.get(j).toString()),
                                             Double.valueOf(m_error.get(j).toString()),
-                                            type,
+                                            type+ionType.getIndex().get(j),
                                             Integer.valueOf(ionType.getCharge())
                                         });
 
