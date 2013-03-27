@@ -94,6 +94,7 @@ import uk.ac.ebi.pride.tools.jmzreader.JMzReader;
 import uk.ac.ebi.pride.tools.jmzreader.JMzReaderException;
 import uk.ac.ebi.pride.tools.jmzreader.model.Spectrum;
 import uk.ac.ebi.pride.tools.mgf_parser.MgfFile;
+import uk.ac.ebi.pride.tools.mzml_wrapper.MzMlWrapper;
 import uk.ac.liv.mzidconverters.Omssa2mzid;
 import uk.ac.liv.mzidconverters.Tandem2mzid;
 
@@ -164,6 +165,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
     private HashMap<String, String> siiSirHashMap = new HashMap();
     private HashMap<String, String> cvTermHashMap = new HashMap();
     private String fileName="";
+    private String sourceFile="";
 
     /**
      * Creates new form ProteoIDViewer
@@ -915,10 +917,17 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 String sir_id = (String) spectrumIdentificationResultTable.getModel().getValueAt(row, 0);
                 SpectrumIdentificationResult spectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationResult.class, sir_id);
                 if (jmzreader != null) {
+                 
+                    Spectrum spectrum = null;
                     String spectrumID = spectrumIdentificationResult.getSpectrumID();
+                    if(sourceFile.equals("mgf")){
                     String spectrumIndex = spectrumID.substring(6);
                     Integer index1 = Integer.valueOf(spectrumIndex) + 1;
-                    Spectrum spectrum = jmzreader.getSpectrumById(index1.toString());
+                     spectrum = jmzreader.getSpectrumById(index1.toString());
+                    }
+                    if(sourceFile.equals("mzML")){
+                        spectrum = jmzreader.getSpectrumById(spectrumID);
+                    }
 
                     peakList = spectrum.getPeakList();
 
@@ -1289,10 +1298,17 @@ public class ProteoIDViewer extends javax.swing.JFrame {
 
                             String sir_id = (String) siiSirHashMap.get((String) spectrumIdentificationItemTablePeptideView.getValueAt(row, 0));
                             SpectrumIdentificationResult spectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationResult.class, sir_id);
-                            String spectrumID = spectrumIdentificationResult.getSpectrumID();
-                            String spectrumIndex = spectrumID.substring(6);
-                            Integer index1 = Integer.valueOf(spectrumIndex) + 1;
-                            Spectrum spectrum = jmzreader.getSpectrumById(index1.toString());
+                            Spectrum spectrum = null;
+                    String spectrumID = spectrumIdentificationResult.getSpectrumID();
+                    if(sourceFile.equals("mgf")){
+                    String spectrumIndex = spectrumID.substring(6);
+                    Integer index1 = Integer.valueOf(spectrumIndex) + 1;
+                     spectrum = jmzreader.getSpectrumById(index1.toString());
+                    }
+                    if(sourceFile.equals("mzML")){
+                        spectrum = jmzreader.getSpectrumById(spectrumID);
+                    }
+                            
                             peakList = spectrum.getPeakList();
 
                             List<Double> mzValues;
@@ -1526,11 +1542,16 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                         String sir_id = (String) spectrumIdentificationResultTable.getModel().getValueAt(row1, 0);
 //                        System.out.println(sir_id);
                         SpectrumIdentificationResult spectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationResult.class, sir_id);
-                        String spectrumID = spectrumIdentificationResult.getSpectrumID();
-                        String spectrumIndex = spectrumID.substring(6);
-                        Integer index1 = Integer.valueOf(spectrumIndex) + 1;
-                        Spectrum spectrum = jmzreader.getSpectrumById(index1.toString());
-
+                        Spectrum spectrum = null;
+                    String spectrumID = spectrumIdentificationResult.getSpectrumID();
+                    if(sourceFile.equals("mgf")){
+                    String spectrumIndex = spectrumID.substring(6);
+                    Integer index1 = Integer.valueOf(spectrumIndex) + 1;
+                     spectrum = jmzreader.getSpectrumById(index1.toString());
+                    }
+                    if(sourceFile.equals("mzML")){
+                        spectrum = jmzreader.getSpectrumById(spectrumID);
+                    }
                         peakList = spectrum.getPeakList();
 
                         List<Double> mzValues;
@@ -1847,11 +1868,16 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 try {
                     String sir_id = (String) spectrumIdentificationResultTable.getModel().getValueAt(row, 0);
                     SpectrumIdentificationResult spectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationResult.class, sir_id);
+                    Spectrum spectrum = null;
                     String spectrumID = spectrumIdentificationResult.getSpectrumID();
+                    if(sourceFile.equals("mgf")){
                     String spectrumIndex = spectrumID.substring(6);
                     Integer index1 = Integer.valueOf(spectrumIndex) + 1;
-                    Spectrum spectrum = jmzreader.getSpectrumById(index1.toString());
-
+                     spectrum = jmzreader.getSpectrumById(index1.toString());
+                    }
+                    if(sourceFile.equals("mzML")){
+                        spectrum = jmzreader.getSpectrumById(spectrumID);
+                    }
                     peakList = spectrum.getPeakList();
 
                     List<Double> mzValues;
@@ -3572,10 +3598,20 @@ public class ProteoIDViewer extends javax.swing.JFrame {
 
                             if (returnVal1 == JFileChooser.APPROVE_OPTION) {
                                 try {
-                                    File file = fc.getSelectedFile();
-                                    jmzreader = new MgfFile(file);
-                                    JOptionPane.showMessageDialog(null, file.getName() + " is loaded", "Spectrum file", JOptionPane.INFORMATION_MESSAGE);
-
+                                File file = fc.getSelectedFile();
+                                    if (file.getAbsolutePath().endsWith("mgf")){
+                                        jmzreader = new MgfFile(file);
+                                        sourceFile="mgf";
+                                        JOptionPane.showMessageDialog(null, file.getName() + " is loaded", "Spectrum file", JOptionPane.INFORMATION_MESSAGE);
+                                    }
+                                    else if (file.getAbsolutePath().endsWith("mzML")){
+                                        jmzreader = new MzMlWrapper (file);
+                                        sourceFile="mzML";
+                                        JOptionPane.showMessageDialog(null, file.getName() + " is loaded", "Spectrum file", JOptionPane.INFORMATION_MESSAGE);
+                                    }
+                                    else{
+                                        JOptionPane.showMessageDialog(null, file.getName() + " is not supported", "Spectrum file", JOptionPane.INFORMATION_MESSAGE);
+                                    }
                                 } catch (JMzReaderException ex) {
                                     System.out.println(ex.getMessage());
                                 }
