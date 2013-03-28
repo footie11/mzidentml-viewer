@@ -10,6 +10,7 @@ package uk.ac.liv.proteoidviewer;
 
 import uk.ac.liv.proteoidviewer.util.XmlFilter;
 import uk.ac.liv.proteoidviewer.util.OmssaFilter;
+import uk.ac.liv.proteoidviewer.util.SourceFileFilter;
 import uk.ac.liv.proteoidviewer.util.CsvFileFilter;
 import com.compomics.util.gui.spectrum.DefaultSpectrumAnnotation;
 import java.awt.GridLayout;
@@ -430,6 +431,8 @@ public class ProteoIDViewer extends javax.swing.JFrame {
     }
 
     public void createTables() {
+        
+        jComboBox1.removeAllItems();
         // dBSequence view dBSequenceTable
         String[] dBSequenceTableHeaders = new String[]{"ID", "Accession", "Seq", "Protein Description"};
 //        dBSequenceTable.setAutoCreateRowSorter(true);
@@ -3594,17 +3597,20 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                             //Create a file chooser
                             fc = new JFileChooser();
                             fc.setCurrentDirectory(fileChooser.getCurrentDirectory());
+                            
+                            
+                            fc.addChoosableFileFilter(new SourceFileFilter());
                             int returnVal1 = fc.showOpenDialog(null);
 
                             if (returnVal1 == JFileChooser.APPROVE_OPTION) {
                                 try {
                                 File file = fc.getSelectedFile();
-                                    if (file.getAbsolutePath().endsWith("mgf")){
+                                    if (file.getAbsolutePath().toLowerCase().endsWith("mgf")){
                                         jmzreader = new MgfFile(file);
                                         sourceFile="mgf";
                                         JOptionPane.showMessageDialog(null, file.getName() + " is loaded", "Spectrum file", JOptionPane.INFORMATION_MESSAGE);
                                     }
-                                    else if (file.getAbsolutePath().endsWith("mzML")){
+                                    else if (file.getAbsolutePath().toLowerCase().endsWith("mzml")){
                                         jmzreader = new MzMlWrapper (file);
                                         sourceFile="mzML";
                                         JOptionPane.showMessageDialog(null, file.getName() + " is loaded", "Spectrum file", JOptionPane.INFORMATION_MESSAGE);
