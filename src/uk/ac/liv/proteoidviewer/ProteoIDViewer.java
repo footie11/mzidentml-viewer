@@ -98,6 +98,7 @@ import uk.ac.ebi.pride.tools.mgf_parser.MgfFile;
 import uk.ac.ebi.pride.tools.mzml_wrapper.MzMlWrapper;
 import uk.ac.liv.mzidconverters.Omssa2mzid;
 import uk.ac.liv.mzidconverters.Tandem2mzid;
+import uk.ac.liv.proteoidviewer.util.*;
 
 /**
  *
@@ -165,8 +166,8 @@ public class ProteoIDViewer extends javax.swing.JFrame {
     private Map<Double, Double> peakList = new HashMap();
     private HashMap<String, String> siiSirHashMap = new HashMap();
     private HashMap<String, String> cvTermHashMap = new HashMap();
-    private String fileName="";
-    private String sourceFile="";
+    private String fileName = "";
+    private String sourceFile = "";
 
     /**
      * Creates new form ProteoIDViewer
@@ -431,7 +432,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
     }
 
     public void createTables() {
-        
+
         jComboBox1.removeAllItems();
         // dBSequence view dBSequenceTable
         String[] dBSequenceTableHeaders = new String[]{"ID", "Accession", "Seq", "Protein Description"};
@@ -546,6 +547,23 @@ public class ProteoIDViewer extends javax.swing.JFrame {
             }
         }
 
+        //
+        if (spectrumIdentificationItemTable.getColumnExt("X!Tandem:expect") != null) {
+            spectrumIdentificationItemTable.getColumnExt("X!Tandem:expect").setComparator(new DoubleComparator());
+        }
+        if (spectrumIdentificationItemTable.getColumnExt("OMSSA:evalue") != null) {
+            spectrumIdentificationItemTable.getColumnExt("OMSSA:evalue").setComparator(new DoubleComparator());
+        }
+        if (spectrumIdentificationItemTable.getColumnExt("Mascot:expectation value") != null) {
+            spectrumIdentificationItemTable.getColumnExt("Mascot:expectation value").setComparator(new DoubleComparator());
+        }
+        if (spectrumIdentificationItemTable.getColumnExt("SEQUEST:expectation value") != null) {
+            spectrumIdentificationItemTable.getColumnExt("SEQUEST:expectation value").setComparator(new DoubleComparator());
+        }
+
+
+
+
         String[] peptideEvidenceTableHeaders = new String[7];
         peptideEvidenceTableHeaders[0] = "Start";
         peptideEvidenceTableHeaders[1] = "End";
@@ -653,8 +671,14 @@ public class ProteoIDViewer extends javax.swing.JFrame {
 
             protein_accessions = "";
             proteinDetectionHypothesisList = proteinAmbiguityGroup.getProteinDetectionHypothesis();
-            boolean representativeProtein = false;
-            String representativeProteinAccession = "";
+            boolean anchorProtein = false;
+            String anchorProteinAccession = "";
+            //mzid 1.2
+            boolean leadProtein = false;
+            String leadProteinAccession = "";
+            boolean groupRepresentativeProtein = false;
+            String groupRepresentativeProteinAccession = "";
+
             boolean isDecoy = false;
             String score = " ";
             String number_peptide = " ";
@@ -678,15 +702,32 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                         List<CvParam> cvParamList = proteinDetectionHypothesis.getCvParam();
                         for (int i = 0; i < cvParamList.size(); i++) {
                             CvParam cvParam = cvParamList.get(i);
-                            if (cvParam.getName().equals("anchor protein")) {
-                                representativeProtein = true;
-                                representativeProteinAccession = dBSequence.getAccession();
+                            if (mzIdentMLUnmarshaller.getMzIdentMLVersion().startsWith("1.1.") && cvParam.getName().equals("anchor protein")) {
+                                anchorProtein = true;
+                                anchorProteinAccession = dBSequence.getAccession();
                                 isDecoy = checkIfProteinDetectionHypothesisIsDecoy(proteinDetectionHypothesis);
                                 if (proteinDetectionHypothesis.getPeptideHypothesis() != null) {
                                     number_peptide = String.valueOf(proteinDetectionHypothesis.getPeptideHypothesis().size());
                                 }
-
                                 isPassThreshold = proteinDetectionHypothesis.isPassThreshold();
+                            } else if (mzIdentMLUnmarshaller.getMzIdentMLVersion().startsWith("1.2.") && cvParam.getName().equals("group representative")) {
+                                groupRepresentativeProtein = true;
+                                groupRepresentativeProteinAccession = dBSequence.getAccession();
+                                isDecoy = checkIfProteinDetectionHypothesisIsDecoy(proteinDetectionHypothesis);
+                                if (proteinDetectionHypothesis.getPeptideHypothesis() != null) {
+                                    number_peptide = String.valueOf(proteinDetectionHypothesis.getPeptideHypothesis().size());
+                                }
+                                isPassThreshold = proteinDetectionHypothesis.isPassThreshold();
+
+                            } else if (mzIdentMLUnmarshaller.getMzIdentMLVersion().startsWith("1.2.") && cvParam.getName().equals("leading protein")) {
+                                leadProtein = true;
+                                leadProteinAccession = dBSequence.getAccession();
+                                isDecoy = checkIfProteinDetectionHypothesisIsDecoy(proteinDetectionHypothesis);
+                                if (proteinDetectionHypothesis.getPeptideHypothesis() != null) {
+                                    number_peptide = String.valueOf(proteinDetectionHypothesis.getPeptideHypothesis().size());
+                                }
+                                isPassThreshold = proteinDetectionHypothesis.isPassThreshold();
+
                             }
                             if (cvParam.getName().contains("score")) {
                                 score = cvParam.getValue();
@@ -700,18 +741,44 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 }
             }
             protein_accessions = protein_accessions.substring(0, protein_accessions.length() - 1);
-            if (representativeProtein) {
+            if (mzIdentMLUnmarshaller.getMzIdentMLVersion().startsWith("1.1.") && anchorProtein) {
                 ((DefaultTableModel) proteinAmbiguityGroupTable.getModel()).addRow(new Object[]{
                             proteinAmbiguityGroup.getId(),
                             proteinAmbiguityGroup.getName(),
                             protein_accessions,
-                            representativeProteinAccession,
+                            anchorProteinAccession,
                             roundTwoDecimals(Double.valueOf(score).doubleValue()),
                             " ",
                             Integer.valueOf(number_peptide),
                             String.valueOf(isDecoy),
                             String.valueOf(isPassThreshold)
                         });
+            } else if (mzIdentMLUnmarshaller.getMzIdentMLVersion().startsWith("1.2.") && groupRepresentativeProtein) {
+                ((DefaultTableModel) proteinAmbiguityGroupTable.getModel()).addRow(new Object[]{
+                            proteinAmbiguityGroup.getId(),
+                            proteinAmbiguityGroup.getName(),
+                            protein_accessions,
+                            groupRepresentativeProteinAccession,
+                            roundTwoDecimals(Double.valueOf(score).doubleValue()),
+                            " ",
+                            Integer.valueOf(number_peptide),
+                            String.valueOf(isDecoy),
+                            String.valueOf(isPassThreshold)
+                        });
+
+            } else if (mzIdentMLUnmarshaller.getMzIdentMLVersion().startsWith("1.2.") && leadProtein) {
+                ((DefaultTableModel) proteinAmbiguityGroupTable.getModel()).addRow(new Object[]{
+                            proteinAmbiguityGroup.getId(),
+                            proteinAmbiguityGroup.getName(),
+                            protein_accessions,
+                            leadProteinAccession,
+                            roundTwoDecimals(Double.valueOf(score).doubleValue()),
+                            " ",
+                            Integer.valueOf(number_peptide),
+                            String.valueOf(isDecoy),
+                            String.valueOf(isPassThreshold)
+                        });
+
             } else {
                 ((DefaultTableModel) proteinAmbiguityGroupTable.getModel()).addRow(new Object[]{
                             proteinAmbiguityGroup.getId(),
@@ -768,21 +835,21 @@ public class ProteoIDViewer extends javax.swing.JFrame {
             ((DefaultTableModel) spectrumIdentificationItemTablePeptideView.getModel()).removeRow(0);
         }
         siiSirHashMap.clear();
-        
+
         Iterator<Peptide> iterPeptide = mzIdentMLUnmarshaller.unmarshalCollectionFromXpath(MzIdentMLElement.Peptide);
-        HashMap<String,Peptide> pepMap = new HashMap();
-        
-        while(iterPeptide.hasNext()){
+        HashMap<String, Peptide> pepMap = new HashMap();
+
+        while (iterPeptide.hasNext()) {
             Peptide pep = iterPeptide.next();
             pepMap.put(pep.getId(), pep);
-            
-        }
-        
-        
-        Iterator<SpectrumIdentificationResult> iterSpectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshalCollectionFromXpath(MzIdentMLElement.SpectrumIdentificationResult);
-        
 
-        
+        }
+
+
+        Iterator<SpectrumIdentificationResult> iterSpectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshalCollectionFromXpath(MzIdentMLElement.SpectrumIdentificationResult);
+
+
+
         while (iterSpectrumIdentificationResult.hasNext()) {
             try {
                 SpectrumIdentificationResult spectrumIdentificationResult = iterSpectrumIdentificationResult.next();
@@ -797,7 +864,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                     //Peptide peptide = mzIdentMLUnmarshaller.unmarshal(Peptide.class, spectrumIdentificationItem.getPeptideRef());
                     Peptide peptide = pepMap.get(spectrumIdentificationItem.getPeptideRef());
                     //Peptide peptide = spectrumIdentificationItem.getPeptide();
-                    
+
                     if (peptide != null) {
                         List<Modification> modificationList = peptide.getModification();
                         Modification modification;
@@ -920,16 +987,17 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 String sir_id = (String) spectrumIdentificationResultTable.getModel().getValueAt(row, 0);
                 SpectrumIdentificationResult spectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationResult.class, sir_id);
                 if (jmzreader != null) {
-                 
+
                     Spectrum spectrum = null;
                     String spectrumID = spectrumIdentificationResult.getSpectrumID();
-                    if(sourceFile.equals("mgf")){
-                    String spectrumIndex = spectrumID.substring(6);
-                    Integer index1 = Integer.valueOf(spectrumIndex) + 1;
-                     spectrum = jmzreader.getSpectrumById(index1.toString());
+                    if (sourceFile.equals("mgf")) {
+                        String spectrumIndex = spectrumID.substring(6);
+                        Integer index1 = Integer.valueOf(spectrumIndex) + 1;
+                        spectrum = jmzreader.getSpectrumById(index1.toString());
                     }
-                    if(sourceFile.equals("mzML")){
+                    if (sourceFile.equals("mzML")) {
                         spectrum = jmzreader.getSpectrumById(spectrumID);
+
                     }
 
                     peakList = spectrum.getPeakList();
@@ -1045,7 +1113,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                                             || accession.equals("MS:1001159")
                                             || accession.equals("MS:1001328")) {
                                         // ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(roundScientificNumbers(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
-                                        ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(roundThreeDecimals(Double.valueOf(cvParam.getValue()).doubleValue()), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
+                                        ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(cvParam.getValue(), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
                                     } else {
                                         ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).setValueAt(cvParam.getValue(), ((DefaultTableModel) spectrumIdentificationItemTable.getModel()).getRowCount() - 1, 8 + s);
                                     }
@@ -1177,14 +1245,14 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                             String type = cvParam.getName();
                             type = type.replaceAll(" ion", "");
                             type = type.replaceAll("param: ", "");
-                            
+
                             if (m_mz != null && !m_mz.isEmpty()) {
                                 for (int j = 0; j < m_mz.size(); j++) {
                                     ((DefaultTableModel) fragmentationTablePeptideView.getModel()).addRow(new Object[]{
                                                 Double.valueOf(m_mz.get(j).toString()),
                                                 Double.valueOf(m_intensity.get(j).toString()),
                                                 Double.valueOf(m_error.get(j).toString()),
-                                                type+ionType.getIndex().get(j),
+                                                type + ionType.getIndex().get(j),
                                                 Integer.valueOf(ionType.getCharge())
                                             });
 
@@ -1302,16 +1370,16 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                             String sir_id = (String) siiSirHashMap.get((String) spectrumIdentificationItemTablePeptideView.getValueAt(row, 0));
                             SpectrumIdentificationResult spectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationResult.class, sir_id);
                             Spectrum spectrum = null;
-                    String spectrumID = spectrumIdentificationResult.getSpectrumID();
-                    if(sourceFile.equals("mgf")){
-                    String spectrumIndex = spectrumID.substring(6);
-                    Integer index1 = Integer.valueOf(spectrumIndex) + 1;
-                     spectrum = jmzreader.getSpectrumById(index1.toString());
-                    }
-                    if(sourceFile.equals("mzML")){
-                        spectrum = jmzreader.getSpectrumById(spectrumID);
-                    }
-                            
+                            String spectrumID = spectrumIdentificationResult.getSpectrumID();
+                            if (sourceFile.equals("mgf")) {
+                                String spectrumIndex = spectrumID.substring(6);
+                                Integer index1 = Integer.valueOf(spectrumIndex) + 1;
+                                spectrum = jmzreader.getSpectrumById(index1.toString());
+                            }
+                            if (sourceFile.equals("mzML")) {
+                                spectrum = jmzreader.getSpectrumById(spectrumID);
+                            }
+
                             peakList = spectrum.getPeakList();
 
                             List<Double> mzValues;
@@ -1441,16 +1509,16 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                         m_intensity = ionType.getFragmentArray().get(1).getValues();
                         m_error = ionType.getFragmentArray().get(2).getValues();
                         String type = cvParam.getName();
-                        type =type.replaceAll("param: ", "");
-                        type=type.replaceAll(" ion", "");
-                        
+                        type = type.replaceAll("param: ", "");
+                        type = type.replaceAll(" ion", "");
+
                         if (m_mz != null && !m_mz.isEmpty()) {
                             for (int j = 0; j < m_mz.size(); j++) {
                                 ((DefaultTableModel) fragmentationTable.getModel()).addRow(new Object[]{
                                             Double.valueOf(m_mz.get(j).toString()),
                                             Double.valueOf(m_intensity.get(j).toString()),
                                             Double.valueOf(m_error.get(j).toString()),
-                                            type+ionType.getIndex().get(j),
+                                            type + ionType.getIndex().get(j),
                                             Integer.valueOf(ionType.getCharge())
                                         });
 
@@ -1546,15 +1614,15 @@ public class ProteoIDViewer extends javax.swing.JFrame {
 //                        System.out.println(sir_id);
                         SpectrumIdentificationResult spectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationResult.class, sir_id);
                         Spectrum spectrum = null;
-                    String spectrumID = spectrumIdentificationResult.getSpectrumID();
-                    if(sourceFile.equals("mgf")){
-                    String spectrumIndex = spectrumID.substring(6);
-                    Integer index1 = Integer.valueOf(spectrumIndex) + 1;
-                     spectrum = jmzreader.getSpectrumById(index1.toString());
-                    }
-                    if(sourceFile.equals("mzML")){
-                        spectrum = jmzreader.getSpectrumById(spectrumID);
-                    }
+                        String spectrumID = spectrumIdentificationResult.getSpectrumID();
+                        if (sourceFile.equals("mgf")) {
+                            String spectrumIndex = spectrumID.substring(6);
+                            Integer index1 = Integer.valueOf(spectrumIndex) + 1;
+                            spectrum = jmzreader.getSpectrumById(index1.toString());
+                        }
+                        if (sourceFile.equals("mzML")) {
+                            spectrum = jmzreader.getSpectrumById(spectrumID);
+                        }
                         peakList = spectrum.getPeakList();
 
                         List<Double> mzValues;
@@ -1873,12 +1941,12 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                     SpectrumIdentificationResult spectrumIdentificationResult = mzIdentMLUnmarshaller.unmarshal(SpectrumIdentificationResult.class, sir_id);
                     Spectrum spectrum = null;
                     String spectrumID = spectrumIdentificationResult.getSpectrumID();
-                    if(sourceFile.equals("mgf")){
-                    String spectrumIndex = spectrumID.substring(6);
-                    Integer index1 = Integer.valueOf(spectrumIndex) + 1;
-                     spectrum = jmzreader.getSpectrumById(index1.toString());
+                    if (sourceFile.equals("mgf")) {
+                        String spectrumIndex = spectrumID.substring(6);
+                        Integer index1 = Integer.valueOf(spectrumIndex) + 1;
+                        spectrum = jmzreader.getSpectrumById(index1.toString());
                     }
-                    if(sourceFile.equals("mzML")){
+                    if (sourceFile.equals("mzML")) {
                         spectrum = jmzreader.getSpectrumById(spectrumID);
                     }
                     peakList = spectrum.getPeakList();
@@ -3545,28 +3613,28 @@ public class ProteoIDViewer extends javax.swing.JFrame {
 
 
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
-                            fileName=outFile.getAbsolutePath();
+                            fileName = outFile.getAbsolutePath();
                         } else if (mzid_file.getPath().endsWith(".omx")) {
                             File outFile = null;
                             outFile = new File(fileChooser.getCurrentDirectory(), mzid_file.getName().replaceAll(".omx", ".mzid"));
                             new Omssa2mzid(mzid_file.getPath(), outFile.getPath(), false);
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
-                            fileName=outFile.getAbsolutePath();
+                            fileName = outFile.getAbsolutePath();
                         } else if (mzid_file.getPath().endsWith(".xml")) {
                             File outFile = null;
                             outFile = new File(fileChooser.getCurrentDirectory(), mzid_file.getName().replaceAll(".omx", ".mzid"));
                             new Tandem2mzid(mzid_file.getPath(), outFile.getPath());
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
-                            fileName=outFile.getAbsolutePath();
+                            fileName = outFile.getAbsolutePath();
                         } else {
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(mzid_file);
-                            fileName=mzid_file.getAbsolutePath();
+                            fileName = mzid_file.getAbsolutePath();
                         }
 
 
 
 
-                        if (!mzIdentMLUnmarshaller.getMzIdentMLVersion().startsWith("1.1.")) {
+                        if (!mzIdentMLUnmarshaller.getMzIdentMLVersion().startsWith("1.1.") && !mzIdentMLUnmarshaller.getMzIdentMLVersion().startsWith("1.2.")) {
                             progressBarDialog.setVisible(false);
                             progressBarDialog.dispose();
                             JOptionPane.showMessageDialog(null, "The file is not compatible with the Viewer: different mzIdentMl version", "mzIdentMl version", JOptionPane.INFORMATION_MESSAGE);
@@ -3597,25 +3665,23 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                             //Create a file chooser
                             fc = new JFileChooser();
                             fc.setCurrentDirectory(fileChooser.getCurrentDirectory());
-                            
-                            
+
+
                             fc.addChoosableFileFilter(new SourceFileFilter());
                             int returnVal1 = fc.showOpenDialog(null);
 
                             if (returnVal1 == JFileChooser.APPROVE_OPTION) {
                                 try {
-                                File file = fc.getSelectedFile();
-                                    if (file.getAbsolutePath().toLowerCase().endsWith("mgf")){
+                                    File file = fc.getSelectedFile();
+                                    if (file.getAbsolutePath().toLowerCase().endsWith("mgf")) {
                                         jmzreader = new MgfFile(file);
-                                        sourceFile="mgf";
+                                        sourceFile = "mgf";
                                         JOptionPane.showMessageDialog(null, file.getName() + " is loaded", "Spectrum file", JOptionPane.INFORMATION_MESSAGE);
-                                    }
-                                    else if (file.getAbsolutePath().toLowerCase().endsWith("mzml")){
-                                        jmzreader = new MzMlWrapper (file);
-                                        sourceFile="mzML";
+                                    } else if (file.getAbsolutePath().toLowerCase().endsWith("mzml")) {
+                                        jmzreader = new MzMlWrapper(file);
+                                        sourceFile = "mzML";
                                         JOptionPane.showMessageDialog(null, file.getName() + " is loaded", "Spectrum file", JOptionPane.INFORMATION_MESSAGE);
-                                    }
-                                    else{
+                                    } else {
                                         JOptionPane.showMessageDialog(null, file.getName() + " is not supported", "Spectrum file", JOptionPane.INFORMATION_MESSAGE);
                                     }
                                 } catch (JMzReaderException ex) {
@@ -3646,9 +3712,10 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
                         String msg = ex.getMessage();
-                        
-                        if(msg.equals("No entry found for ID: null and Class: class uk.ac.ebi.jmzidml.model.mzidml.DBSequence. Make sure the element you are looking for has an ID attribute and is id-mapped!"))
+
+                        if (msg.equals("No entry found for ID: null and Class: class uk.ac.ebi.jmzidml.model.mzidml.DBSequence. Make sure the element you are looking for has an ID attribute and is id-mapped!")) {
                             msg = "No dbSequence_ref provided from ProteinDetectionHypothesis, please report this error back to the mzid exporter";
+                        }
                         JOptionPane.showMessageDialog(null, msg, "Exception", JOptionPane.ERROR_MESSAGE);
                     }
 
@@ -3906,30 +3973,30 @@ public class ProteoIDViewer extends javax.swing.JFrame {
 
                 }
             }
-            
-            if(siiListTemp.size()>0){
-             
-                 SpectrumIdentificationItem spectrumIdentificationItem = siiListTemp.get(0);
-                 List<CvParam> cvParamList = spectrumIdentificationItem.getCvParam();
-                 for (int i = 0; i < cvParamList.size(); i++) {
+
+            if (siiListTemp.size() > 0) {
+
+                SpectrumIdentificationItem spectrumIdentificationItem = siiListTemp.get(0);
+                List<CvParam> cvParamList = spectrumIdentificationItem.getCvParam();
+                for (int i = 0; i < cvParamList.size(); i++) {
                     CvParam cvParam = cvParamList.get(i);
-                    if(cvParam.getName()!=null&& !cvParam.getName().equals("")){
-                            boolean isthere=false;
-                            for(int j=0; j<jComboBox1.getItemCount();j++){
-                                if(jComboBox1.getItemAt(j).equals(cvParam.getName())){
-                                    isthere=true;
-                                    break;
-                                }
+                    if (cvParam.getName() != null && !cvParam.getName().equals("")) {
+                        boolean isthere = false;
+                        for (int j = 0; j < jComboBox1.getItemCount(); j++) {
+                            if (jComboBox1.getItemAt(j).equals(cvParam.getName())) {
+                                isthere = true;
+                                break;
                             }
-                            if(!isthere){
-                                jComboBox1.addItem(cvParam.getName());
-                                cvTermHashMap.put(cvParam.getName(), cvParam.getAccession());
-                            }
-                       
+                        }
+                        if (!isthere) {
+                            jComboBox1.addItem(cvParam.getName());
+                            cvTermHashMap.put(cvParam.getName(), cvParam.getAccession());
+                        }
+
                     }
-                    
+
                 }
-                
+
             }
 
             for (int j = 0; j < siiListTemp.size(); j++) {
@@ -3938,10 +4005,10 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 if (spectrumIdentificationItem.isPassThreshold()) {
                     sIIListPassThreshold.add(spectrumIdentificationItem);
                     String p_ref = spectrumIdentificationItem.getPeptideRef();
-                  
+
                     // Update FG 18-03-2013 escape XML 
                     Peptide peptide = mzIdentMLUnmarshaller.unmarshal(Peptide.class, StringEscapeUtils.escapeXml(p_ref));
-                    
+
                     if (!peptideListNonReduntant.contains(peptide)) {
                         peptideListNonReduntant.add(peptide);
                     }
@@ -4089,7 +4156,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_font16ActionPerformed
 
     private void manualCalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualCalculateActionPerformed
-       
+
 //            if (!getTitle().endsWith("*")) {
 //                setTitle(getTitle() + " *");
 //            }
@@ -4106,7 +4173,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
 
         thread.start();
 
-            new Thread("LoadingThread") {
+        new Thread("LoadingThread") {
 
             @Override
             public void run() {
@@ -4117,9 +4184,9 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         }.start();
 
     }
-        
-    public void makeFDRGraphs(){    
-      try{
+
+    public void makeFDRGraphs() {
+        try {
             sIIListIsDecoyTrue.clear();
             sIIListIsDecoyFalse.clear();
 
@@ -4145,15 +4212,14 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                     PeptideEvidence peptideEvidence1 = mzIdentMLUnmarshaller.unmarshal(PeptideEvidence.class, peptideEvidenceRef.getPeptideEvidenceRef());
                     DBSequence dbSeq = mzIdentMLUnmarshaller.unmarshal(DBSequence.class, peptideEvidence1.getDBSequenceRef());
 
-                    if(manualDecoy.isSelected()){   //Added by ARJ to use value in file if manual decoy is not selected
+                    if (manualDecoy.isSelected()) {   //Added by ARJ to use value in file if manual decoy is not selected
                         if (!dbSeq.getAccession().startsWith(manualDecoyPrefixValue.getText())) {
                             sIIListIsDecoyFalse.add(spectrumIdentificationItem);
                             isdecoy = false;
                             break;
                         }
-                    }
-                    else{
-                        if(!peptideEvidence1.isIsDecoy()){
+                    } else {
+                        if (!peptideEvidence1.isIsDecoy()) {
                             sIIListIsDecoyFalse.add(spectrumIdentificationItem);
                             isdecoy = false;
                             break;
@@ -4193,114 +4259,119 @@ public class ProteoIDViewer extends javax.swing.JFrame {
             while (fdrPanel.getComponents().length > 0) {
                 fdrPanel.remove(0);
             }
-            
-            if(manualDecoy.isSelected()){
-                String cvTerm="";
-                boolean order=false;
-                if(jComboBox2.getSelectedItem().equals("Better scores are lower")){
-                   order=true; 
+
+            if (manualDecoy.isSelected()) {
+                String cvTerm = "";
+                boolean order = false;
+                if (jComboBox2.getSelectedItem().equals("Better scores are lower")) {
+                    order = true;
                 }
                 cvTerm = cvTermHashMap.get(jComboBox1.getSelectedItem());
-                falseDiscoveryRate = new FalseDiscoveryRate(fileName, manualDecoyRatioValue.getText(), manualDecoyPrefixValue.getText(),cvTerm ,order );
-            
-            
-            falseDiscoveryRate.computeFDRusingJonesMethod();
+                falseDiscoveryRate = new FalseDiscoveryRate(fileName, manualDecoyRatioValue.getText(), manualDecoyPrefixValue.getText(), cvTerm, order);
+
+
+                falseDiscoveryRate.computeFDRusingJonesMethod();
 
 
 
-            // FDR Graph
-            XYSeriesCollection datasetFDR = new XYSeriesCollection();
-            final XYSeries dataFDR = new XYSeries("FDR", false);
+                // FDR Graph
+                XYSeriesCollection datasetFDR = new XYSeriesCollection();
+                final XYSeries dataFDR = new XYSeries("FDR", false);
 
-            for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
-                if(falseDiscoveryRate.getSorted_evalues().get(i)!=0)
-                    dataFDR.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getSorted_estimatedFDR().get(i));
+                for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
+                    if (falseDiscoveryRate.getSorted_evalues().get(i) != 0) {
+                        dataFDR.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getSorted_estimatedFDR().get(i));
+                    }
 
-            }
+                }
 
-            final XYSeries dataFDRQvalue = new XYSeries("Q-value", false);
+                final XYSeries dataFDRQvalue = new XYSeries("Q-value", false);
 
-            for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
-                if(falseDiscoveryRate.getSorted_evalues().get(i)!=0)
-                    dataFDRQvalue.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getSorted_qValues().get(i));
+                for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
+                    if (falseDiscoveryRate.getSorted_evalues().get(i) != 0) {
+                        dataFDRQvalue.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getSorted_qValues().get(i));
+                    }
 
-            }
+                }
 
-            final XYSeries dataFDRSimple = new XYSeries("Simple FDR", false);
+                final XYSeries dataFDRSimple = new XYSeries("Simple FDR", false);
 
-            for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
-                if(falseDiscoveryRate.getSorted_evalues().get(i)!=0)
-                    dataFDRSimple.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getSorted_simpleFDR().get(i));
+                for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
+                    if (falseDiscoveryRate.getSorted_evalues().get(i) != 0) {
+                        dataFDRSimple.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getSorted_simpleFDR().get(i));
+                    }
 
-            }
-
-
-
-
-            datasetFDR.addSeries(dataFDR);
-            datasetFDR.addSeries(dataFDRQvalue);
-            datasetFDR.addSeries(dataFDRSimple);
-            final JFreeChart chartFDR = createFDRChart(datasetFDR);
-            final ChartPanel chartPanelFDR = new ChartPanel(chartFDR);
-
-            chartPanelFDR.setPreferredSize(new java.awt.Dimension(257, 255));
-            fdrPanel.add(chartPanelFDR);
-            JScrollPane jFDRPane = new JScrollPane(chartPanelFDR);
-            fdrPanel.setLayout(new java.awt.BorderLayout());
-            fdrPanel.add(jFDRPane);
-
-            // TP vs Evalue Graph
-            XYSeriesCollection datasetTpQvalue = new XYSeriesCollection();
-            final XYSeries dataTpQvalue = new XYSeries("TP", false);
-
-            for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
-                if(falseDiscoveryRate.getSorted_evalues().get(i)!=0)
-                    dataTpQvalue.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getTP().get(i));
-
-            }
-
-            final XYSeries dataFpQvalue = new XYSeries("FP", false);
-
-            for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
-                if(falseDiscoveryRate.getSorted_evalues().get(i)!=0)
-                    dataFpQvalue.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getFP().get(i));
-
-            }
+                }
 
 
-            datasetTpQvalue.addSeries(dataTpQvalue);
-            datasetTpQvalue.addSeries(dataFpQvalue);
-            final JFreeChart chartTpQvalue = createTpQvalueChart(datasetTpQvalue);
-            final ChartPanel chartPanelTpQvalue = new ChartPanel(chartTpQvalue);
-
-            chartPanelTpQvalue.setPreferredSize(new java.awt.Dimension(257, 255));
-            tpEvaluePanel.add(chartPanelTpQvalue);
-            JScrollPane jTpQvaluePane = new JScrollPane(chartPanelTpQvalue);
-            tpEvaluePanel.setLayout(new java.awt.BorderLayout());
-            tpEvaluePanel.add(jTpQvaluePane);
 
 
-            // TP vs Qvalue
-            XYSeriesCollection datasetTpQvalueCollection = new XYSeriesCollection();
-            final XYSeries dataTpQValueSeries = new XYSeries("data", false);
+                datasetFDR.addSeries(dataFDR);
+                datasetFDR.addSeries(dataFDRQvalue);
+                datasetFDR.addSeries(dataFDRSimple);
+                final JFreeChart chartFDR = createFDRChart(datasetFDR);
+                final ChartPanel chartPanelFDR = new ChartPanel(chartFDR);
 
-            for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
-                dataTpQValueSeries.add(falseDiscoveryRate.getSorted_qValues().get(i), falseDiscoveryRate.getTP().get(i));
-                //System.out.println(falseDiscoveryRate.getSorted_qValues().get(i) + " " + falseDiscoveryRate.getTP().get(i) );
-            }
+                chartPanelFDR.setPreferredSize(new java.awt.Dimension(257, 255));
+                fdrPanel.add(chartPanelFDR);
+                JScrollPane jFDRPane = new JScrollPane(chartPanelFDR);
+                fdrPanel.setLayout(new java.awt.BorderLayout());
+                fdrPanel.add(jFDRPane);
+
+                // TP vs Evalue Graph
+                XYSeriesCollection datasetTpQvalue = new XYSeriesCollection();
+                final XYSeries dataTpQvalue = new XYSeries("TP", false);
+
+                for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
+                    if (falseDiscoveryRate.getSorted_evalues().get(i) != 0) {
+                        dataTpQvalue.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getTP().get(i));
+                    }
+
+                }
+
+                final XYSeries dataFpQvalue = new XYSeries("FP", false);
+
+                for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
+                    if (falseDiscoveryRate.getSorted_evalues().get(i) != 0) {
+                        dataFpQvalue.add(Math.log10(falseDiscoveryRate.getSorted_evalues().get(i)), falseDiscoveryRate.getFP().get(i));
+                    }
+
+                }
 
 
-            datasetTpQvalueCollection.addSeries(dataTpQValueSeries);
-            final JFreeChart chartTpQvalueChart = createTpQvalue(datasetTpQvalueCollection);
-            final ChartPanel chartPanelTpSimpleFDR = new ChartPanel(chartTpQvalueChart);
+                datasetTpQvalue.addSeries(dataTpQvalue);
+                datasetTpQvalue.addSeries(dataFpQvalue);
+                final JFreeChart chartTpQvalue = createTpQvalueChart(datasetTpQvalue);
+                final ChartPanel chartPanelTpQvalue = new ChartPanel(chartTpQvalue);
 
-            chartPanelTpSimpleFDR.setPreferredSize(new java.awt.Dimension(257, 255));
-            tpQvaluePanel.add(chartPanelTpSimpleFDR);
-            JScrollPane jTpSimpleFDRPane = new JScrollPane(chartPanelTpSimpleFDR);
-            tpQvaluePanel.setLayout(new java.awt.BorderLayout());
-            tpQvaluePanel.add(jTpSimpleFDRPane);
+                chartPanelTpQvalue.setPreferredSize(new java.awt.Dimension(257, 255));
+                tpEvaluePanel.add(chartPanelTpQvalue);
+                JScrollPane jTpQvaluePane = new JScrollPane(chartPanelTpQvalue);
+                tpEvaluePanel.setLayout(new java.awt.BorderLayout());
+                tpEvaluePanel.add(jTpQvaluePane);
 
-            repaint();
+
+                // TP vs Qvalue
+                XYSeriesCollection datasetTpQvalueCollection = new XYSeriesCollection();
+                final XYSeries dataTpQValueSeries = new XYSeries("data", false);
+
+                for (int i = 0; i < falseDiscoveryRate.getSorted_evalues().size(); i++) {
+                    dataTpQValueSeries.add(falseDiscoveryRate.getSorted_qValues().get(i), falseDiscoveryRate.getTP().get(i));
+                    //System.out.println(falseDiscoveryRate.getSorted_qValues().get(i) + " " + falseDiscoveryRate.getTP().get(i) );
+                }
+
+
+                datasetTpQvalueCollection.addSeries(dataTpQValueSeries);
+                final JFreeChart chartTpQvalueChart = createTpQvalue(datasetTpQvalueCollection);
+                final ChartPanel chartPanelTpSimpleFDR = new ChartPanel(chartTpQvalueChart);
+
+                chartPanelTpSimpleFDR.setPreferredSize(new java.awt.Dimension(257, 255));
+                tpQvaluePanel.add(chartPanelTpSimpleFDR);
+                JScrollPane jTpSimpleFDRPane = new JScrollPane(chartPanelTpSimpleFDR);
+                tpQvaluePanel.setLayout(new java.awt.BorderLayout());
+                tpQvaluePanel.add(jTpSimpleFDRPane);
+
+                repaint();
             }
         } catch (JAXBException ex) {
             Logger.getLogger(ProteoIDViewer.class.getName()).log(Level.SEVERE, null, ex);
@@ -4706,7 +4777,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 }
 
 
-                mzidToCsv.useMzIdentMLToCSV(mzIdentMLUnmarshaller, selectedFile.getPath(), "exportProteinGroups",false);
+                mzidToCsv.useMzIdentMLToCSV(mzIdentMLUnmarshaller, selectedFile.getPath(), "exportProteinGroups", false);
 
 
             } catch (Exception ex) {
