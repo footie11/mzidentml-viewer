@@ -543,6 +543,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                 String string = sii[i];
 
                 string = string.replaceAll("\\\\", "");
+                
                 spectrumIdentificationItemTableHeaders[8 + i] = string;
             }
         }
@@ -554,14 +555,14 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         if (spectrumIdentificationItemTable.getColumnExt("OMSSA:evalue") != null) {
             spectrumIdentificationItemTable.getColumnExt("OMSSA:evalue").setComparator(new DoubleComparator());
         }
-        if (spectrumIdentificationItemTable.getColumnExt("Mascot:expectation value") != null) {
-            spectrumIdentificationItemTable.getColumnExt("Mascot:expectation value").setComparator(new DoubleComparator());
+        if (spectrumIdentificationItemTable.getColumnExt("mascot:expectation value") != null) {
+            spectrumIdentificationItemTable.getColumnExt("mascot:expectation value").setComparator(new DoubleComparator());
         }
         if (spectrumIdentificationItemTable.getColumnExt("SEQUEST:expectation value") != null) {
             spectrumIdentificationItemTable.getColumnExt("SEQUEST:expectation value").setComparator(new DoubleComparator());
         }
 
-
+   
 
 
         String[] peptideEvidenceTableHeaders = new String[7];
