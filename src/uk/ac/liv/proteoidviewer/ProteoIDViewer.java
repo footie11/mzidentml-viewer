@@ -177,6 +177,7 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         // Swing init components
@@ -3574,6 +3575,154 @@ public class ProteoIDViewer extends javax.swing.JFrame {
         }
         return result;
     }
+    public void openCLI(String filename) {                                             
+
+        progressBarDialog = new ProgressBarDialog(this, true);
+        final Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                progressBarDialog.setTitle("Parsing the mzid file. Please Wait...");
+                progressBarDialog.setVisible(true);
+            }
+        }, "ProgressBarDialog");
+
+       
+            final File mzid_file = new File(filename);
+            setTitle("ProteoIDViewer   -  " + mzid_file.getPath());
+            thread.start();
+
+
+            new Thread("LoadingThread") {
+
+                @Override
+                public void run() {
+                    try {
+                        if (mzid_file.getPath().endsWith(".gz")) {
+                            File outFile = null;
+                            FileOutputStream fos = null;
+
+                            GZIPInputStream gin = new GZIPInputStream(new FileInputStream(mzid_file));
+                            outFile = new File(mzid_file.getParent(), mzid_file.getName().replaceAll("\\.gz$", ""));
+                            fos = new FileOutputStream(outFile);
+                            byte[] buf = new byte[100000];
+                            int len;
+                            while ((len = gin.read(buf)) > 0) {
+                                fos.write(buf, 0, len);
+                            }
+                            fos.close();
+
+
+                            mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
+                            fileName = outFile.getAbsolutePath();
+                        } else if (mzid_file.getPath().endsWith(".omx")) {
+                            File outFile = null;
+                            outFile = new File(fileChooser.getCurrentDirectory(), mzid_file.getName().replaceAll(".omx", ".mzid"));
+                            new Omssa2mzid(mzid_file.getPath(), outFile.getPath(), false);
+                            mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
+                            fileName = outFile.getAbsolutePath();
+                        } else if (mzid_file.getPath().endsWith(".xml")) {
+                            File outFile = null;
+                            outFile = new File(fileChooser.getCurrentDirectory(), mzid_file.getName().replaceAll(".omx", ".mzid"));
+                            new Tandem2mzid(mzid_file.getPath(), outFile.getPath());
+                            mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(outFile);
+                            fileName = outFile.getAbsolutePath();
+                        } else {
+                            mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(mzid_file);
+                            fileName = mzid_file.getAbsolutePath();
+                        }
+
+                        if (!mzIdentMLUnmarshaller.getMzIdentMLVersion().startsWith("1.1.") && !mzIdentMLUnmarshaller.getMzIdentMLVersion().startsWith("1.2.")) {
+                            progressBarDialog.setVisible(false);
+                            progressBarDialog.dispose();
+                            JOptionPane.showMessageDialog(null, "The file is not compatible with the Viewer: different mzIdentMl version", "mzIdentMl version", JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
+                        jmzreader = null;
+                        createTables();
+                        clearSummaryStats();
+                        mainTabbedPane.setSelectedIndex(0);
+                        secondTab = false;
+                        thirdTab = false;
+                        fourthTab = false;
+                        fifthTab = false;
+                        sixthTab = false;
+                        loadProteinAmbiguityGroupTable();
+
+
+                        progressBarDialog.setVisible(false);
+                        progressBarDialog.dispose();
+
+                        String message = "Do you want to load spectrum source file?";
+
+
+
+                        int answer = JOptionPane.showConfirmDialog(null, message);
+                        if (answer == JOptionPane.YES_OPTION) {
+                            JFileChooser fc;
+                            //Create a file chooser
+                            fc = new JFileChooser();
+                            fc.setCurrentDirectory(fileChooser.getCurrentDirectory());
+
+
+                            fc.addChoosableFileFilter(new SourceFileFilter());
+                            int returnVal1 = fc.showOpenDialog(null);
+
+                            if (returnVal1 == JFileChooser.APPROVE_OPTION) {
+                                try {
+                                    File file = fc.getSelectedFile();
+                                    if (file.getAbsolutePath().toLowerCase().endsWith("mgf")) {
+                                        jmzreader = new MgfFile(file);
+                                        sourceFile = "mgf";
+                                        JOptionPane.showMessageDialog(null, file.getName() + " is loaded", "Spectrum file", JOptionPane.INFORMATION_MESSAGE);
+                                    } else if (file.getAbsolutePath().toLowerCase().endsWith("mzml")) {
+                                        jmzreader = new MzMlWrapper(file);
+                                        sourceFile = "mzML";
+                                        JOptionPane.showMessageDialog(null, file.getName() + " is loaded", "Spectrum file", JOptionPane.INFORMATION_MESSAGE);
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, file.getName() + " is not supported", "Spectrum file", JOptionPane.INFORMATION_MESSAGE);
+                                    }
+                                } catch (JMzReaderException ex) {
+                                    System.out.println(ex.getMessage());
+                                }
+                            }
+                        }
+
+
+
+                        if (proteinAmbiguityGroupTable.getRowCount() == 0) {
+                            JOptionPane.showMessageDialog(null, "There is no protein view for this file", "Protein View", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        //loadSummaryStats();
+
+
+                    } catch (OutOfMemoryError error) {
+                        progressBarDialog.setVisible(false);
+                        progressBarDialog.dispose();
+                        Runtime.getRuntime().gc();
+                        JOptionPane.showMessageDialog(null, "Out of Memory Error.", "Error", JOptionPane.ERROR_MESSAGE);
+
+                        System.exit(0);
+                    } catch (Exception ex) {
+                        progressBarDialog.setVisible(false);
+                        progressBarDialog.dispose();
+                        System.out.println(ex.getMessage());
+                        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+                        String msg = ex.getMessage();
+
+                        if (msg.equals("No entry found for ID: null and Class: class uk.ac.ebi.jmzidml.model.mzidml.DBSequence. Make sure the element you are looking for has an ID attribute and is id-mapped!")) {
+                            msg = "No dbSequence_ref provided from ProteinDetectionHypothesis, please report this error back to the mzid exporter";
+                        }
+                        JOptionPane.showMessageDialog(null, msg, "Exception", JOptionPane.ERROR_MESSAGE);
+                    }
+
+
+                }
+            }.start();
+        
+    } 
+    
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
 
         progressBarDialog = new ProgressBarDialog(this, true);
@@ -3631,9 +3780,6 @@ public class ProteoIDViewer extends javax.swing.JFrame {
                             mzIdentMLUnmarshaller = new MzIdentMLUnmarshaller(mzid_file);
                             fileName = mzid_file.getAbsolutePath();
                         }
-
-
-
 
                         if (!mzIdentMLUnmarshaller.getMzIdentMLVersion().startsWith("1.1.") && !mzIdentMLUnmarshaller.getMzIdentMLVersion().startsWith("1.2.")) {
                             progressBarDialog.setVisible(false);
